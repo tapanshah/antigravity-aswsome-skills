@@ -1,5 +1,5 @@
 # BLOCKERS
-_Last refreshed: 2026-02-18 08:42 EST_
+_Last refreshed: 2026-02-18 09:15 EST_
 
 Open blockers per lane. Update each operator session. Remove when resolved.
 
@@ -14,6 +14,7 @@ Open blockers per lane. Update each operator session. Remove when resolved.
 | B-005 | Roblox Horror | No code repo created yet | Low | Architecture doc (v3) is locked; repo setup is sprint gate 1 | Sean |
 | B-006 | reidmd.net | QA checklist items from v8 not formally verified live | Low | Theme is deployed and visually stable; formal checklist pass is next | Sean |
 | B-007 | antigravity-awesome-skills | `git push` 403 permission denied to `sickn33/antigravity-awesome-skills` | Medium | Commit saved locally (`a3b71aa`). Fix GitHub auth (token/SSH) then `git push -u origin main` | Sean |
+| B-008 | ResidencySolutions (G2) | `SOUNDCLOUD_CLIENT_ID` env var not set locally or in Netlify | Medium | Set in Netlify Dashboard → Site Settings → Env Vars, or locally via `$env:SOUNDCLOUD_CLIENT_ID = "<id>"` before `netlify dev`. Never hardcode in frontend. | Sean |
 
 ---
 

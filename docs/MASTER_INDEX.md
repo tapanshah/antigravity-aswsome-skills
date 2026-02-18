@@ -1,5 +1,5 @@
 # MASTER INDEX — antigravity-awesome-skills
-_Last updated: 2026-02-18 08:47 EST_
+_Last updated: 2026-02-18 09:15 EST_
 
 ## Reading Order (new session)
 
@@ -21,6 +21,16 @@ _Last updated: 2026-02-18 08:47 EST_
 | reidmd.net | `ChatGPT_Context/reidmd-theme-debug.md` |
 | P0 Clip Factory | `ChatGPT_Context/P0_CLIP_FACTORY_CHECKLIST.md` |
 | Netlify Config | `ChatGPT_Context/netlify-toml.md` |
+
+## Lane Docs
+| Lane | File |
+|------|------|
+| ResidencySolutions | `docs/lanes/RESIDENCYSOLUTIONS.md` |
+
+## Prototypes
+| Prototype | Path |
+|-----------|------|
+| RESIDENCY+ (SoundCloud digger) | `prototypes/residency-plus/` |
 
 ## PowerShell / Codex
 | File | Purpose |

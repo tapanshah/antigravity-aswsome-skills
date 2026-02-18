@@ -1,5 +1,5 @@
 # SESSION BOOT — antigravity-awesome-skills
-_Last updated: 2026-02-18 08:47 EST_
+_Last updated: 2026-02-18 09:15 EST_
 
 ## Quick Start (any model, zero history)
 
@@ -51,7 +51,11 @@ antigravity-awesome-skills/
 │   ├── PROJECT_ROUTER.md
 │   ├── NOW_NEXT_LATER.md
 │   ├── BLOCKERS.md
+│   ├── lanes/                # Per-lane deep docs
+│   │   └── RESIDENCYSOLUTIONS.md
 │   └── handoffs/             # Session handoff docs
+├── prototypes/               # Prototype apps
+│   └── residency-plus/       # RESIDENCY+ SoundCloud digger
 ├── skills/                   # 100+ agent skills
 └── ...
 ```
@@ -62,4 +66,6 @@ antigravity-awesome-skills/
 |------|------|-------|
 | Residency Quest | `G:\residency-quest` | Python backend |
 | Local Clipper V6 | `G:\StreamSegments\local-clipper` | Python/Streamlit |
-| reidmd.net | Shopify Admin | Dawn theme, no local repo |
+| Roblox Horror | `G:\DOWNLOADS5\1strobloxgame` | Roblox Studio (Luau) |
+| reidmd.net | `C:\Users\sean\Desktop\reidmd-theme` | Shopify Dawn theme |
+| ResidencySolutions (source) | `G:\DOWNLOADS5\reidchunes` | Original prototype files |
