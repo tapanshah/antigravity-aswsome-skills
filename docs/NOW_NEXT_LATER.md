@@ -13,7 +13,8 @@ Prioritized roadmap snapshot across all lanes. Update each operator session.
 | 2 | reidmd.net | QA stabilization checklist (v8 lock) — verify live site matches runbook | Zero | Browser check only |
 | 3 | Cross-lane | ✅ Create governance docs (PROJECT_ROUTER, NOW_NEXT_LATER, BLOCKERS) | Zero | Done |
 | 4 | ResidencySolutions | ✅ Integrate RESIDENCY+ prototype into governance + copy files | Zero | Done |
-| 5 | ResidencySolutions | Verify RESIDENCY+ runs locally via `netlify dev` + document env var | Low | Needs `SOUNDCLOUD_CLIENT_ID` |
+| 5 | ResidencySolutions | ✅ Verify RESIDENCY+ runs locally via `netlify dev` + document env var | Low | Done |
+| 6 | ResidencySolutions (G1)| G1: establish no-UI guard + entitlements core baseline (no UI), verify minimal checks | Low | Blocked (repo missing) |
 
 ## NEXT (next 1–2 weeks)
 

@@ -15,7 +15,7 @@ Single-page map of all active lanes. Scan this first every session.
 | **D) Local Clipper V6** | `G:\StreamSegments\local-clipper` | `feat/v6-parity-core` | Tests passing (3/3). Streamlit smoke OK. Manual acceptance A–E still pending. | Use `.venv` python only. Never stage `.venv/`. |
 | **E) P0 Clip Factory** | (within local-clipper or adjacent) | n/a | All P0 items checked. Acceptance tests pending (needs overnight GPU run). | High-compute — night run only. |
 | **F) Residency VSTs / Booth** | (see DEBUG_WORKFLOW.md, QUICK_BACKEND_VERIFY.md) | n/a | VST build workflow + backend quick verify | See lane-specific docs |
-| **G1) ResidencySolutions Core** | TBD (check for local repo) | n/a | UI frozen. Entitlements centralization. | No UI changes. Run `scripts/guard-no-ui.ps1` if present. |
+| **G1) ResidencySolutions Core** | TBD (repo missing locally) | n/a | UI frozen. Entitlements centralization. | No UI changes. Run `scripts/guard-no-ui.ps1` if present. |
 | **G2) RESIDENCY+ Prototype** | `prototypes/residency-plus/` (this repo) | `main` | SoundCloud digger app. Deployed at residencysolutions.netlify.app. | Needs `SOUNDCLOUD_CLIENT_ID` env var. See `docs/lanes/RESIDENCYSOLUTIONS.md`. |
 | **antigravity-awesome-skills** | `c:\Users\sean\antigravity-awesome-skills` | `main` | Active. Shared context + skill sets. | This repo. Governance docs live here. |
 
