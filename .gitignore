@@ -45,3 +45,7 @@ deno.lock
 # Secrets
 .env
 .env.*
+
+# local prototype helpers
+prototypes/residency-plus/run_smoke.ps1
+
