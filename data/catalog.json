@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-02-08T00:00:00.000Z",
-  "total": 889,
+  "total": 919,
   "skills": [
     {
       "id": "3d-web-experience",
@@ -386,6 +386,30 @@
       "path": "skills/agents-v2-py/SKILL.md"
     },
     {
+      "id": "ai-agent-development",
+      "name": "ai-agent-development",
+      "description": "AI agent development workflow for building autonomous agents, multi-agent systems, and agent orchestration with CrewAI, LangGraph, and custom agents.",
+      "category": "data-ai",
+      "tags": [
+        "ai",
+        "agent"
+      ],
+      "triggers": [
+        "ai",
+        "agent",
+        "development",
+        "building",
+        "autonomous",
+        "agents",
+        "multi",
+        "orchestration",
+        "crewai",
+        "langgraph",
+        "custom"
+      ],
+      "path": "skills/ai-agent-development/SKILL.md"
+    },
+    {
       "id": "ai-agents-architect",
       "name": "ai-agents-architect",
       "description": "Expert in designing and building autonomous AI agents. Masters tool use, memory systems, planning strategies, and multi-agent orchestration. Use when: build agent, AI agent, autonomous agent, tool ...",
@@ -426,6 +450,31 @@
         "rag"
       ],
       "path": "skills/ai-engineer/SKILL.md"
+    },
+    {
+      "id": "ai-ml",
+      "name": "ai-ml",
+      "description": "AI and machine learning workflow covering LLM application development, RAG implementation, agent architecture, ML pipelines, and AI-powered features.",
+      "category": "data-ai",
+      "tags": [
+        "ai",
+        "ml"
+      ],
+      "triggers": [
+        "ai",
+        "ml",
+        "machine",
+        "learning",
+        "covering",
+        "llm",
+        "application",
+        "development",
+        "rag",
+        "agent",
+        "architecture",
+        "pipelines"
+      ],
+      "path": "skills/ai-ml/SKILL.md"
     },
     {
       "id": "ai-product",
@@ -804,6 +853,28 @@
       "path": "skills/api-design-principles/SKILL.md"
     },
     {
+      "id": "api-documentation",
+      "name": "api-documentation",
+      "description": "API documentation workflow for generating OpenAPI specs, creating developer guides, and maintaining comprehensive API documentation.",
+      "category": "development",
+      "tags": [
+        "api",
+        "documentation"
+      ],
+      "triggers": [
+        "api",
+        "documentation",
+        "generating",
+        "openapi",
+        "specs",
+        "creating",
+        "developer",
+        "guides",
+        "maintaining"
+      ],
+      "path": "skills/api-documentation/SKILL.md"
+    },
+    {
       "id": "api-documentation-generator",
       "name": "api-documentation-generator",
       "description": "Generate comprehensive, developer-friendly API documentation from code, including endpoints, parameters, examples, and best practices",
@@ -924,6 +995,31 @@
         "limiting"
       ],
       "path": "skills/api-security-best-practices/SKILL.md"
+    },
+    {
+      "id": "api-security-testing",
+      "name": "api-security-testing",
+      "description": "API security testing workflow for REST and GraphQL APIs covering authentication, authorization, rate limiting, input validation, and security best practices.",
+      "category": "security",
+      "tags": [
+        "api",
+        "security"
+      ],
+      "triggers": [
+        "api",
+        "security",
+        "testing",
+        "rest",
+        "graphql",
+        "apis",
+        "covering",
+        "authentication",
+        "authorization",
+        "rate",
+        "limiting",
+        "input"
+      ],
+      "path": "skills/api-security-testing/SKILL.md"
     },
     {
       "id": "api-testing-observability-api-mock",
@@ -4243,6 +4339,28 @@
       "path": "skills/bash-pro/SKILL.md"
     },
     {
+      "id": "bash-scripting",
+      "name": "bash-scripting",
+      "description": "Bash scripting workflow for creating production-ready shell scripts with defensive patterns, error handling, and testing.",
+      "category": "architecture",
+      "tags": [
+        "bash",
+        "scripting"
+      ],
+      "triggers": [
+        "bash",
+        "scripting",
+        "creating",
+        "shell",
+        "scripts",
+        "defensive",
+        "error",
+        "handling",
+        "testing"
+      ],
+      "path": "skills/bash-scripting/SKILL.md"
+    },
+    {
       "id": "bats-testing-patterns",
       "name": "bats-testing-patterns",
       "description": "Master Bash Automated Testing System (Bats) for comprehensive shell script testing. Use when writing tests for shell scripts, CI/CD pipelines, or requiring test-driven development of shell utilities.",
@@ -5541,6 +5659,31 @@
         "multi"
       ],
       "path": "skills/cloud-architect/SKILL.md"
+    },
+    {
+      "id": "cloud-devops",
+      "name": "cloud-devops",
+      "description": "Cloud infrastructure and DevOps workflow covering AWS, Azure, GCP, Kubernetes, Terraform, CI/CD, monitoring, and cloud-native development.",
+      "category": "infrastructure",
+      "tags": [
+        "cloud",
+        "devops"
+      ],
+      "triggers": [
+        "cloud",
+        "devops",
+        "infrastructure",
+        "covering",
+        "aws",
+        "azure",
+        "gcp",
+        "kubernetes",
+        "terraform",
+        "ci",
+        "cd",
+        "monitoring"
+      ],
+      "path": "skills/cloud-devops/SKILL.md"
     },
     {
       "id": "cloud-penetration-testing",
@@ -7016,6 +7159,28 @@
       "path": "skills/data-storytelling/SKILL.md"
     },
     {
+      "id": "database",
+      "name": "database",
+      "description": "Database development and operations workflow covering SQL, NoSQL, database design, migrations, optimization, and data engineering.",
+      "category": "data-ai",
+      "tags": [
+        "database"
+      ],
+      "triggers": [
+        "database",
+        "development",
+        "operations",
+        "covering",
+        "sql",
+        "nosql",
+        "migrations",
+        "optimization",
+        "data",
+        "engineering"
+      ],
+      "path": "skills/database/SKILL.md"
+    },
+    {
       "id": "database-admin",
       "name": "database-admin",
       "description": "Expert database administrator specializing in modern cloud",
@@ -7705,6 +7870,27 @@
       "path": "skills/design-orchestration/SKILL.md"
     },
     {
+      "id": "development",
+      "name": "development",
+      "description": "Comprehensive web, mobile, and backend development workflow bundling frontend, backend, full-stack, and mobile development skills for end-to-end application delivery.",
+      "category": "development",
+      "tags": [],
+      "triggers": [
+        "development",
+        "web",
+        "mobile",
+        "backend",
+        "bundling",
+        "frontend",
+        "full",
+        "stack",
+        "skills",
+        "application",
+        "delivery"
+      ],
+      "path": "skills/development/SKILL.md"
+    },
+    {
       "id": "devops-troubleshooter",
       "name": "devops-troubleshooter",
       "description": "Expert DevOps troubleshooter specializing in rapid incident",
@@ -7933,6 +8119,30 @@
         "existing"
       ],
       "path": "skills/docs-architect/SKILL.md"
+    },
+    {
+      "id": "documentation",
+      "name": "documentation",
+      "description": "Documentation generation workflow covering API docs, architecture docs, README files, code comments, and technical writing.",
+      "category": "development",
+      "tags": [
+        "documentation"
+      ],
+      "triggers": [
+        "documentation",
+        "generation",
+        "covering",
+        "api",
+        "docs",
+        "architecture",
+        "readme",
+        "files",
+        "code",
+        "comments",
+        "technical",
+        "writing"
+      ],
+      "path": "skills/documentation/SKILL.md"
     },
     {
       "id": "documentation-generation-doc-generate",
@@ -8169,6 +8379,29 @@
         "setup"
       ],
       "path": "skills/dx-optimizer/SKILL.md"
+    },
+    {
+      "id": "e2e-testing",
+      "name": "e2e-testing",
+      "description": "End-to-end testing workflow with Playwright for browser automation, visual regression, cross-browser testing, and CI/CD integration.",
+      "category": "infrastructure",
+      "tags": [
+        "e2e"
+      ],
+      "triggers": [
+        "e2e",
+        "testing",
+        "playwright",
+        "browser",
+        "automation",
+        "visual",
+        "regression",
+        "cross",
+        "ci",
+        "cd",
+        "integration"
+      ],
+      "path": "skills/e2e-testing/SKILL.md"
     },
     {
       "id": "e2e-testing-patterns",
@@ -11782,6 +12015,28 @@
       "path": "skills/kubernetes-architect/SKILL.md"
     },
     {
+      "id": "kubernetes-deployment",
+      "name": "kubernetes-deployment",
+      "description": "Kubernetes deployment workflow for container orchestration, Helm charts, service mesh, and production-ready K8s configurations.",
+      "category": "infrastructure",
+      "tags": [
+        "kubernetes",
+        "deployment"
+      ],
+      "triggers": [
+        "kubernetes",
+        "deployment",
+        "container",
+        "orchestration",
+        "helm",
+        "charts",
+        "mesh",
+        "k8s",
+        "configurations"
+      ],
+      "path": "skills/kubernetes-deployment/SKILL.md"
+    },
+    {
       "id": "langchain-architecture",
       "name": "langchain-architecture",
       "description": "Design LLM applications using the LangChain framework with agents, memory, and tool integration patterns. Use when building LangChain applications, implementing AI agents, or creating complex LLM w...",
@@ -11993,6 +12248,122 @@
       "path": "skills/legal-advisor/SKILL.md"
     },
     {
+      "id": "libreoffice/base",
+      "name": "base",
+      "description": "Database management, forms, reports, and data operations with LibreOffice Base.",
+      "category": "data-ai",
+      "tags": [
+        "libreoffice/base"
+      ],
+      "triggers": [
+        "libreoffice/base",
+        "base",
+        "database",
+        "forms",
+        "reports",
+        "data",
+        "operations",
+        "libreoffice"
+      ],
+      "path": "skills/libreoffice/base/SKILL.md"
+    },
+    {
+      "id": "libreoffice/calc",
+      "name": "calc",
+      "description": "Spreadsheet creation, format conversion (ODS/XLSX/CSV), formulas, data automation with LibreOffice Calc.",
+      "category": "data-ai",
+      "tags": [
+        "libreoffice/calc"
+      ],
+      "triggers": [
+        "libreoffice/calc",
+        "calc",
+        "spreadsheet",
+        "creation",
+        "format",
+        "conversion",
+        "ods",
+        "xlsx",
+        "csv",
+        "formulas",
+        "data",
+        "automation"
+      ],
+      "path": "skills/libreoffice/calc/SKILL.md"
+    },
+    {
+      "id": "libreoffice/draw",
+      "name": "draw",
+      "description": "Vector graphics and diagram creation, format conversion (ODG/SVG/PDF) with LibreOffice Draw.",
+      "category": "data-ai",
+      "tags": [
+        "libreoffice/draw"
+      ],
+      "triggers": [
+        "libreoffice/draw",
+        "draw",
+        "vector",
+        "graphics",
+        "diagram",
+        "creation",
+        "format",
+        "conversion",
+        "odg",
+        "svg",
+        "pdf",
+        "libreoffice"
+      ],
+      "path": "skills/libreoffice/draw/SKILL.md"
+    },
+    {
+      "id": "libreoffice/impress",
+      "name": "impress",
+      "description": "Presentation creation, format conversion (ODP/PPTX/PDF), slide automation with LibreOffice Impress.",
+      "category": "workflow",
+      "tags": [
+        "libreoffice/impress"
+      ],
+      "triggers": [
+        "libreoffice/impress",
+        "impress",
+        "presentation",
+        "creation",
+        "format",
+        "conversion",
+        "odp",
+        "pptx",
+        "pdf",
+        "slide",
+        "automation",
+        "libreoffice"
+      ],
+      "path": "skills/libreoffice/impress/SKILL.md"
+    },
+    {
+      "id": "libreoffice/writer",
+      "name": "writer",
+      "description": "Document creation, format conversion (ODT/DOCX/PDF), mail merge, and automation with LibreOffice Writer.",
+      "category": "workflow",
+      "tags": [
+        "libreoffice/writer"
+      ],
+      "triggers": [
+        "libreoffice/writer",
+        "writer",
+        "document",
+        "creation",
+        "format",
+        "conversion",
+        "odt",
+        "docx",
+        "pdf",
+        "mail",
+        "merge",
+        "automation"
+      ],
+      "path": "skills/libreoffice/writer/SKILL.md"
+    },
+    {
       "id": "linear-automation",
       "name": "linear-automation",
       "description": "Automate Linear tasks via Rube MCP (Composio): issues, projects, cycles, teams, labels. Always search tools first for current schemas.",
@@ -12160,6 +12531,27 @@
         "tasks"
       ],
       "path": "skills/linux-shell-scripting/SKILL.md"
+    },
+    {
+      "id": "linux-troubleshooting",
+      "name": "linux-troubleshooting",
+      "description": "Linux system troubleshooting workflow for diagnosing and resolving system issues, performance problems, and service failures.",
+      "category": "infrastructure",
+      "tags": [
+        "linux",
+        "troubleshooting"
+      ],
+      "triggers": [
+        "linux",
+        "troubleshooting",
+        "diagnosing",
+        "resolving",
+        "issues",
+        "performance",
+        "problems",
+        "failures"
+      ],
+      "path": "skills/linux-troubleshooting/SKILL.md"
     },
     {
       "id": "llm-app-patterns",
@@ -13915,6 +14307,31 @@
       "path": "skills/obsidian-clipper-template-creator/SKILL.md"
     },
     {
+      "id": "office-productivity",
+      "name": "office-productivity",
+      "description": "Office productivity workflow covering document creation, spreadsheet automation, presentation generation, and integration with LibreOffice and Microsoft Office formats.",
+      "category": "workflow",
+      "tags": [
+        "office",
+        "productivity"
+      ],
+      "triggers": [
+        "office",
+        "productivity",
+        "covering",
+        "document",
+        "creation",
+        "spreadsheet",
+        "automation",
+        "presentation",
+        "generation",
+        "integration",
+        "libreoffice",
+        "microsoft"
+      ],
+      "path": "skills/office-productivity/SKILL.md"
+    },
+    {
       "id": "on-call-handoff-patterns",
       "name": "on-call-handoff-patterns",
       "description": "Master on-call shift handoffs with context transfer, escalation procedures, and documentation. Use when transitioning on-call responsibilities, documenting shift summaries, or improving on-call pro...",
@@ -14015,6 +14432,31 @@
         "api"
       ],
       "path": "skills/openapi-spec-generation/SKILL.md"
+    },
+    {
+      "id": "os-scripting",
+      "name": "os-scripting",
+      "description": "Operating system and shell scripting troubleshooting workflow for Linux, macOS, and Windows. Covers bash scripting, system administration, debugging, and automation.",
+      "category": "workflow",
+      "tags": [
+        "os",
+        "scripting"
+      ],
+      "triggers": [
+        "os",
+        "scripting",
+        "operating",
+        "shell",
+        "troubleshooting",
+        "linux",
+        "macos",
+        "windows",
+        "covers",
+        "bash",
+        "administration",
+        "debugging"
+      ],
+      "path": "skills/os-scripting/SKILL.md"
     },
     {
       "id": "oss-hunter",
@@ -14728,6 +15170,27 @@
       "path": "skills/postgresql/SKILL.md"
     },
     {
+      "id": "postgresql-optimization",
+      "name": "postgresql-optimization",
+      "description": "PostgreSQL database optimization workflow for query tuning, indexing strategies, performance analysis, and production database management.",
+      "category": "data-ai",
+      "tags": [
+        "postgresql",
+        "optimization"
+      ],
+      "triggers": [
+        "postgresql",
+        "optimization",
+        "database",
+        "query",
+        "tuning",
+        "indexing",
+        "performance",
+        "analysis"
+      ],
+      "path": "skills/postgresql-optimization/SKILL.md"
+    },
+    {
       "id": "posthog-automation",
       "name": "posthog-automation",
       "description": "Automate PostHog tasks via Rube MCP (Composio): events, feature flags, projects, user profiles, annotations. Always search tools first for current schemas.",
@@ -15254,6 +15717,28 @@
       "path": "skills/python-development-python-scaffold/SKILL.md"
     },
     {
+      "id": "python-fastapi-development",
+      "name": "python-fastapi-development",
+      "description": "Python FastAPI backend development with async patterns, SQLAlchemy, Pydantic, authentication, and production API patterns.",
+      "category": "development",
+      "tags": [
+        "python",
+        "fastapi"
+      ],
+      "triggers": [
+        "python",
+        "fastapi",
+        "development",
+        "backend",
+        "async",
+        "sqlalchemy",
+        "pydantic",
+        "authentication",
+        "api"
+      ],
+      "path": "skills/python-fastapi-development/SKILL.md"
+    },
+    {
       "id": "python-packaging",
       "name": "python-packaging",
       "description": "Create distributable Python packages with proper project structure, setup.py/pyproject.toml, and publishing to PyPI. Use when packaging Python libraries, creating CLI tools, or distributing Python ...",
@@ -15441,7 +15926,7 @@
     {
       "id": "rag-implementation",
       "name": "rag-implementation",
-      "description": "Build Retrieval-Augmented Generation (RAG) systems for LLM applications with vector databases and semantic search. Use when implementing knowledge-grounded AI, building document Q&A systems, or int...",
+      "description": "RAG (Retrieval-Augmented Generation) implementation workflow covering embedding selection, vector database setup, chunking strategies, and retrieval optimization.",
       "category": "data-ai",
       "tags": [
         "rag"
@@ -15451,14 +15936,14 @@
         "retrieval",
         "augmented",
         "generation",
-        "llm",
-        "applications",
+        "covering",
+        "embedding",
+        "selection",
         "vector",
-        "databases",
-        "semantic",
-        "search",
-        "implementing",
-        "knowledge"
+        "database",
+        "setup",
+        "chunking",
+        "optimization"
       ],
       "path": "skills/rag-implementation/SKILL.md"
     },
@@ -15590,6 +16075,31 @@
         "developing"
       ],
       "path": "skills/react-native-architecture/SKILL.md"
+    },
+    {
+      "id": "react-nextjs-development",
+      "name": "react-nextjs-development",
+      "description": "React and Next.js 14+ application development with App Router, Server Components, TypeScript, Tailwind CSS, and modern frontend patterns.",
+      "category": "development",
+      "tags": [
+        "react",
+        "nextjs"
+      ],
+      "triggers": [
+        "react",
+        "nextjs",
+        "development",
+        "next",
+        "js",
+        "14",
+        "application",
+        "app",
+        "router",
+        "server",
+        "components",
+        "typescript"
+      ],
+      "path": "skills/react-nextjs-development/SKILL.md"
     },
     {
       "id": "react-patterns",
@@ -16345,6 +16855,31 @@
         "handling"
       ],
       "path": "skills/secrets-management/SKILL.md"
+    },
+    {
+      "id": "security-audit",
+      "name": "security-audit",
+      "description": "Comprehensive security auditing workflow covering web application testing, API security, penetration testing, vulnerability scanning, and security hardening.",
+      "category": "security",
+      "tags": [
+        "security",
+        "audit"
+      ],
+      "triggers": [
+        "security",
+        "audit",
+        "auditing",
+        "covering",
+        "web",
+        "application",
+        "testing",
+        "api",
+        "penetration",
+        "vulnerability",
+        "scanning",
+        "hardening"
+      ],
+      "path": "skills/security-audit/SKILL.md"
     },
     {
       "id": "security-auditor",
@@ -18527,6 +19062,30 @@
       "path": "skills/temporal-python-testing/SKILL.md"
     },
     {
+      "id": "terraform-infrastructure",
+      "name": "terraform-infrastructure",
+      "description": "Terraform infrastructure as code workflow for provisioning cloud resources, creating reusable modules, and managing infrastructure at scale.",
+      "category": "infrastructure",
+      "tags": [
+        "terraform",
+        "infrastructure"
+      ],
+      "triggers": [
+        "terraform",
+        "infrastructure",
+        "code",
+        "provisioning",
+        "cloud",
+        "resources",
+        "creating",
+        "reusable",
+        "modules",
+        "managing",
+        "scale"
+      ],
+      "path": "skills/terraform-infrastructure/SKILL.md"
+    },
+    {
       "id": "terraform-module-library",
       "name": "terraform-module-library",
       "description": "Build reusable Terraform modules for AWS, Azure, and GCP infrastructure following infrastructure-as-code best practices. Use when creating infrastructure modules, standardizing cloud provisioning, ...",
@@ -18670,6 +19229,28 @@
         "factories"
       ],
       "path": "skills/testing-patterns/SKILL.md"
+    },
+    {
+      "id": "testing-qa",
+      "name": "testing-qa",
+      "description": "Comprehensive testing and QA workflow covering unit testing, integration testing, E2E testing, browser automation, and quality assurance.",
+      "category": "testing",
+      "tags": [
+        "qa"
+      ],
+      "triggers": [
+        "qa",
+        "testing",
+        "covering",
+        "unit",
+        "integration",
+        "e2e",
+        "browser",
+        "automation",
+        "quality",
+        "assurance"
+      ],
+      "path": "skills/testing-qa/SKILL.md"
     },
     {
       "id": "theme-factory",
@@ -19830,6 +20411,31 @@
       "path": "skills/web-performance-optimization/SKILL.md"
     },
     {
+      "id": "web-security-testing",
+      "name": "web-security-testing",
+      "description": "Web application security testing workflow for OWASP Top 10 vulnerabilities including injection, XSS, authentication flaws, and access control issues.",
+      "category": "security",
+      "tags": [
+        "web",
+        "security"
+      ],
+      "triggers": [
+        "web",
+        "security",
+        "testing",
+        "application",
+        "owasp",
+        "top",
+        "10",
+        "vulnerabilities",
+        "including",
+        "injection",
+        "xss",
+        "authentication"
+      ],
+      "path": "skills/web-security-testing/SKILL.md"
+    },
+    {
       "id": "web3-testing",
       "name": "web3-testing",
       "description": "Test smart contracts comprehensively using Hardhat and Foundry with unit tests, integration tests, and mainnet forking. Use when testing Solidity contracts, setting up blockchain test suites, or va...",
@@ -20151,6 +20757,30 @@
       "path": "skills/wireshark-analysis/SKILL.md"
     },
     {
+      "id": "wordpress",
+      "name": "wordpress",
+      "description": "Complete WordPress development workflow covering theme development, plugin creation, WooCommerce integration, performance optimization, and security hardening.",
+      "category": "security",
+      "tags": [
+        "wordpress"
+      ],
+      "triggers": [
+        "wordpress",
+        "complete",
+        "development",
+        "covering",
+        "theme",
+        "plugin",
+        "creation",
+        "woocommerce",
+        "integration",
+        "performance",
+        "optimization",
+        "security"
+      ],
+      "path": "skills/wordpress/SKILL.md"
+    },
+    {
       "id": "wordpress-penetration-testing",
       "name": "wordpress-penetration-testing",
       "description": "This skill should be used when the user asks to \"pentest WordPress sites\", \"scan WordPress for vulnerabilities\", \"enumerate WordPress users, themes, or plugins\", \"exploit WordPress vu...",
@@ -20174,6 +20804,79 @@
         "vulnerabilities"
       ],
       "path": "skills/wordpress-penetration-testing/SKILL.md"
+    },
+    {
+      "id": "wordpress-plugin-development",
+      "name": "wordpress-plugin-development",
+      "description": "WordPress plugin development workflow covering plugin architecture, hooks, admin interfaces, REST API, and security best practices.",
+      "category": "security",
+      "tags": [
+        "wordpress",
+        "plugin"
+      ],
+      "triggers": [
+        "wordpress",
+        "plugin",
+        "development",
+        "covering",
+        "architecture",
+        "hooks",
+        "admin",
+        "interfaces",
+        "rest",
+        "api",
+        "security"
+      ],
+      "path": "skills/wordpress-plugin-development/SKILL.md"
+    },
+    {
+      "id": "wordpress-theme-development",
+      "name": "wordpress-theme-development",
+      "description": "WordPress theme development workflow covering theme architecture, template hierarchy, custom post types, block editor support, and responsive design.",
+      "category": "architecture",
+      "tags": [
+        "wordpress",
+        "theme"
+      ],
+      "triggers": [
+        "wordpress",
+        "theme",
+        "development",
+        "covering",
+        "architecture",
+        "hierarchy",
+        "custom",
+        "post",
+        "types",
+        "block",
+        "editor",
+        "responsive"
+      ],
+      "path": "skills/wordpress-theme-development/SKILL.md"
+    },
+    {
+      "id": "wordpress-woocommerce-development",
+      "name": "wordpress-woocommerce-development",
+      "description": "WooCommerce store development workflow covering store setup, payment integration, shipping configuration, and customization.",
+      "category": "workflow",
+      "tags": [
+        "wordpress",
+        "woocommerce"
+      ],
+      "triggers": [
+        "wordpress",
+        "woocommerce",
+        "development",
+        "store",
+        "covering",
+        "setup",
+        "payment",
+        "integration",
+        "shipping",
+        "configuration",
+        "customization"
+      ],
+      "path": "skills/wordpress-woocommerce-development/SKILL.md"
     },
     {
       "id": "workflow-automation",
