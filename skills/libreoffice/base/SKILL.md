@@ -1,72 +1,73 @@
 ---
-name: writer
-description: "Document creation, format conversion (ODT/DOCX/PDF), mail merge, and automation with LibreOffice Writer."
+name: base
+description: "Database management, forms, reports, and data operations with LibreOffice Base."
 source: personal
 risk: safe
 domain: office-productivity
-category: document-processing
+category: database-processing
 version: 1.0.0
 ---
 
-# LibreOffice Writer
+# LibreOffice Base
 
 ## Overview
 
-LibreOffice Writer skill for creating, editing, converting, and automating document workflows using the native ODT (OpenDocument Text) format.
+LibreOffice Base skill for creating, managing, and automating database workflows using the native ODB (OpenDocument Database) format.
 
 ## When to Use This Skill
 
 Use this skill when:
-- Creating new documents in ODT format
-- Converting documents between formats (ODT <-> DOCX, PDF, HTML, RTF, TXT)
-- Automating document generation workflows
-- Performing batch document operations
-- Creating templates and standardized document formats
+- Creating new databases in ODB format
+- Connecting to external databases (MySQL, PostgreSQL, etc.)
+- Automating database operations and reports
+- Creating forms and reports
+- Building database applications
 
 ## Core Capabilities
 
-### 1. Document Creation
-- Create new ODT documents from scratch
-- Generate documents from templates
-- Create mail merge documents
-- Build forms with fillable fields
+### 1. Database Creation
+- Create new ODB databases from scratch
+- Design tables, views, and relationships
+- Create embedded HSQLDB/Firebird databases
+- Connect to external databases
 
-### 2. Format Conversion
-- ODT to other formats: DOCX, PDF, HTML, RTF, TXT, EPUB
-- Other formats to ODT: DOCX, DOC, RTF, HTML, TXT
-- Batch conversion of multiple documents
+### 2. Data Operations
+- Import data from CSV, spreadsheets
+- Export data to various formats
+- Query execution and management
+- Batch data processing
 
-### 3. Document Automation
-- Template-based document generation
-- Mail merge with data sources (CSV, spreadsheet, database)
-- Batch document processing
-- Automated report generation
+### 3. Form and Report Automation
+- Create data entry forms
+- Design custom reports
+- Automate report generation
+- Build form templates
 
-### 4. Content Manipulation
-- Text extraction and insertion
-- Style management and application
-- Table creation and manipulation
-- Header/footer management
+### 4. Query and SQL
+- Visual query design
+- SQL query execution
+- Query optimization
+- Result set manipulation
 
 ### 5. Integration
-- Command-line automation via soffice
+- Command-line automation
 - Python scripting with UNO
-- Integration with workflow automation tools
+- JDBC/ODBC connectivity
 
 ## Workflows
 
-### Creating a New Document
+### Creating a New Database
 
 #### Method 1: Command-Line
 ```bash
-soffice --writer template.odt
+soffice --base
 ```
 
 #### Method 2: Python with UNO
 ```python
 import uno
 
-def create_document():
+def create_database():
     local_ctx = uno.getComponentContext()
     resolver = local_ctx.ServiceManager.createInstanceWithContext(
         "com.sun.star.bridge.UnoUrlResolver", local_ctx
@@ -75,99 +76,87 @@ def create_document():
         "uno:socket,host=localhost,port=8100;urp;StarOffice.ComponentContext"
     )
     smgr = ctx.ServiceManager
-    doc = smgr.createInstanceWithContext("com.sun.star.text.TextDocument", ctx)
-    text = doc.Text
-    cursor = text.createTextCursor()
-    text.insertString(cursor, "Hello from LibreOffice Writer!", 0)
-    doc.storeToURL("file:///path/to/document.odt", ())
+    doc = smgr.createInstanceWithContext("com.sun.star.sdb.DatabaseDocument", ctx)
+    doc.storeToURL("file:///path/to/database.odb", ())
     doc.close(True)
 ```
 
-#### Method 3: Using odfpy
+### Connecting to External Database
+
 ```python
-from odf.opendocument import OpenDocumentText
-from odf.text import P, H
+import uno
 
-doc = OpenDocumentText()
-h1 = H(outlinelevel='1', text='Document Title')
-doc.text.appendChild(h1)
-doc.save("document.odt")
+def connect_to_mysql(host, port, database, user, password):
+    local_ctx = uno.getComponentContext()
+    resolver = local_ctx.ServiceManager.createInstanceWithContext(
+        "com.sun.star.bridge.UnoUrlResolver", local_ctx
+    )
+    ctx = resolver.resolve(
+        "uno:socket,host=localhost,port=8100;urp;StarOffice.ComponentContext"
+    )
+    smgr = ctx.ServiceManager
+    
+    doc = smgr.createInstanceWithContext("com.sun.star.sdb.DatabaseDocument", ctx)
+    datasource = doc.getDataSource()
+    datasource.URL = f"sdbc:mysql:jdbc:mysql://{host}:{port}/{database}"
+    datasource.Properties["UserName"] = user
+    datasource.Properties["Password"] = password
+    
+    doc.storeToURL("file:///path/to/connected.odb", ())
+    return doc
 ```
 
-### Converting Documents
+## Database Connection Reference
 
-```bash
-# ODT to DOCX
-soffice --headless --convert-to docx document.odt
+### Supported Database Types
+- HSQLDB (embedded)
+- Firebird (embedded)
+- MySQL/MariaDB
+- PostgreSQL
+- SQLite
+- ODBC data sources
+- JDBC data sources
 
-# ODT to PDF
-soffice --headless --convert-to pdf document.odt
+### Connection Strings
 
-# DOCX to ODT
-soffice --headless --convert-to odt document.docx
-
-# Batch convert
-for file in *.odt; do
-    soffice --headless --convert-to pdf "$file"
-done
 ```
+# MySQL
+sdbc:mysql:jdbc:mysql://localhost:3306/database
 
-### Template-Based Generation
-```python
-import subprocess
-import tempfile
-from pathlib import Path
+# PostgreSQL
+sdbc:postgresql://localhost:5432/database
 
-def generate_from_template(template_path, variables, output_path):
-    with tempfile.TemporaryDirectory() as tmpdir:
-        subprocess.run(['unzip', '-q', template_path, '-d', tmpdir])
-        content_file = Path(tmpdir) / 'content.xml'
-        content = content_file.read_text()
-        for key, value in variables.items():
-            content = content.replace(f'${{{key}}}', str(value))
-        content_file.write_text(content)
-        subprocess.run(['zip', '-rq', output_path, '.'], cwd=tmpdir)
-    return output_path
+# SQLite
+sdbc:sqlite:file:///path/to/database.db
+
+# ODBC
+sdbc:odbc:DSN_NAME
 ```
-
-## Format Conversion Reference
-
-### Supported Input Formats
-- ODT (native), DOCX, DOC, RTF, HTML, TXT, EPUB
-
-### Supported Output Formats
-- ODT, DOCX, PDF, PDF/A, HTML, RTF, TXT, EPUB
 
 ## Command-Line Reference
 
 ```bash
 soffice --headless
-soffice --headless --convert-to <format> <file>
-soffice --writer    # Writer
-soffice --calc      # Calc
-soffice --impress   # Impress
-soffice --draw      # Draw
+soffice --base  # Base
 ```
 
 ## Python Libraries
 
 ```bash
-pip install odfpy     # ODF manipulation
-pip install ezodf     # Easier ODF handling
+pip install pyodbc    # ODBC connectivity
+pip install sqlalchemy # SQL toolkit
 ```
 
 ## Best Practices
 
-1. Use styles for consistency
-2. Create templates for recurring documents
-3. Ensure accessibility (heading hierarchy, alt text)
-4. Fill document metadata
-5. Store ODT source files in version control
-6. Test conversions thoroughly
-7. Embed fonts for PDF distribution
-8. Handle conversion failures gracefully
-9. Log automation operations
-10. Clean temporary files
+1. Use parameterized queries
+2. Create indexes for performance
+3. Backup databases regularly
+4. Use transactions for data integrity
+5. Store ODB source files in version control
+6. Document database schema
+7. Use appropriate data types
+8. Handle connection errors gracefully
 
 ## Troubleshooting
 
@@ -177,24 +166,23 @@ killall soffice.bin
 soffice --headless --accept="socket,host=localhost,port=8100;urp;"
 ```
 
-### Conversion Quality Issues
-```bash
-soffice --headless --convert-to pdf:writer_pdf_Export document.odt
-```
+### Connection Issues
+- Verify database server is running
+- Check connection string format
+- Ensure JDBC/ODBC drivers are installed
+- Verify network connectivity
 
 ## Resources
 
-- [LibreOffice Writer Guide](https://documentation.libreoffice.org/)
-- [LibreOffice SDK](https://wiki.documentfoundation.org/Documentation/DevGuide)
+- [LibreOffice Base Guide](https://documentation.libreoffice.org/)
 - [UNO API Reference](https://api.libreoffice.org/)
-- [odfpy](https://pypi.org/project/odfpy/)
+- [HSQLDB Documentation](http://hsqldb.org/)
+- [Firebird Documentation](https://firebirdsql.org/)
 
 ## Related Skills
 
+- writer
 - calc
 - impress
 - draw
-- base
-- docx-official
-- pdf-official
 - workflow-automation
