@@ -17,7 +17,7 @@
     "description": "Ingeniero de Sistemas de Andru.ia. Dise\u00f1a, redacta y despliega nuevas habilidades (skills) dentro del repositorio siguiendo el Est\u00e1ndar de Diamante.",
     "risk": "safe",
     "source": "personal",
-    "date_added": null
+    "date_added": "2026-02-25"
   },
   {
     "id": "20-andruia-niche-intelligence",
@@ -347,7 +347,7 @@
     "description": "Automated end-to-end UI testing and verification on an Android Emulator using ADB.",
     "risk": "safe",
     "source": "community",
-    "date_added": null
+    "date_added": "2026-02-28"
   },
   {
     "id": "angular",
@@ -9067,7 +9067,7 @@
     "description": "Audit rapidly generated or AI-produced code for structural flaws, fragility, and production risks.",
     "risk": "safe",
     "source": "original",
-    "date_added": null
+    "date_added": "2026-02-28"
   },
   {
     "id": "videodb-skills",
