@@ -79,7 +79,7 @@ def update_readme():
         content,
     )
 
-    with open(readme_path, "w", encoding="utf-8") as f:
+    with open(readme_path, "w", encoding="utf-8", newline="\n") as f:
         f.write(content)
 
     print("✅ README.md updated successfully.")

@@ -119,7 +119,7 @@ def generate_index(skills_dir, output_file):
     # Sort validation: by name
     skills.sort(key=lambda x: (x["name"].lower(), x["id"].lower()))
 
-    with open(output_file, 'w', encoding='utf-8') as f:
+    with open(output_file, 'w', encoding='utf-8', newline='\n') as f:
         json.dump(skills, f, indent=2)
     
     print(f"✅ Generated rich index with {len(skills)} skills at: {output_file}")
