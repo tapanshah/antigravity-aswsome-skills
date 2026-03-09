@@ -236,6 +236,15 @@ They help you avoid picking from 1,236+ skills one by one.
 3. **Pick 3-5 skills** from that bundle to start using in your prompts
 4. **Reference them in your conversations** with your AI (e.g., "Use @brainstorming...")
 
+If you're using **Antigravity on Windows 11 with WSL2 Debian**, the recommended install is:
+
+```bash
+npx antigravity-awesome-skills --antigravity
+test -d ~/.gemini/antigravity/skills && echo "Skills installed"
+```
+
+After that, bundles are still just guides for which skills to call next—they are not separate installs.
+
 For detailed examples of how to actually use skills, see the [**Usage Guide**](docs/users/usage.md).
 
 ### Examples:

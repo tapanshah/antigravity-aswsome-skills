@@ -7,6 +7,9 @@
 1. **Install the repository:**
 
    ```bash
+   # Antigravity on Windows 11 + WSL2 Debian:
+   npx antigravity-awesome-skills --antigravity
+   # or install to the default path automatically:
    npx antigravity-awesome-skills
    # or clone manually
    git clone https://github.com/sickn33/antigravity-awesome-skills.git .agent/skills
@@ -19,6 +22,34 @@
    - Cursor: `@skill-name in chat`
    - Gemini CLI: `Use skill-name...`
    - Codex CLI: `Use skill-name...`
+
+### Windows 11 + WSL2 + Antigravity
+
+If you use Antigravity from WSL2 Debian on Windows 11, you do **not** install bundles separately.
+
+1. **Install all skills once from WSL:**
+
+   ```bash
+   npx antigravity-awesome-skills --antigravity
+   ```
+
+   By default this installs into `~/.gemini/antigravity/skills`. You can verify it with:
+
+   ```bash
+   test -d ~/.gemini/antigravity/skills && echo "Skills installed"
+   ```
+
+2. **Use bundles as curated recommendations**, not separate downloads.
+
+   For example, if a bundle suggests `brainstorming`, `frontend-design`, and `lint-and-validate`, you would use them in Antigravity prompts like:
+
+   - `Use @brainstorming to help me design a web app architecture.`
+   - `Use @frontend-design to propose a clean layout for this page.`
+   - `Use @lint-and-validate on this file before I commit.`
+
+3. **Browse bundles to decide which skills to use next.**
+
+   Start with this page, then see the [usage guide](usage.md) for more prompt examples.
 
 ---
 
