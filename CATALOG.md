@@ -2,7 +2,7 @@
 
 Generated at: 2026-02-08T00:00:00.000Z
 
-Total skills: 1234
+Total skills: 1235
 
 ## architecture (80)
 
@@ -167,7 +167,7 @@ calculations | startup, business, analyst, market, opportunity | startup, busine
 | `warren-buffett` | Agente que simula Warren Buffett — o maior investidor do seculo XX e XXI, CEO da Berkshire Hathaway, discipulo de Benjamin Graham e socio intelectual de Char... | persona, investing, value-investing, business | persona, investing, value-investing, business, warren, buffett, agente, que, simula, maior, investidor, do |
 | `whatsapp-automation` | Automate WhatsApp Business tasks via Rube MCP (Composio): send messages, manage templates, upload media, and handle contacts. Always search tools first for c... | whatsapp | whatsapp, automation, automate, business, tasks, via, rube, mcp, composio, send, messages, upload |
 
-## data-ai (225)
+## data-ai (226)
 
 | Skill | Description | Tags | Triggers |
 | --- | --- | --- | --- |
@@ -365,6 +365,7 @@ applications. | php | php, pro, write, idiomatic, code, generators, iterators, s
 AppState, persistence, theme switch, 状态管理,
 Scope::with_data, save state, load state, serde,
 ... | robius, state | robius, state, critical, triggers, appstate, persistence, theme, switch, scope, data, save, load |
+| `sankhya-dashboard-html-jsp-custom-best-pratices` | This skill should be used when the user asks for patterns, best practices, creation, or fixing of Sankhya dashboards using HTML, JSP, Java, and SQL. | sankhya, dashboard, jsp, html, sql, best-practices | sankhya, dashboard, jsp, html, sql, best-practices, custom, pratices, skill, should, used, user |
 | `scala-pro` | Master enterprise-grade Scala development with functional programming, distributed systems, and big data processing. Expert in Apache Pekko, Akka, Spark, ZIO... | scala | scala, pro, enterprise, grade, development, functional, programming, distributed, big, data, processing, apache |
 | `schema-markup` | Design, validate, and optimize schema.org structured data for eligibility, correctness, and measurable SEO impact. | schema, markup | schema, markup, validate, optimize, org, structured, data, eligibility, correctness, measurable, seo, impact |
 | `scikit-learn` | Machine learning in Python with scikit-learn. Use for classification, regression, clustering, model evaluation, and ML pipelines. | scikit, learn | scikit, learn, machine, learning, python, classification, regression, clustering, model, evaluation, ml, pipelines |
@@ -594,7 +595,7 @@ no matching field, parse error, widget... | makepad, reference | makepad, refere
 | `zod-validation-expert` | Expert in Zod — TypeScript-first schema validation. Covers parsing, custom errors, refinements, type inference, and integration with React Hook Form, Next.js... | zod, validation | zod, validation, typescript, first, schema, covers, parsing, custom, errors, refinements, type, inference |
 | `zustand-store-ts` | Create Zustand stores with TypeScript, subscribeWithSelector middleware, and proper state/action separation. Use when building React state management, creati... | zustand, store, ts | zustand, store, ts, stores, typescript, subscribewithselector, middleware, proper, state, action, separation, building |
 
-## general (292)
+## general (293)
 
 | Skill | Description | Tags | Triggers |
 | --- | --- | --- | --- |
@@ -625,6 +626,7 @@ no matching field, parse error, widget... | makepad, reference | makepad, refere
 | `bill-gates` | Agente que simula Bill Gates — cofundador da Microsoft, arquiteto da industria de software comercial, estrategista tecnologico global, investidor sistemico e... | persona, business-strategy, technology, philanthropy | persona, business-strategy, technology, philanthropy, bill, gates, agente, que, simula, cofundador, da, microsoft |
 | `blockchain-developer` | Build production-ready Web3 applications, smart contracts, and decentralized systems. Implements DeFi protocols, NFT platforms, DAOs, and enterprise blockcha... | blockchain | blockchain, developer, web3, applications, smart, contracts, decentralized, implements, defi, protocols, nft, platforms |
 | `blog-writing-guide` | Write, review, and improve blog posts for the Sentry engineering blog following Sentry's specific writing standards, voice, and quality bar. Use this skill w... | blog, writing | blog, writing, write, review, improve, posts, sentry, engineering, following, specific, standards, voice |
+| `blueprint` | Turn a one-line objective into a step-by-step construction plan any coding agent can execute cold. Each step has a self-contained context brief — a fresh age... | blueprint | blueprint, turn, one, line, objective, step, construction, plan, any, coding, agent, execute |
 | `brand-guidelines-anthropic` | Applies Anthropic's official brand colors and typography to any sort of artifact that may benefit from having Anthropic's look-and-feel. Use it when brand co... | brand, guidelines, anthropic | brand, guidelines, anthropic, applies, official, colors, typography, any, sort, artifact, may, benefit |
 | `brand-guidelines-community` | Applies Anthropic's official brand colors and typography to any sort of artifact that may benefit from having Anthropic's look-and-feel. Use it when brand co... | brand, guidelines, community | brand, guidelines, community, applies, anthropic, official, colors, typography, any, sort, artifact, may |
 | `bug-hunter` | Systematically finds and fixes bugs using proven debugging techniques. Traces from symptoms to root cause, implements fixes, and prevents regression. | bug, hunter | bug, hunter, systematically, finds, fixes, bugs, proven, debugging, techniques, traces, symptoms, root |
