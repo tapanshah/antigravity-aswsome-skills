@@ -732,6 +732,35 @@
       background: rgba(0, 0, 0, .36);
       border-color: rgba(255, 255, 255, .18);
     }
+
+    /* Loading spinner for progressLine */
+    .spinning::after {
+      content: "";
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      margin-left: 6px;
+      border: 1.5px solid rgba(110, 231, 255, .35);
+      border-top-color: var(--cyan);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Friendly error/info bar improvements */
+    .error {
+      border-left: 3px solid #ef4444;
+    }
+
+    .ok {
+      border-left: 3px solid #22c55e;
+    }
   </style>
 </head>
 
@@ -1046,7 +1075,20 @@
     function setStatus(s) { statusMini.textContent = s; }
     function showError(msg) {
       okBox.style.display = "none";
-      errorBox.textContent = msg;
+      // Friendly messages for common wrapper errors
+      let friendly = msg;
+      if (/429|too many|rate.?limit|upstream/i.test(msg)) {
+        friendly = "SoundCloud is rate-limiting requests right now. Wait a moment and try again.";
+      } else if (/403|forbidden|origin/i.test(msg)) {
+        friendly = "Request blocked — this origin isn't allowed. Check ALLOWED_ORIGINS config.";
+      } else if (/400|bad.?request/i.test(msg)) {
+        friendly = "Invalid search query. Try different terms.";
+      } else if (/502|upstream/i.test(msg)) {
+        friendly = "SoundCloud is temporarily unavailable. Try again in a moment.";
+      } else if (/network|fetch|failed/i.test(msg)) {
+        friendly = "Network error. Check your connection and try again.";
+      }
+      errorBox.textContent = friendly;
       errorBox.style.display = "block";
     }
     function showOk(msg) {
@@ -1727,6 +1769,7 @@
         }
       }
 
+      progressLine.classList.add("spinning");
       setProgress("digging…");
       const results = await runPool(tasks, 3);
 
@@ -1742,6 +1785,7 @@
       }
       if (added > 0) await idbSet(STORAGE_KEY_LIBRARY, library);
       setProgress("");
+      progressLine.classList.remove("spinning");
       return added;
     }
 
@@ -1892,6 +1936,11 @@
       shuffleInFlight = true;
       pendingShuffle = false;
 
+      // Disable action buttons while request is in-flight
+      shuffleBtn.disabled = true;
+      nextArrow.style.pointerEvents = "none";
+      shuffleBtn.textContent = "…";
+
       try {
         clearStatus();
 
@@ -1900,7 +1949,8 @@
         let matches = getFilteredLibrary();
 
         if (!ok || !matches.length) {
-          showError("No results for this filter. Try a different filter.");
+          const genre = genreSelect.value === "all" ? "" : ` for "${genreSelect.value}"`;
+          showError(`No tracks found${genre}. Try a different genre or hit Auto-Dig to fill the library.`);
           setStatus("READY");
           return;
         }
@@ -1918,6 +1968,9 @@
         setStatus("READY");
       } finally {
         shuffleInFlight = false;
+        shuffleBtn.disabled = false;
+        shuffleBtn.textContent = "Shuffle";
+        nextArrow.style.pointerEvents = "";
         if (pendingShuffle) {
           pendingShuffle = false;
           setTimeout(() => doShuffle(false), 60);
@@ -2005,12 +2058,19 @@
     const debouncedSearch = debounce(() => doShuffle(false), 300);
     const debouncedAutoDig = debounce(async () => {
       if (window.SC_OK === false) { showBanner("Missing SOUNDCLOUD_CLIENT_ID environment variable."); return; }
+      autoDigBtn.disabled = true;
+      autoDigBtn.textContent = "Digging…";
+      progressLine.classList.add("spinning");
       try {
         await quickFill(genreSelect.value, true);
         await quickFill(genreSelect.value, true);
         doShuffle(false);
       } catch (e) {
         showError(String(e?.message || e));
+      } finally {
+        autoDigBtn.disabled = false;
+        autoDigBtn.textContent = "Auto-Dig";
+        progressLine.classList.remove("spinning");
       }
     }, 300);
 
