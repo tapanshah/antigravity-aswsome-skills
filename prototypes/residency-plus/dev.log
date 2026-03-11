@@ -1,0 +1,41 @@
+Γ¼Ñ Ignored general context env var: LANG (defined in process)
+Γ¼Ñ No app server detected. Using simple static server
+Γ¼Ñ Running static server from ".."
+Γ¼Ñ Setting up local dev server
+[91m[1mΓÇï[22m[39m
+[91m[1mInternal error during "dev.command"                           [22m[39m
+[91m[1mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[22m[39m
+ΓÇï
+  [31m[1mError message[22m[39m
+  Error: listen EADDRINUSE: address already in use ::1:3999
+ΓÇï
+  [31m[1mError location[22m[39m
+  During dev.command
+      at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+      at listenInCluster (node:net:1997:12)
+      at GetAddrInfoReqWrap.callback (node:net:2206:7)
+      at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:134:8)
+ΓÇï
+  [31m[1mError properties[22m[39m
+  {
+    code: [32m'EADDRINUSE'[39m,
+    errno: [33m-4091[39m,
+    syscall: [32m'listen'[39m,
+    address: [32m'::1'[39m,
+    port: [33m3999[39m
+  }
+ΓÇï
+  [31m[1mResolved config[22m[39m
+  build:
+    publish: C:\Users\sean\antigravity-awesome-skills
+    publishOrigin: config
+  functionsDirectory: C:\Users\sean\antigravity-awesome-skills\netlify\functions
+ ┬╗   Error: Could not start local development server
+
+listen EADDRINUSE: address already in use ::1:3999
+
+Error: listen EADDRINUSE: address already in use ::1:3999
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at GetAddrInfoReqWrap.callback (node:net:2206:7)
+    at GetAddrInfoReqWrap.onlookupall [as oncomplete] (node:dns:134:8)

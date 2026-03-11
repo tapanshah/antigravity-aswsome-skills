@@ -3,7 +3,7 @@
  * Method: POST
  * Body: { crate: [...tracks], session: { genre... } }
  */
-import { allowOrigin, json } from "./sc-auth-lib.js";
+import { allowOrigin, json } from "./lib/sc-auth-lib.js";
 import { getJwtUser, supabaseRestCall } from "./sc-supabase-lib.js";
 
 export default async function handler(req) {
@@ -60,9 +60,6 @@ export default async function handler(req) {
             }
         }
 
-<<<<<<< HEAD
-        return json(200, { migrated: true, crate_count: migratedCrate, session_state: migratedSession }, origin);
-=======
         // 3. Migrate Playlists
         const playlists = body.playlists || [];
         let migratedPlaylists = 0;
@@ -98,7 +95,6 @@ export default async function handler(req) {
         }
 
         return json(200, { migrated: true, crate_count: migratedCrate, session_state: migratedSession, playlists_count: migratedPlaylists }, origin);
->>>>>>> main
 
     } catch (err) {
         return json(500, { error: err.message }, origin);

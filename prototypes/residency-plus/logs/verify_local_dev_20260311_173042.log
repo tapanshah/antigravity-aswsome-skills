@@ -1,0 +1,12 @@
+[17:30:42] Starting Local Dev Verification...
+[17:30:42] Checking target: sc-health -> http://localhost:8888/.netlify/functions/sc-health
+[17:30:46] Request Failed: No connection could be made because the target machine actively refused it. (localhost:8888)
+[17:30:46] Details: No connection could be made because the target machine actively refused it.
+[17:30:46] Checking target: sc-official-search -> http://localhost:8888/.netlify/functions/sc-official-search?q=ambient
+[17:30:50] Request Failed: No connection could be made because the target machine actively refused it. (localhost:8888)
+[17:30:50] Details: No connection could be made because the target machine actively refused it.
+[17:30:50] Checking target: sc-official-resolve -> http://localhost:8888/.netlify/functions/sc-official-resolve?url=https://soundcloud.com/fixture/ambient-1
+[17:30:54] Request Failed: No connection could be made because the target machine actively refused it. (localhost:8888)
+[17:30:54] Details: No connection could be made because the target machine actively refused it.
+[17:30:54] 
+[17:30:54] RESULT: FAIL

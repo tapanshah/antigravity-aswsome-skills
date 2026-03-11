@@ -1,0 +1,132 @@
+[project.ts]: detectFrameworks
+[project.ts]: detectBuildSystem
+[project.ts]: detectWorkspaces
+[project.ts]: detectPackageManager
+[project.ts]: detectFrameworksInPath - undefined
+ΓÇï
+Γ¥» Initial build environment
+config: C:\Users\sean\antigravity-awesome-skills\prototypes\residency-plus\netlify.toml
+context: dev
+cwd: C:\Users\sean\antigravity-awesome-skills
+featureFlags: []
+mode: cli
+repositoryRoot: C:\Users\sean\antigravity-awesome-skills
+siteId: 03201d30-0c11-4620-a6e4-20d0150c7742
+ΓÇï
+Γ¥» UI build settings
+baseRelDir: false
+ΓÇï
+Γ¥» Resolved build environment
+branch: feat/discovery-engine-v1
+buildDir: C:\Users\sean\antigravity-awesome-skills
+configPath: C:\Users\sean\antigravity-awesome-skills\prototypes\residency-plus\netlify.toml
+context: dev
+env:
+  - ALLOWED_ORIGINS
+  - SOUNDCLOUD_CLIENT_ID
+  - SOUNDCLOUD_CLIENT_SECRET
+  - DEPLOY_ID
+  - BUILD_ID
+  - ACCOUNT_ID
+  - NETLIFY_LOCAL
+  - HEAD
+  - COMMIT_REF
+  - CACHED_COMMIT_REF
+  - PULL_REQUEST
+  - LANG
+  - LANGUAGE
+  - LC_ALL
+  - GATSBY_TELEMETRY_DISABLED
+  - NEXT_TELEMETRY_DISABLED
+ΓÇï
+Γ¥» Resolved config
+build:
+  publish: C:\Users\sean\antigravity-awesome-skills
+  publishOrigin: config
+functionsDirectory: C:\Users\sean\antigravity-awesome-skills\netlify\functions
+[project.ts]: getBuildSettings
+[project.ts]: detectFrameworks
+[get-build-settings.ts] getBuildSettings for baseDirectory: 
+[96m[1mΓÇï[22m[39m
+[96m[1mNetlify Build                                                 [22m[39m
+[96m[1mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[22m[39m
+[36m[1mΓÇï[22m[39m
+[36m[1mΓ¥» Version[22m[39m
+  @netlify/build 35.5.14
+[36m[1mΓÇï[22m[39m
+[36m[1mΓ¥» Flags[22m[39m
+  accountId: 694113fdaf4c03fff38602bb
+  debug: true
+  deployId: 69b1ddbd55ab461d92d15c88
+  edgeFunctionsBootstrapURL: https://v2-17-1--edge.netlify.com/bootstrap/index-combined.ts
+  mode: cli
+  siteId: 03201d30-0c11-4620-a6e4-20d0150c7742
+  skewProtectionToken: d4b1758fcf77180839524e362655323ef7b6f60498ae1afdc57243196aa908e3363962316464626435356162343631643932643135633838
+[36m[1mΓÇï[22m[39m
+[36m[1mΓ¥» Current directory[22m[39m
+  C:\Users\sean\antigravity-awesome-skills\prototypes\residency-plus
+[36m[1mΓÇï[22m[39m
+[36m[1mΓ¥» Config file[22m[39m
+  C:\Users\sean\antigravity-awesome-skills\prototypes\residency-plus\netlify.toml
+[36m[1mΓÇï[22m[39m
+[36m[1mΓ¥» Resolved config[22m[39m
+  build:
+    base: C:\Users\sean\antigravity-awesome-skills\prototypes\residency-plus
+    publish: C:\Users\sean\antigravity-awesome-skills\prototypes\residency-plus
+    publishOrigin: config
+  functionsDirectory: C:\Users\sean\antigravity-awesome-skills\prototypes\residency-plus\netlify\functions
+[36m[1mΓÇï[22m[39m
+[36m[1mΓ¥» Context[22m[39m
+  production
+[96m[1mΓÇï[22m[39m
+[96m[1mFunctions bundling                                            [22m[39m
+[96m[1mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[22m[39m
+ΓÇï
+Packaging Functions from [36mnetlify\functions[39m directory:
+ - auth-session.js
+ - migrate-local-data.js
+ - sc-env-check.js
+ - sc-health.js
+ - sc-official-resolve.js
+ - sc-official-search.js
+ - sc-supabase-lib.js
+ - sc-test-cjs.js
+ - sync-crate.js
+ - sync-history.js
+ - sync-playlists.js
+ - sync-session-state.js
+ΓÇï
+X [ERROR] Could not resolve "./sc-auth-lib.js"
+
+    netlify/functions/sync-playlists.js:7:34:
+      7 Γöé import { allowOrigin, json } from "./sc-auth-lib.js";
+        Γò╡                                   ~~~~~~~~~~~~~~~~~~
+
+Build step duration: options.onEnd completed in 2ms
+[91m[1mΓÇï[22m[39m
+[91m[1mDependencies installation error                               [22m[39m
+[91m[1mΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ[22m[39m
+ΓÇï
+  [31m[1mError message[22m[39m
+  A Netlify Function failed to require one of its dependencies.
+  Please make sure it is present in the site's top-level "package.json".
+ΓÇï
+  Build failed with 1 error:
+  netlify/functions/sync-playlists.js:7:34: ERROR: Could not resolve "./sc-auth-lib.js"
+ΓÇï
+  [31m[1mResolved config[22m[39m
+  build:
+    base: C:\Users\sean\antigravity-awesome-skills\prototypes\residency-plus
+    publish: C:\Users\sean\antigravity-awesome-skills\prototypes\residency-plus
+    publishOrigin: config
+  functionsDirectory: C:\Users\sean\antigravity-awesome-skills\prototypes\residency-plus\netlify\functions
+ ┬╗   Warning: Error: Error while running build
+ ┬╗       at toError (file:///C:/Users/sean/AppData/Roaming/npm/node_modules/netlify-cli/dist/utils/command-helpers.js:143:16)
+ ┬╗       at logAndThrowError (file:///C:/Users/sean/AppData/Roaming/npm/node_modules/netlify-cli/dist/utils/command-helpers.js:149:17)
+ ┬╗       at handleBuild (file:///C:/Users/sean/AppData/Roaming/npm/node_modules/netlify-cli/dist/commands/deploy/deploy.js:530:9)
+ ┬╗       at async deploy (file:///C:/Users/sean/AppData/Roaming/npm/node_modules/netlify-cli/dist/commands/deploy/deploy.js:829:13)
+ ┬╗       at async BaseCommand.<anonymous> (file:///C:/Users/sean/AppData/Roaming/npm/node_modules/netlify-cli/dist/commands/deploy/index.js:94:5)
+ ┬╗       at async BaseCommand.parseAsync (C:\Users\sean\AppData\Roaming\npm\node_modules\netlify-cli\node_modules\commander\lib\command.js:1092:5)
+ ┬╗       at async runProgram (file:///C:/Users/sean/AppData/Roaming/npm/node_modules/netlify-cli/dist/utils/run-program.js:11:5)
+ ┬╗       at async main (file:///C:/Users/sean/AppData/Roaming/npm/node_modules/netlify-cli/bin/run.js:55:5)
+ ┬╗       at async file:///C:/Users/sean/AppData/Roaming/npm/node_modules/netlify-cli/bin/run.js:66:1

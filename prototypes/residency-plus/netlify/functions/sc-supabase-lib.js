@@ -10,7 +10,7 @@
  * - If no secret is provided, the auth endpoints gracefully degrade (return 401).
  */
 
-import { json } from "./sc-auth-lib.js";
+import { json } from "./lib/sc-auth-lib.js";
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;

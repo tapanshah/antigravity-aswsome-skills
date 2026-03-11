@@ -4,7 +4,7 @@
  * Method: POST
  * Body: { playlists: [{id, name, updated_at, items: [...]}] }
  */
-import { allowOrigin, json } from "./sc-auth-lib.js";
+import { allowOrigin, json } from "./lib/sc-auth-lib.js";
 import { getJwtUser, supabaseRestCall } from "./sc-supabase-lib.js";
 
 export default async function handler(req) {

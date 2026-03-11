@@ -1,0 +1,20 @@
+[project.ts]: detectFrameworks
+[project.ts]: detectBuildSystem
+[project.ts]: detectWorkspaces
+[project.ts]: detectPackageManager
+[project.ts]: detectFrameworksInPath - undefined
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+ Current Netlify User Γöé
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+[32mEmail: [39mreiidmd@gmail.com
+[32mTeams: [39m
+  [32m- [39mreiidmdΓÇÖs team
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+ Netlify Project Info  Γöé
+ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+[32mCurrent project: [39mresidencysolutions
+[32mNetlify TOML: [39m   C:\Users\sean\antigravity-awesome-skills\prototypes\residency-plus\netlify.toml
+[32mAdmin URL: [39m      https://app.netlify.com/projects/residencysolutions
+[32mProject URL: [39m    https://residencysolutions.netlify.app
+[32mProject Id: [39m     03201d30-0c11-4620-a6e4-20d0150c7742
+

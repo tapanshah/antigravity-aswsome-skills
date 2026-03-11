@@ -2,7 +2,7 @@
  * auth-session.js — Validates a given JWT and returns limited user info.
  * This ensures the client knows if their token is still valid on our backend.
  */
-import { allowOrigin, json } from "./sc-auth-lib.js";
+import { allowOrigin, json } from "./lib/sc-auth-lib.js";
 import { getJwtUser, supabaseRestCall } from "./sc-supabase-lib.js";
 
 export default async function handler(req) {
