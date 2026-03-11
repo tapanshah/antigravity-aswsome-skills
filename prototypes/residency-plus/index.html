@@ -1729,6 +1729,7 @@
             }
             crate.push(item);
             saveJsonLS(STORAGE_KEY_CRATE, crate);
+            if (typeof debouncedCrateSync === "function") debouncedCrateSync();
             renderList(crateList, crate, "crate");
             saveHist.textContent = "✓";
             saveHist.title = "Saved";
@@ -1748,6 +1749,7 @@
       history.unshift(item);
       if (history.length > 250) history = history.slice(0, 250);
       saveJsonLS(STORAGE_KEY_HISTORY, history);
+      if (typeof debouncedHistorySync === "function") debouncedHistorySync();
       renderList(historyList, history, "history");
     }
 
@@ -2361,6 +2363,7 @@
       }
       crate.push(currentItem);
       saveJsonLS(STORAGE_KEY_CRATE, crate);
+      if (typeof debouncedCrateSync === "function") debouncedCrateSync();
       renderList(crateList, crate, "crate");
       showOk("Saved to crate.");
       setTimeout(() => { okBox.style.display = "none"; }, 1800);
@@ -2376,15 +2379,18 @@
 
     genreSelect.onchange = () => {
       try { localStorage.setItem(STORAGE_KEY_GENRE, genreSelect.value); } catch { }
+      if (typeof debouncedStateSync === "function") debouncedStateSync();
       resetContext(); doShuffle(false);
     };
     sourceSelect.onchange = () => {
       try { localStorage.setItem(STORAGE_KEY_SOURCE, sourceSelect.value); } catch { }
+      if (typeof debouncedStateSync === "function") debouncedStateSync();
       resetContext(); doShuffle(false);
     };
     stationSelect.onchange = () => {
       stationId = stationSelect.value || "__all__";
       try { localStorage.setItem(STORAGE_KEY_STATION, stationId); } catch { }
+      if (typeof debouncedStateSync === "function") debouncedStateSync();
       resetContext(); doShuffle(false);
     };
     makeStationBtn.onclick = createStation;
@@ -2399,6 +2405,7 @@
 
     obscureRange.oninput = () => {
       try { localStorage.setItem(STORAGE_KEY_RANGE, obscureRange.value); } catch { }
+      if (typeof debouncedStateSync === "function") debouncedStateSync();
       updateModeLabel();
     };
     searchLocalEl.addEventListener("input", () => {
