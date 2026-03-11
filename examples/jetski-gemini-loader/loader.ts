@@ -21,24 +21,21 @@ function collectReferencedSkillIds(
   messages: Message[],
   index: Map<string, SkillMeta>
 ): string[] {
-  const found = new Set<string>();
+  const referencedSkillIds = new Set<string>();
 
   for (const msg of messages) {
-    SKILL_ID_REGEX.lastIndex = 0;
-
-    let match: RegExpExecArray | null;
-    while ((match = SKILL_ID_REGEX.exec(msg.content)) !== null) {
+    for (const match of msg.content.matchAll(SKILL_ID_REGEX)) {
       const id = match[1];
       if (index.has(id)) {
-        found.add(id);
+        referencedSkillIds.add(id);
       }
     }
   }
 
-  return [...found];
+  return [...referencedSkillIds];
 }
 
-function normalizeMaxSkills(maxSkills: number): number {
+function assertValidMaxSkills(maxSkills: number): number {
   if (!Number.isInteger(maxSkills) || maxSkills < 1) {
     throw new Error("maxSkills must be a positive integer.");
   }
@@ -63,11 +60,11 @@ export function resolveSkillsFromMessages(
   index: Map<string, SkillMeta>,
   maxSkills: number
 ): SkillMeta[] {
-  const skillLimit = normalizeMaxSkills(maxSkills);
-  const found = collectReferencedSkillIds(messages, index);
+  const skillLimit = assertValidMaxSkills(maxSkills);
+  const referencedSkillIds = collectReferencedSkillIds(messages, index);
 
   const metas: SkillMeta[] = [];
-  for (const id of found) {
+  for (const id of referencedSkillIds) {
     const meta = index.get(id);
     if (meta) {
       metas.push(meta);
@@ -118,7 +115,7 @@ export async function buildModelMessages(options: {
     maxSkillsPerTurn = 8,
     overflowBehavior = "truncate",
   } = options;
-  const skillLimit = normalizeMaxSkills(maxSkillsPerTurn);
+  const skillLimit = assertValidMaxSkills(maxSkillsPerTurn);
   const referencedSkillIds = collectReferencedSkillIds(trajectory, skillIndex);
 
   if (

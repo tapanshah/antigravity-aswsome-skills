@@ -21,88 +21,92 @@ async function main() {
   const fixtureRoot = fs.mkdtempSync(
     path.join(os.tmpdir(), "jetski-gemini-loader-test-"),
   );
-  const indexPath = path.join(fixtureRoot, "data", "skills_index.json");
-  const alphaDir = path.join(fixtureRoot, "skills", "alpha");
-  const betaDir = path.join(fixtureRoot, "skills", "beta");
+  try {
+    const indexPath = path.join(fixtureRoot, "data", "skills_index.json");
+    const alphaDir = path.join(fixtureRoot, "skills", "alpha");
+    const betaDir = path.join(fixtureRoot, "skills", "beta");
 
-  fs.mkdirSync(path.dirname(indexPath), { recursive: true });
-  fs.mkdirSync(alphaDir, { recursive: true });
-  fs.mkdirSync(betaDir, { recursive: true });
-  fs.writeFileSync(path.join(alphaDir, "SKILL.md"), "# alpha\n", "utf8");
-  fs.writeFileSync(path.join(betaDir, "SKILL.md"), "# beta\n", "utf8");
-  fs.writeFileSync(
-    indexPath,
-    JSON.stringify([
-      { id: "alpha", path: "skills/alpha", name: "alpha" },
-      { id: "beta", path: "skills/beta", name: "beta" },
-    ]),
-    "utf8",
-  );
-
-  const skillIndex = loadSkillIndex(indexPath);
-
-  assert.deepStrictEqual([...skillIndex.keys()], ["alpha", "beta"]);
-
-  const selected = resolveSkillsFromMessages(
-    [
-      { role: "user", content: "hi" },
-      { role: "assistant", content: "Try @alpha and @alpha again" },
-      { role: "user", content: "Also @beta please" },
-    ],
-    skillIndex,
-    2,
-  );
-  assert.deepStrictEqual(
-    selected.map((meta) => meta.id),
-    ["alpha", "beta"],
-  );
-
-  const noSkillMessages = await buildModelMessages({
-    baseSystemMessages: [{ role: "system", content: "base" }],
-    trajectory: [{ role: "user", content: "hi" }],
-    skillIndex,
-    skillsRoot: fixtureRoot,
-  });
-  assert.deepStrictEqual(noSkillMessages, [
-    { role: "system", content: "base" },
-    { role: "user", content: "hi" },
-  ]);
-
-  const loadedBodies = await loadSkillBodies(fixtureRoot, selected);
-  assert.deepStrictEqual(loadedBodies, ["# alpha\n", "# beta\n"]);
-
-  const loadedMessages = await buildModelMessages({
-    baseSystemMessages: [{ role: "system", content: "base" }],
-    trajectory: [{ role: "user", content: "Use @alpha then @beta" }],
-    skillIndex,
-    skillsRoot: fixtureRoot,
-    maxSkillsPerTurn: 2,
-  });
-  assert.deepStrictEqual(
-    loadedMessages.map((message) => message.content),
-    ["base", "# alpha\n", "# beta\n", "Use @alpha then @beta"],
-  );
-
-  await assert.rejects(
-    () =>
-      buildModelMessages({
-        baseSystemMessages: [{ role: "system", content: "base" }],
-        trajectory: [{ role: "user", content: "Use @alpha and @beta" }],
-        skillIndex,
-        skillsRoot: fixtureRoot,
-        maxSkillsPerTurn: 1,
-        overflowBehavior: "error",
-      }),
-    /Too many skills requested in a single turn/,
-  );
-
-  await assert.rejects(
-    () =>
-      loadSkillBodies(fixtureRoot, [
-        { id: "escape", path: "../outside", name: "escape" },
+    fs.mkdirSync(path.dirname(indexPath), { recursive: true });
+    fs.mkdirSync(alphaDir, { recursive: true });
+    fs.mkdirSync(betaDir, { recursive: true });
+    fs.writeFileSync(path.join(alphaDir, "SKILL.md"), "# alpha\n", "utf8");
+    fs.writeFileSync(path.join(betaDir, "SKILL.md"), "# beta\n", "utf8");
+    fs.writeFileSync(
+      indexPath,
+      JSON.stringify([
+        { id: "alpha", path: "skills/alpha", name: "alpha" },
+        { id: "beta", path: "skills/beta", name: "beta" },
       ]),
-    /Skill path escapes skills root/,
-  );
+      "utf8",
+    );
+
+    const skillIndex = loadSkillIndex(indexPath);
+
+    assert.deepStrictEqual([...skillIndex.keys()], ["alpha", "beta"]);
+
+    const selected = resolveSkillsFromMessages(
+      [
+        { role: "user", content: "hi" },
+        { role: "assistant", content: "Try @alpha and @alpha again" },
+        { role: "user", content: "Also @beta please" },
+      ],
+      skillIndex,
+      2,
+    );
+    assert.deepStrictEqual(
+      selected.map((meta) => meta.id),
+      ["alpha", "beta"],
+    );
+
+    const noSkillMessages = await buildModelMessages({
+      baseSystemMessages: [{ role: "system", content: "base" }],
+      trajectory: [{ role: "user", content: "hi" }],
+      skillIndex,
+      skillsRoot: fixtureRoot,
+    });
+    assert.deepStrictEqual(noSkillMessages, [
+      { role: "system", content: "base" },
+      { role: "user", content: "hi" },
+    ]);
+
+    const loadedBodies = await loadSkillBodies(fixtureRoot, selected);
+    assert.deepStrictEqual(loadedBodies, ["# alpha\n", "# beta\n"]);
+
+    const loadedMessages = await buildModelMessages({
+      baseSystemMessages: [{ role: "system", content: "base" }],
+      trajectory: [{ role: "user", content: "Use @alpha then @beta" }],
+      skillIndex,
+      skillsRoot: fixtureRoot,
+      maxSkillsPerTurn: 2,
+    });
+    assert.deepStrictEqual(
+      loadedMessages.map((message) => message.content),
+      ["base", "# alpha\n", "# beta\n", "Use @alpha then @beta"],
+    );
+
+    await assert.rejects(
+      () =>
+        buildModelMessages({
+          baseSystemMessages: [{ role: "system", content: "base" }],
+          trajectory: [{ role: "user", content: "Use @alpha and @beta" }],
+          skillIndex,
+          skillsRoot: fixtureRoot,
+          maxSkillsPerTurn: 1,
+          overflowBehavior: "error",
+        }),
+      /Too many skills requested in a single turn/,
+    );
+
+    await assert.rejects(
+      () =>
+        loadSkillBodies(fixtureRoot, [
+          { id: "escape", path: "../outside", name: "escape" },
+        ]),
+      /Skill path escapes skills root/,
+    );
+  } finally {
+    fs.rmSync(fixtureRoot, { recursive: true, force: true });
+  }
 }
 
 main().catch((error) => {
