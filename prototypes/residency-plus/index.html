@@ -1012,6 +1012,7 @@
           <!-- Always-visible quick actions -->
           <div class="quickActs">
             <button id="saveBtn" class="btn" disabled>Save</button>
+            <button id="addToPlaylistBtn" class="btn" disabled>+ Playlist</button>
             <button id="openBtn" class="btn" disabled>Open ↗</button>
           </div>
 
@@ -1086,6 +1087,24 @@
             <button class="miniBtn" id="clearHistory">clear</button>
           </div>
           <ul class="list" id="historyList"></ul>
+
+          <div style="height:12px;"></div>
+
+          <div class="panelHead">
+            <div style="display:flex;align-items:center;gap:4px;">
+              <strong>playlists</strong>
+              <span class="panelCount" id="playlistCount"></span>
+            </div>
+            <button class="miniBtn" id="newPlaylistBtn">new</button>
+          </div>
+          <div class="playlist-actions">
+            <select id="activePlaylistSelect" class="playlist-select">
+              <option value="">No Playlist Selected</option>
+            </select>
+            <button class="miniBtn" id="renamePlaylistBtn" disabled>rename</button>
+            <button class="miniBtn" id="deletePlaylistBtn" disabled>delete</button>
+          </div>
+          <ul class="list" id="playlistItemList"></ul>
         </div>
       </div>
     </div>
@@ -1100,6 +1119,7 @@
     const STORAGE_KEY_LIBRARY = "residencyLibrary_v20";
     const STORAGE_KEY_CRATE = "residencyCrate_v20";
     const STORAGE_KEY_HISTORY = "residencyHistory_v20";
+    const STORAGE_KEY_PLAYLISTS = "residencyPlaylists_v1";
     const STORAGE_KEY_LAST = "residencyLast_v20";
     const STORAGE_KEY_STATIONS = "residencyStations_v12";
     const STORAGE_KEY_PLAYEDMAP = "residencyPlayedMap_v12";
@@ -1174,6 +1194,7 @@
 
     const shuffleBtn = document.getElementById("shuffleBtn");
     const saveBtn = document.getElementById("saveBtn");
+    const addToPlaylistBtn = document.getElementById("addToPlaylistBtn");
     const openBtn = document.getElementById("openBtn");
     const autoDigBtn = document.getElementById("autoDigBtn");
     const exportBtn = document.getElementById("exportBtn");
@@ -1193,8 +1214,13 @@
 
     const crateList = document.getElementById("crateList");
     const historyList = document.getElementById("historyList");
+    const playlistItemList = document.getElementById("playlistItemList");
     const clearCrate = document.getElementById("clearCrate");
     const clearHistory = document.getElementById("clearHistory");
+    const newPlaylistBtn = document.getElementById("newPlaylistBtn");
+    const renamePlaylistBtn = document.getElementById("renamePlaylistBtn");
+    const deletePlaylistBtn = document.getElementById("deletePlaylistBtn");
+    const activePlaylistSelect = document.getElementById("activePlaylistSelect");
 
     const prevArrow = document.getElementById("prevArrow");
     const nextArrow = document.getElementById("nextArrow");
@@ -1385,6 +1411,136 @@
       return "";
     }
 
+    // ===== Playlists =====
+    function savePlaylists() {
+      saveJsonLS(STORAGE_KEY_PLAYLISTS, playlists);
+      if (typeof debouncedPlaylistSync === "function") debouncedPlaylistSync();
+    }
+
+    function createPlaylist() {
+      const name = prompt("Name your new playlist:");
+      if (!name || !name.trim()) return;
+      const pl = { id: crypto.randomUUID(), name: name.trim(), updated_at: new Date().toISOString(), items: [] };
+      playlists.push(pl);
+      activePlaylistId = pl.id;
+      savePlaylists();
+      renderPlaylistsSelect();
+      renderPlaylistItems();
+    }
+
+    function renamePlaylist() {
+      if (!activePlaylistId) return;
+      const pl = playlists.find(p => p.id === activePlaylistId);
+      if (!pl) return;
+      const name = prompt("Rename playlist:", pl.name);
+      if (name && name.trim()) {
+        pl.name = name.trim();
+        pl.updated_at = new Date().toISOString();
+        savePlaylists();
+        renderPlaylistsSelect();
+      }
+    }
+
+    function deletePlaylist() {
+      if (!activePlaylistId) return;
+      const pl = playlists.find(p => p.id === activePlaylistId);
+      if (!pl) return;
+      if (!confirm(`Delete playlist "${pl.name}"?`)) return;
+      playlists = playlists.filter(p => p.id !== activePlaylistId);
+      activePlaylistId = playlists.length > 0 ? playlists[0].id : null;
+      savePlaylists();
+      renderPlaylistsSelect();
+      renderPlaylistItems();
+    }
+
+    function renderPlaylistsSelect() {
+      activePlaylistSelect.innerHTML = playlists.length ? "" : '<option value="">No Playlist Selected</option>';
+      for (const pl of playlists) {
+        const opt = document.createElement("option");
+        opt.value = pl.id;
+        opt.textContent = safeShortName(pl.name, 25) + ` (${pl.items.length})`;
+        activePlaylistSelect.appendChild(opt);
+      }
+      activePlaylistSelect.value = activePlaylistId || "";
+      document.getElementById("playlistCount").textContent = playlists.length > 0 ? playlists.length : "";
+
+      const hasPl = playlists.length > 0;
+      renamePlaylistBtn.disabled = !hasPl;
+      deletePlaylistBtn.disabled = !hasPl;
+    }
+
+    function renderPlaylistItems() {
+      if (!activePlaylistId) {
+        playlistItemList.innerHTML = '<li class="hint">No playlist selected.</li>';
+        return;
+      }
+      const pl = playlists.find(p => p.id === activePlaylistId);
+      if (!pl) return;
+
+      playlistItemList.innerHTML = "";
+      if (!pl.items.length) {
+        const li = document.createElement("li");
+        li.className = "hint";
+        li.textContent = "Playlist is empty.";
+        playlistItemList.appendChild(li);
+        return;
+      }
+
+      for (let i = pl.items.length - 1; i >= 0; i--) {
+        const t = pl.items[i];
+        const li = document.createElement("li");
+        const L = document.createElement("div"); L.className = "left";
+        const titleSpan = document.createElement("span"); titleSpan.className = "title"; titleSpan.textContent = safeShortName(t.title, 40);
+        const artSpan = document.createElement("span"); artSpan.className = "artist"; artSpan.textContent = safeShortName(t.artist, 30);
+        L.appendChild(titleSpan); L.appendChild(artSpan);
+
+        const R = document.createElement("div"); R.className = "right";
+        const playBtn = document.createElement("button"); playBtn.className = "miniBtn"; playBtn.textContent = "▶";
+        playBtn.onclick = () => loadItem(t, true);
+        const rmBtn = document.createElement("button"); rmBtn.className = "miniBtn hint"; rmBtn.textContent = "✕";
+        rmBtn.onclick = () => {
+          pl.items.splice(i, 1);
+          pl.updated_at = new Date().toISOString();
+          savePlaylists();
+          renderPlaylistsSelect();
+          renderPlaylistItems();
+        };
+        R.appendChild(playBtn); R.appendChild(rmBtn);
+
+        li.appendChild(L); li.appendChild(R);
+        playlistItemList.appendChild(li);
+      }
+    }
+
+    newPlaylistBtn.onclick = createPlaylist;
+    renamePlaylistBtn.onclick = renamePlaylist;
+    deletePlaylistBtn.onclick = deletePlaylist;
+    addToPlaylistBtn.onclick = addCurrentToPlaylist;
+    activePlaylistSelect.onchange = () => {
+      activePlaylistId = activePlaylistSelect.value || null;
+      renderPlaylistItems();
+    };
+
+    // Add to playlist logic
+    function addCurrentToPlaylist() {
+      if (!currentItem) return;
+      if (!activePlaylistId) {
+        if (playlists.length === 0) createPlaylist();
+        if (!activePlaylistId) return; // cancelled
+      }
+      const pl = playlists.find(p => p.id === activePlaylistId);
+      if (!pl) return;
+
+      // Duplicate check within this playlist
+      if (pl.items.some(x => x.url === currentItem.url)) return;
+
+      pl.items.push(currentItem);
+      pl.updated_at = new Date().toISOString();
+      savePlaylists();
+      renderPlaylistsSelect();
+      renderPlaylistItems();
+    }
+
     function isJunkText(text) {
       const t = (text || "").toLowerCase();
       const bad = [
@@ -1542,6 +1698,8 @@
     let currentItem = null;
     let crate = [];
     let history = [];
+    let playlists = [];
+    let activePlaylistId = null;
     let localSearch = "";
     let stations = [];
     let stationId = "__all__";
@@ -2057,6 +2215,7 @@
 
       openBtn.disabled = false;
       saveBtn.disabled = false;
+      addToPlaylistBtn.disabled = false;
       makeStationBtn.disabled = false;
       openBtn.dataset.url = item.url;
       try { localStorage.setItem(STORAGE_KEY_LAST, JSON.stringify(item)); } catch { }
