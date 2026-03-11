@@ -17,6 +17,35 @@ export type Message = {
 
 const SKILL_ID_REGEX = /@([a-zA-Z0-9-_./]+)/g;
 
+function collectReferencedSkillIds(
+  messages: Message[],
+  index: Map<string, SkillMeta>
+): string[] {
+  const found = new Set<string>();
+
+  for (const msg of messages) {
+    SKILL_ID_REGEX.lastIndex = 0;
+
+    let match: RegExpExecArray | null;
+    while ((match = SKILL_ID_REGEX.exec(msg.content)) !== null) {
+      const id = match[1];
+      if (index.has(id)) {
+        found.add(id);
+      }
+    }
+  }
+
+  return [...found];
+}
+
+function normalizeMaxSkills(maxSkills: number): number {
+  if (!Number.isInteger(maxSkills) || maxSkills < 1) {
+    throw new Error("maxSkills must be a positive integer.");
+  }
+
+  return maxSkills;
+}
+
 export function loadSkillIndex(indexPath: string): Map<string, SkillMeta> {
   const raw = fs.readFileSync(indexPath, "utf8");
   const arr = JSON.parse(raw) as SkillMeta[];
@@ -34,17 +63,8 @@ export function resolveSkillsFromMessages(
   index: Map<string, SkillMeta>,
   maxSkills: number
 ): SkillMeta[] {
-  const found = new Set<string>();
-
-  for (const msg of messages) {
-    let match: RegExpExecArray | null;
-    while ((match = SKILL_ID_REGEX.exec(msg.content)) !== null) {
-      const id = match[1];
-      if (index.has(id)) {
-        found.add(id);
-      }
-    }
-  }
+  const skillLimit = normalizeMaxSkills(maxSkills);
+  const found = collectReferencedSkillIds(messages, index);
 
   const metas: SkillMeta[] = [];
   for (const id of found) {
@@ -52,7 +72,7 @@ export function resolveSkillsFromMessages(
     if (meta) {
       metas.push(meta);
     }
-    if (metas.length >= maxSkills) {
+    if (metas.length >= skillLimit) {
       break;
     }
   }
@@ -65,9 +85,16 @@ export async function loadSkillBodies(
   metas: SkillMeta[]
 ): Promise<string[]> {
   const bodies: string[] = [];
+  const rootPath = path.resolve(skillsRoot);
 
   for (const meta of metas) {
-    const fullPath = path.join(skillsRoot, meta.path, "SKILL.md");
+    const fullPath = path.resolve(rootPath, meta.path, "SKILL.md");
+    const relativePath = path.relative(rootPath, fullPath);
+
+    if (relativePath.startsWith("..") || path.isAbsolute(relativePath)) {
+      throw new Error(`Skill path escapes skills root: ${meta.id}`);
+    }
+
     const text = await fs.promises.readFile(fullPath, "utf8");
     bodies.push(text);
   }
@@ -81,6 +108,7 @@ export async function buildModelMessages(options: {
   skillIndex: Map<string, SkillMeta>;
   skillsRoot: string;
   maxSkillsPerTurn?: number;
+  overflowBehavior?: "truncate" | "error";
 }): Promise<Message[]> {
   const {
     baseSystemMessages,
@@ -88,12 +116,24 @@ export async function buildModelMessages(options: {
     skillIndex,
     skillsRoot,
     maxSkillsPerTurn = 8,
+    overflowBehavior = "truncate",
   } = options;
+  const skillLimit = normalizeMaxSkills(maxSkillsPerTurn);
+  const referencedSkillIds = collectReferencedSkillIds(trajectory, skillIndex);
+
+  if (
+    overflowBehavior === "error" &&
+    referencedSkillIds.length > skillLimit
+  ) {
+    throw new Error(
+      `Too many skills requested in a single turn. Reduce @skill-id usage to ${skillLimit} or fewer.`
+    );
+  }
 
   const selectedMetas = resolveSkillsFromMessages(
     trajectory,
     skillIndex,
-    maxSkillsPerTurn
+    skillLimit
   );
 
   if (selectedMetas.length === 0) {
@@ -109,4 +149,3 @@ export async function buildModelMessages(options: {
 
   return [...baseSystemMessages, ...skillMessages, ...trajectory];
 }
-

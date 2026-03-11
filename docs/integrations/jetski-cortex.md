@@ -34,6 +34,7 @@ Principi chiave:
 - **Manifest leggero**: usare `data/skills_index.json` per sapere *quali* skill esistono, senza caricare i testi completi.
 - **Lazy loading**: leggere `SKILL.md` **solo** per le skill effettivamente invocate in una conversazione (es. quando compare `@skill-id`).
 - **Limiti espliciti**: imporre un massimo di skill/tokens caricati per turno, con fallback chiari.
+- **Path safety**: verificare che i path del manifest restino dentro `SKILLS_ROOT` prima di leggere `SKILL.md`.
 
 Il flusso consigliato è:
 
@@ -168,8 +169,23 @@ async function buildModelMessages(
   trajectory: { role: "user" | "assistant" | "system"; content: string }[],
   skillIndex: Map<string, SkillMeta>,
   skillsRoot: string,
-  maxSkillsPerTurn: number
+  maxSkillsPerTurn: number,
+  overflowBehavior: "truncate" | "error" = "truncate"
 ): Promise<{ role: string; content: string }[]> {
+  const referencedSkills = resolveSkillsFromMessages(
+    trajectory,
+    skillIndex,
+    Number.MAX_SAFE_INTEGER
+  );
+  if (
+    overflowBehavior === "error" &&
+    referencedSkills.length > maxSkillsPerTurn
+  ) {
+    throw new Error(
+      `Too many skills requested in a single turn. Reduce @skill-id usage to ${maxSkillsPerTurn} or fewer.`
+    );
+  }
+
   const selectedMetas = resolveSkillsFromMessages(
     trajectory,
     skillIndex,
@@ -188,6 +204,7 @@ async function buildModelMessages(
 ```
 
 > Suggerimento: aggiungete una stima dei token per troncare o riassumere i `SKILL.md` se il context window si avvicina al limite.
+> Il reference loader di questo repo supporta anche un fallback esplicito: `overflowBehavior: "error"`.
 
 ---
 
@@ -235,4 +252,3 @@ Per ulteriore controllo:
 - Impostate limiti chiari (max skill per turno, soglia di token).
 
 Seguendo questo pattern, Jetski/Cortex + Gemini può usare l’intera libreria di `antigravity-awesome-skills` in modo sicuro, scalabile e compatibile con il context window dei modelli moderni.
-
