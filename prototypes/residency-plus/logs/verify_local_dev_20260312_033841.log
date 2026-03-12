@@ -1,0 +1,10 @@
+[03:38:41] Starting Local Dev Verification...
+[03:38:41] Checking target: sc-health -> http://localhost:8888/.netlify/functions/sc-health
+[03:38:42] HTTP 200
+[03:38:42] Response: {"ok":true,"message":"SoundCloud client id detected."}
+[03:38:42] Checking target: sc-official-search -> http://localhost:8888/.netlify/functions/sc-official-search?q=ambient
+[03:38:42] Request Failed: The remote server returned an error: (500) Internal Server Error.
+[03:38:42] Checking target: sc-official-resolve -> http://localhost:8888/.netlify/functions/sc-official-resolve?url=https://soundcloud.com/fixture/ambient-1
+[03:38:42] Request Failed: The remote server returned an error: (500) Internal Server Error.
+[03:38:42] 
+[03:38:42] RESULT: FAIL

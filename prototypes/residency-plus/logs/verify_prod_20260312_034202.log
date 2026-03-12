@@ -1,0 +1,12 @@
+[03:42:02] Starting Production Verification...
+[03:42:02] Checking target: sc-health -> https://residencysolutions.netlify.app/.netlify/functions/sc-health
+[03:42:03] HTTP 200
+[03:42:04] Response: {"ok":true,"message":"SoundCloud client id detected."}
+[03:42:04] Checking target: sc-official-search -> https://residencysolutions.netlify.app/.netlify/functions/sc-official-search?q=ambient
+[03:42:06] HTTP 200
+[03:42:06] Response: {"collection":[{"id":2198882091,"title":"Ù?Ù? Ø§Ù?ØµØ­ ÙÙ?Ù? ( Ù?Ù?ØªÙ? Ù?Ø§Ù?Ø§ ØµØ­ ) / Ù?Ø¬Ø¯Ù? Ø§Ù?Ø²Ù?Ø§Ø±","permalink_url":"https://soundcloud....
+[03:42:06] Checking target: sc-official-resolve -> https://residencysolutions.netlify.app/.netlify/functions/sc-official-resolve?url=https://soundcloud.com/tycho/awake
+[03:42:07] HTTP 200
+[03:42:07] Response: {"kind":"track","id":298851207,"title":"Awake","permalink_url":"https://soundcloud.com/tycho/awake?utm_medium=api&utm_campaign=social_sharing&utm_sour...
+[03:42:07] 
+[03:42:07] RESULT: PASS

@@ -1,0 +1,12 @@
+[03:42:01] Starting Local Dev Verification...
+[03:42:01] Checking target: sc-health -> http://localhost:8888/.netlify/functions/sc-health
+[03:42:01] HTTP 200
+[03:42:01] Response: {"ok":true,"message":"SoundCloud client id detected."}
+[03:42:01] Checking target: sc-official-search -> http://localhost:8888/.netlify/functions/sc-official-search?q=ambient
+[03:42:01] HTTP 200
+[03:42:01] Response: {"collection":[{"id":11223344,"title":"[DEV FIXTURE] Ambient Leftfield Dojo","permalink_url":"https://soundcloud.com/haszari/ambient-leftfield-dojo-tw...
+[03:42:01] Checking target: sc-official-resolve -> http://localhost:8888/.netlify/functions/sc-official-resolve?url=https://soundcloud.com/fixture/ambient-1
+[03:42:01] HTTP 200
+[03:42:01] Response: {"kind":"track","id":11223344,"title":"[DEV FIXTURE] Ambient Leftfield Dojo","permalink_url":"https://soundcloud.com/haszari/ambient-leftfield-dojo-tw...
+[03:42:01] 
+[03:42:01] RESULT: PASS
