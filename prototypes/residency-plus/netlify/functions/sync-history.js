@@ -3,7 +3,7 @@
  * Method: POST
  * Body: { tracks: [...] }
  */
-import { allowOrigin, json } from "./lib/sc-auth-lib.js";
+import { allowOrigin, json, logTelemetry } from "./lib/sc-auth-lib.js";
 import { getJwtUser, supabaseRestCall } from "./sc-supabase-lib.js";
 import { getEntitlementsForPlan } from "./lib/entitlements-lib.js";
 
@@ -16,13 +16,19 @@ export default async function handler(req) {
     }
 
     const origin = allowOrigin(req.headers.get("origin"));
-    if (!AUTH_ENABLED) return json(200, { auth_enabled: false }, origin);
+    if (!AUTH_ENABLED) {
+        logTelemetry("sync_disabled", { endpoint: "sync-history", origin });
+        return json(200, { auth_enabled: false }, origin);
+    }
     if (!origin && req.headers.get("origin")) return json(403, { error: "Origin not permitted." });
     if (req.method !== "POST" && req.method !== "GET") return json(405, { error: "Method not allowed" }, origin);
 
     try {
         const user = getJwtUser(req);
-        if (!user) return json(401, { error: "Missing or invalid token" }, origin);
+        if (!user) {
+            logTelemetry("sync_auth_invalid", { endpoint: "sync-history", origin });
+            return json(401, { error: "Missing or invalid token" }, origin);
+        }
 
         let plan = "free";
         try {
@@ -36,7 +42,10 @@ export default async function handler(req) {
 
         if (req.method === "GET") {
             const data = await supabaseRestCall(`history?select=soundcloud_url,title,artist,bucket,played_at&order=played_at.desc&limit=50`, "GET", null, user.token);
-            if (!data) return json(200, { hasData: false, items: [] }, origin);
+            if (!data) {
+                logTelemetry("sync_history_hydrate_empty", { endpoint: "sync-history", origin });
+                return json(200, { hasData: false, items: [] }, origin);
+            }
 
             const mapped = data.map(r => ({
                 url: r.soundcloud_url,
@@ -45,6 +54,7 @@ export default async function handler(req) {
                 bucket: r.bucket,
                 playedAt: r.played_at
             }));
+            logTelemetry("sync_history_hydrate_success", { endpoint: "sync-history", origin, count: mapped.length });
             return json(200, { hasData: mapped.length > 0, items: mapped }, origin);
         }
 
@@ -69,9 +79,17 @@ export default async function handler(req) {
             await supabaseRestCall(`history`, "POST", payload, user.token);
         }
 
+        logTelemetry("sync_history_success", {
+            endpoint: "sync-history",
+            origin,
+            synced: payload.length,
+            plan: entitlements.plan
+        });
+
         return json(200, { synced: payload.length }, origin);
 
     } catch (err) {
+        logTelemetry("sync_history_error", { endpoint: "sync-history", origin, error: err.message });
         return json(500, { error: err.message }, origin);
     }
 }

@@ -2,7 +2,7 @@
  * auth-session.js — Validates a given JWT and returns limited user info.
  * This ensures the client knows if their token is still valid on our backend.
  */
-import { allowOrigin, json } from "./lib/sc-auth-lib.js";
+import { allowOrigin, json, logTelemetry } from "./lib/sc-auth-lib.js";
 import { getJwtUser, supabaseRestCall } from "./sc-supabase-lib.js";
 
 const AUTH_ENABLED = process.env.AUTH_ENABLED === "true";
@@ -10,6 +10,7 @@ const AUTH_ENABLED = process.env.AUTH_ENABLED === "true";
 export default async function handler(req) {
     if (!AUTH_ENABLED) {
         const origin = allowOrigin(req.headers.get("origin"));
+        logTelemetry("auth_disabled_request", { endpoint: "auth-session", origin });
         return json(200, { auth_enabled: false }, origin);
     }
     if (req.method === "OPTIONS") {
@@ -22,7 +23,10 @@ export default async function handler(req) {
 
     try {
         const user = getJwtUser(req);
-        if (!user) return json(401, { error: "Missing or invalid token" }, origin);
+        if (!user) {
+            logTelemetry("auth_session_invalid", { endpoint: "auth-session", origin });
+            return json(401, { error: "Missing or invalid token" }, origin);
+        }
 
         // Fetch user profile from public.users to get plan limits if we wanted
         // For slice 2, just verify the JWT is alive.
@@ -34,6 +38,12 @@ export default async function handler(req) {
             // It's possible the trigger hasn't fired yet or RLS blocked. Safe default.
         }
 
+        logTelemetry("auth_session_validated", {
+            endpoint: "auth-session",
+            origin,
+            plan: profile.plan || "free"
+        });
+
         return json(200, {
             authenticated: true,
             uid: user.uid,
@@ -42,6 +52,7 @@ export default async function handler(req) {
         }, origin);
 
     } catch (err) {
+        logTelemetry("auth_session_error", { endpoint: "auth-session", origin, error: err.message });
         return json(500, { error: err.message }, origin);
     }
 }

@@ -6,7 +6,7 @@
  * unavailable, it safely falls back to free-tier entitlements.
  */
 
-import { allowOrigin, json } from "./lib/sc-auth-lib.js";
+import { allowOrigin, json, logTelemetry } from "./lib/sc-auth-lib.js";
 import { getJwtUser, supabaseRestCall } from "./sc-supabase-lib.js";
 import { getEntitlementsForPlan } from "./lib/entitlements-lib.js";
 
@@ -31,12 +31,14 @@ export default async function handler(req) {
   try {
     if (!AUTH_ENABLED) {
       const ent = getEntitlementsForPlan("free");
+      logTelemetry("entitlements_fetched", { endpoint: "get-entitlements", origin, plan: ent.plan, authenticated: false, auth_enabled: false });
       return json(200, { auth_enabled: false, plan: ent.plan, entitlements: ent }, origin);
     }
 
     const user = getJwtUser(req);
     if (!user) {
       const ent = getEntitlementsForPlan("free");
+      logTelemetry("entitlements_fetched", { endpoint: "get-entitlements", origin, plan: ent.plan, authenticated: false, auth_enabled: true });
       return json(200, { authenticated: false, plan: ent.plan, entitlements: ent }, origin);
     }
 
@@ -51,12 +53,14 @@ export default async function handler(req) {
     }
 
     const ent = getEntitlementsForPlan(plan);
+    logTelemetry("entitlements_fetched", { endpoint: "get-entitlements", origin, plan: ent.plan, authenticated: true, auth_enabled: true });
     return json(200, {
       authenticated: true,
       plan: ent.plan,
       entitlements: ent,
     }, origin);
   } catch (err) {
+    logTelemetry("entitlements_error", { endpoint: "get-entitlements", origin, error: err.message });
     return json(500, { error: err.message }, origin);
   }
 }

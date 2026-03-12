@@ -4,7 +4,7 @@
  * Method: POST
  * Body: { tracks: [...] }
  */
-import { allowOrigin, json } from "./lib/sc-auth-lib.js";
+import { allowOrigin, json, logTelemetry } from "./lib/sc-auth-lib.js";
 import { getJwtUser, supabaseRestCall } from "./sc-supabase-lib.js";
 import { getEntitlementsForPlan } from "./lib/entitlements-lib.js";
 
@@ -17,13 +17,19 @@ export default async function handler(req) {
     }
 
     const origin = allowOrigin(req.headers.get("origin"));
-    if (!AUTH_ENABLED) return json(200, { auth_enabled: false }, origin);
+    if (!AUTH_ENABLED) {
+        logTelemetry("sync_disabled", { endpoint: "sync-crate", origin });
+        return json(200, { auth_enabled: false }, origin);
+    }
     if (!origin && req.headers.get("origin")) return json(403, { error: "Origin not permitted." });
     if (req.method !== "POST" && req.method !== "GET") return json(405, { error: "Method not allowed" }, origin);
 
     try {
         const user = getJwtUser(req);
-        if (!user) return json(401, { error: "Missing or invalid token" }, origin);
+        if (!user) {
+            logTelemetry("sync_auth_invalid", { endpoint: "sync-crate", origin });
+            return json(401, { error: "Missing or invalid token" }, origin);
+        }
 
         // Determine plan for entitlement limits (falls back to free)
         let plan = "free";
@@ -39,7 +45,10 @@ export default async function handler(req) {
 
         if (req.method === "GET") {
             const data = await supabaseRestCall(`crate?select=soundcloud_url,title,artist,bucket,kind,duration_ms,saved_at&order=saved_at.desc`, "GET", null, user.token);
-            if (!data) return json(200, { hasData: false, items: [] }, origin);
+            if (!data) {
+                logTelemetry("sync_crate_hydrate_empty", { endpoint: "sync-crate", origin });
+                return json(200, { hasData: false, items: [] }, origin);
+            }
 
             // Map back to local state keys
             const mapped = data.map(r => ({
@@ -51,6 +60,7 @@ export default async function handler(req) {
                 durationMs: r.duration_ms,
                 savedAt: r.saved_at
             }));
+            logTelemetry("sync_crate_hydrate_success", { endpoint: "sync-crate", origin, count: mapped.length });
             return json(200, { hasData: mapped.length > 0, items: mapped }, origin);
         }
 
@@ -80,12 +90,22 @@ export default async function handler(req) {
         // Return a representation of the server's truth (just counts for now)
         const serverData = await supabaseRestCall(`crate?select=id,soundcloud_url,saved_at`, "GET", null, user.token);
 
+        const total = serverData ? serverData.length : 0;
+        logTelemetry("sync_crate_success", {
+            endpoint: "sync-crate",
+            origin,
+            synced: payload.length,
+            total_cloud: total,
+            plan: entitlements.plan
+        });
+
         return json(200, {
             synced: payload.length,
-            total_cloud: serverData ? serverData.length : 0
+            total_cloud: total
         }, origin);
 
     } catch (err) {
+        logTelemetry("sync_crate_error", { endpoint: "sync-crate", origin, error: err.message });
         return json(500, { error: err.message }, origin);
     }
 }

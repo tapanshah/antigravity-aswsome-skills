@@ -4,7 +4,7 @@
  * Method: POST
  * Body: { playlists: [{id, name, updated_at, items: [...]}] }
  */
-import { allowOrigin, json } from "./lib/sc-auth-lib.js";
+import { allowOrigin, json, logTelemetry } from "./lib/sc-auth-lib.js";
 import { getJwtUser, supabaseRestCall } from "./sc-supabase-lib.js";
 import { getEntitlementsForPlan } from "./lib/entitlements-lib.js";
 
@@ -17,13 +17,19 @@ export default async function handler(req) {
     }
 
     const origin = allowOrigin(req.headers.get("origin"));
-    if (!AUTH_ENABLED) return json(200, { auth_enabled: false }, origin);
+    if (!AUTH_ENABLED) {
+        logTelemetry("sync_disabled", { endpoint: "sync-playlists", origin });
+        return json(200, { auth_enabled: false }, origin);
+    }
     if (!origin && req.headers.get("origin")) return json(403, { error: "Origin not permitted." });
     if (req.method !== "POST" && req.method !== "GET") return json(405, { error: "Method not allowed" }, origin);
 
     try {
         const user = getJwtUser(req);
-        if (!user) return json(401, { error: "Missing or invalid token" }, origin);
+        if (!user) {
+            logTelemetry("sync_auth_invalid", { endpoint: "sync-playlists", origin });
+            return json(401, { error: "Missing or invalid token" }, origin);
+        }
 
         let plan = "free";
         try {
@@ -37,7 +43,10 @@ export default async function handler(req) {
 
         if (req.method === "GET") {
             const pls = await supabaseRestCall(`playlists?select=id,name,updated_at&order=updated_at.desc`, "GET", null, user.token);
-            if (!pls || pls.length === 0) return json(200, { hasData: false, playlists: [] }, origin);
+            if (!pls || pls.length === 0) {
+                logTelemetry("sync_playlists_hydrate_empty", { endpoint: "sync-playlists", origin });
+                return json(200, { hasData: false, playlists: [] }, origin);
+            }
 
             const pItems = await supabaseRestCall(`playlist_items?select=playlist_id,soundcloud_url,title,artist,bucket,kind,duration_ms,added_at&order=added_at.asc`, "GET", null, user.token);
             const itemsByPl = {};
@@ -62,6 +71,11 @@ export default async function handler(req) {
                 updated_at: p.updated_at,
                 items: itemsByPl[p.id] || []
             }));
+            logTelemetry("sync_playlists_hydrate_success", {
+                endpoint: "sync-playlists",
+                origin,
+                playlists_count: mapped.length
+            });
             return json(200, { hasData: true, playlists: mapped }, origin);
         }
 
@@ -132,11 +146,19 @@ export default async function handler(req) {
             }
         }
 
+        logTelemetry("sync_playlists_success", {
+            endpoint: "sync-playlists",
+            origin,
+            synced: syncedCount,
+            plan: entitlements.plan
+        });
+
         return json(200, {
             synced: syncedCount,
         }, origin);
 
     } catch (err) {
+        logTelemetry("sync_playlists_error", { endpoint: "sync-playlists", origin, error: err.message });
         return json(500, { error: err.message }, origin);
     }
 }

@@ -3,7 +3,7 @@
  * Method: POST
  * Body: { crate: [...tracks], session: { genre... } }
  */
-import { allowOrigin, json } from "./lib/sc-auth-lib.js";
+import { allowOrigin, json, logTelemetry } from "./lib/sc-auth-lib.js";
 import { getJwtUser, supabaseRestCall } from "./sc-supabase-lib.js";
 import { getEntitlementsForPlan } from "./lib/entitlements-lib.js";
 
@@ -16,13 +16,19 @@ export default async function handler(req) {
     }
 
     const origin = allowOrigin(req.headers.get("origin"));
-    if (!AUTH_ENABLED) return json(200, { auth_enabled: false }, origin);
+    if (!AUTH_ENABLED) {
+        logTelemetry("migration_disabled", { endpoint: "migrate-local-data", origin });
+        return json(200, { auth_enabled: false }, origin);
+    }
     if (!origin && req.headers.get("origin")) return json(403, { error: "Origin not permitted." });
     if (req.method !== "POST") return json(405, { error: "Method not allowed" }, origin);
 
     try {
         const user = getJwtUser(req);
-        if (!user) return json(401, { error: "Missing or invalid token" }, origin);
+        if (!user) {
+            logTelemetry("migration_auth_invalid", { endpoint: "migrate-local-data", origin });
+            return json(401, { error: "Missing or invalid token" }, origin);
+        }
 
         let plan = "free";
         try {
@@ -108,9 +114,19 @@ export default async function handler(req) {
             }
         }
 
+        logTelemetry("migration_performed", {
+            endpoint: "migrate-local-data",
+            origin,
+            crate_count: migratedCrate,
+            session_state: migratedSession,
+            playlists_count: migratedPlaylists,
+            plan: entitlements.plan
+        });
+
         return json(200, { migrated: true, crate_count: migratedCrate, session_state: migratedSession, playlists_count: migratedPlaylists }, origin);
 
     } catch (err) {
+        logTelemetry("migration_error", { endpoint: "migrate-local-data", origin, error: err.message });
         return json(500, { error: err.message }, origin);
     }
 }

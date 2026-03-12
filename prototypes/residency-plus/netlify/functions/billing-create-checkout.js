@@ -6,7 +6,7 @@
  * response so the app can continue to function normally.
  */
 
-import { allowOrigin, json } from "./lib/sc-auth-lib.js";
+import { allowOrigin, json, logTelemetry } from "./lib/sc-auth-lib.js";
 import { getJwtUser } from "./sc-supabase-lib.js";
 
 const BILLING_ENABLED = process.env.BILLING_ENABLED === "true";
@@ -30,12 +30,16 @@ export default async function handler(req) {
   if (req.method !== "POST") return json(405, { error: "Method not allowed" }, origin);
 
   if (!BILLING_ENABLED || !process.env.STRIPE_SECRET_KEY || !STRIPE_PRICE_RESIDENCY_PLUS) {
+    logTelemetry("billing_checkout_disabled", { endpoint: "billing-create-checkout", origin });
     return json(200, { billing_enabled: false }, origin);
   }
 
   try {
     const user = getJwtUser(req);
-    if (!user) return json(401, { error: "Missing or invalid token" }, origin);
+    if (!user) {
+      logTelemetry("billing_checkout_auth_invalid", { endpoint: "billing-create-checkout", origin });
+      return json(401, { error: "Missing or invalid token" }, origin);
+    }
 
     // Lazy-load Stripe only when billing is actually enabled.
     const StripeModule = await import("stripe");
@@ -63,9 +67,16 @@ export default async function handler(req) {
       },
     });
 
+    logTelemetry("billing_checkout_started", {
+      endpoint: "billing-create-checkout",
+      origin,
+      plan: "residency_plus"
+    });
+
     return json(200, { billing_enabled: true, url: session.url }, origin);
   } catch (err) {
     // Foundation only: treat billing failure as non-fatal.
+    logTelemetry("billing_checkout_error", { endpoint: "billing-create-checkout", origin, error: err.message });
     return json(500, { error: err.message || "Billing checkout failed." }, origin);
   }
 }

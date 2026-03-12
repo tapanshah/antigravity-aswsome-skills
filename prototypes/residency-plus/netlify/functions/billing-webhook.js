@@ -6,7 +6,7 @@
  * fully functional even without billing configured.
  */
 
-import { json } from "./lib/sc-auth-lib.js";
+import { json, logTelemetry } from "./lib/sc-auth-lib.js";
 
 const BILLING_ENABLED = process.env.BILLING_ENABLED === "true";
 
@@ -17,6 +17,7 @@ export default async function handler(req) {
 
   if (!BILLING_ENABLED || !process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_WEBHOOK_SECRET) {
     // Billing foundation only; accept and drop.
+    logTelemetry("billing_webhook_disabled", { endpoint: "billing-webhook" });
     return json(200, { billing_enabled: false });
   }
 
@@ -33,6 +34,7 @@ export default async function handler(req) {
     try {
       event = stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET);
     } catch (err) {
+      logTelemetry("billing_webhook_signature_failed", { endpoint: "billing-webhook", error: err.message });
       return json(400, { error: `Webhook signature verification failed: ${err.message}` });
     }
 
@@ -61,7 +63,15 @@ export default async function handler(req) {
           // IDs back to users via public.users.stripe_customer_id.
         }
 
-        if (userId && (type === "customer.subscription.created" || type === "customer.subscription.updated" || type === "checkout.session.completed")) {
+        const isActivate =
+          type === "customer.subscription.created" ||
+          type === "customer.subscription.updated" ||
+          type === "checkout.session.completed";
+        const isCancel =
+          type === "customer.subscription.deleted" ||
+          type === "customer.subscription.cancelled";
+
+        if (userId && isActivate) {
           const plan = "residency_plus";
           const expiresAt = obj.current_period_end
             ? new Date(obj.current_period_end * 1000).toISOString()
@@ -82,7 +92,7 @@ export default async function handler(req) {
           });
         }
 
-        if (userId && (type === "customer.subscription.deleted" || type === "customer.subscription.cancelled")) {
+        if (userId && isCancel) {
           await fetch(`${supabaseUrl}/rest/v1/users?id=eq.${encodeURIComponent(userId)}`, {
             method: "PATCH",
             headers: {
@@ -100,11 +110,24 @@ export default async function handler(req) {
       } catch {
         // Swallow errors for this foundation slice; do not 500.
       }
+        if (userId && isActivate) {
+          logTelemetry("billing_plan_activated", { endpoint: "billing-webhook", user_id: userId, type });
+        } else if (userId && isCancel) {
+          logTelemetry("billing_plan_cancelled", { endpoint: "billing-webhook", user_id: userId, type });
+        } else {
+          logTelemetry("billing_webhook_ignored", { endpoint: "billing-webhook", type });
+        }
+      } catch {
+        // Swallow errors for this foundation slice; do not 500.
+        logTelemetry("billing_webhook_supabase_error", { endpoint: "billing-webhook", type });
+      }
     }
 
+    logTelemetry("billing_webhook_received", { endpoint: "billing-webhook", type });
     return json(200, { received: true, type });
   } catch (err) {
     // Never blank the app due to billing; report but do not break.
+    logTelemetry("billing_webhook_error", { endpoint: "billing-webhook", error: err.message });
     return json(500, { error: err.message || "Webhook handling failed." });
   }
 }
