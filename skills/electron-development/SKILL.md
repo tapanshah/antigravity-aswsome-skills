@@ -325,10 +325,21 @@ win.webContents.on('will-navigate', (event, url) => {
 
 // Prevent new windows from being opened
 win.webContents.setWindowOpenHandler(({ url }) => {
-  // Open external links in the system browser
-  if (url.startsWith('https://')) {
-    require('electron').shell.openExternal(url);
+    try {
+    const externalUrl = new URL(url);
+    const allowedHosts = new Set(['example.com', 'docs.example.com']);
+
+    // Never forward raw renderer-controlled URLs to the OS.
+    // Unvalidated links can enable phishing or abuse platform URL handlers.
+    if (externalUrl.protocol === 'https:' && allowedHosts.has(externalUrl.hostname)) {
+      require('electron').shell.openExternal(externalUrl.toString());
+    } else {
+      console.warn(`Blocked external URL: ${url}`);
+    }
+  } catch {
+    console.warn(`Rejected invalid external URL: ${url}`);
   }
+
   return { action: 'deny' }; // Block all new Electron windows
 });
 ```
