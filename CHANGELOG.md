@@ -8,6 +8,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 
 ## [Unreleased]
+## [7.5.0] - 2026-03-11 - "Socratic Governance"
+
+> **Introducing Truth Engines, Local Inference optimizations, and Advanced Output Formatting**
+
+This release brings major architectural skills for local inferences, cross-jurisdictional legal logic, and advanced document structuring to help your AI agents operate securely and systematically.
+
+## 🚀 New Skills
+
+### ⚖️ [lex](skills/lex/)
+**Cross-Jurisdictional Legal Logic Engine**
+A truth engine for navigating complex legal contexts across different jurisdictions without hallucinations.
+
+### 🛡️ [skill-check](skills/skill-check/)
+**Validation for agentskills.io Specification**
+A read-only skill that validates SKILL.md files against the agentskills specification and Anthropic best practices.
+
+### 🔑 [keyword-extractor](skills/keyword-extractor/)
+**Extract High-Quality SEO Keywords**
+Provides agents with the ability to extract up to 50 high-quality, ranked keywords from any text payload.
+
+### 🧠 [local-llm-expert](skills/local-llm-expert/)
+**Mastery over Local Inference & VRAM Optimization**
+Authoritative guidance on running, configuring, and optimizing large language models locally on consumer and enterprise hardware.
+
+### ✅ [yes-md](skills/yes-md/)
+**AI Governance at the Formatting Layer**
+Instructs generative agents on how to navigate complex formatting rules with a focus on governance and output fidelity.
+
+### 📝 [ai-md](skills/ai-md/)
+**Convert CLAUDE.md to AI-Native Format**
+A sophisticated transformation skill for AI documentation, battle-tested across 4 frontier models.
+
+### 🤔 [explain-like-socrates](skills/explain-like-socrates/)
+**Socratic-Style Concept Explanations**
+Transforms the agent into a Socratic tutor, engaging users in dialogue to teach complex concepts through questioning.
+
+## 👥 Credits
+
+A huge shoutout to our community contributors for making this release possible:
+- **@sx4im** for `local-llm-expert`
+- **@sstklen** for `yes-md` and `ai-md`
+- **@tejasashinde** for `keyword-extractor` and `explain-like-socrates`
+- **@Olga Safonova** for `skill-check`
+
+---
+
 
 - **pipecat-friday-agent** — Iron Man-inspired tactical voice assistant (F.R.I.D.A.Y.) with Pipecat, Gemini, and OpenAI.
 
