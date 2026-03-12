@@ -6,6 +6,7 @@
  */
 import { allowOrigin, json } from "./lib/sc-auth-lib.js";
 import { getJwtUser, supabaseRestCall } from "./sc-supabase-lib.js";
+import { getEntitlementsForPlan } from "./lib/entitlements-lib.js";
 
 const AUTH_ENABLED = process.env.AUTH_ENABLED === "true";
 
@@ -23,6 +24,16 @@ export default async function handler(req) {
     try {
         const user = getJwtUser(req);
         if (!user) return json(401, { error: "Missing or invalid token" }, origin);
+
+        let plan = "free";
+        try {
+            const profile = await supabaseRestCall(`users?id=eq.${user.uid}&select=plan`, "GET", null, user.token);
+            if (profile && profile.length > 0 && profile[0].plan) {
+                plan = profile[0].plan;
+            }
+        } catch {
+        }
+        const entitlements = getEntitlementsForPlan(plan);
 
         if (req.method === "GET") {
             const pls = await supabaseRestCall(`playlists?select=id,name,updated_at&order=updated_at.desc`, "GET", null, user.token);
@@ -58,11 +69,10 @@ export default async function handler(req) {
         const playlists = body.playlists || [];
         if (!Array.isArray(playlists)) return json(400, { error: "Invalid payload format" }, origin);
 
-        // Safe limits for Slice 3
-        const SLICE_3_MAX_PLAYLISTS = 10;
-        const SLICE_3_MAX_ITEMS = 50;
+        const maxPlaylists = entitlements.playlistsLimit;
+        const maxItems = entitlements.playlistItemsLimit;
 
-        const localPlaylists = playlists.slice(0, SLICE_3_MAX_PLAYLISTS);
+        const localPlaylists = playlists.slice(0, maxPlaylists);
 
         // In a real bidirectional sync, we'd fetch cloud state and merge.
         // For local-first "push to cloud" (Slice 3), we will upsert the playlists, 
@@ -87,7 +97,7 @@ export default async function handler(req) {
 
             // 3. Insert new items
             const items = Array.isArray(pl.items) ? pl.items : [];
-            const itemsPayload = items.slice(0, SLICE_3_MAX_ITEMS).map(t => ({
+            const itemsPayload = items.slice(0, maxItems).map(t => ({
                 playlist_id: pl.id,
                 user_id: user.uid,
                 soundcloud_url: t.url,

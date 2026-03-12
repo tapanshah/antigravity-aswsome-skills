@@ -7,7 +7,7 @@ CREATE TABLE public.users (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW(),
-  plan TEXT DEFAULT 'free',         -- 'free' | 'pro'
+  plan TEXT DEFAULT 'free',         -- 'free' | 'residency_plus'
   plan_expires_at TIMESTAMPTZ,
   stripe_customer_id TEXT,
   updated_at TIMESTAMPTZ DEFAULT NOW()
@@ -74,9 +74,6 @@ CREATE TABLE public.session_state (
 );
 ALTER TABLE public.session_state ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users fully own their session state" ON public.session_state FOR ALL USING (auth.uid() = user_id);
-<<<<<<< HEAD
-=======
-
 -- 5. Playlists
 CREATE TABLE public.playlists (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -106,4 +103,18 @@ CREATE INDEX idx_playlist_items_playlist ON public.playlist_items(playlist_id);
 CREATE INDEX idx_playlist_items_user ON public.playlist_items(user_id);
 ALTER TABLE public.playlist_items ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users fully own their playlist items" ON public.playlist_items FOR ALL USING (auth.uid() = user_id);
->>>>>>> main
+
+-- 7. (Future) Entitlements table — reserved for G1 authority
+-- For this slice, entitlements are computed in application code via
+-- netlify/functions/lib/entitlements-lib.js. This table is defined here
+-- for future migration of that logic into the database.
+-- CREATE TABLE public.entitlements (
+--   user_id UUID PRIMARY KEY REFERENCES public.users(id) ON DELETE CASCADE,
+--   crate_limit INTEGER,
+--   history_limit INTEGER,
+--   playlists_limit INTEGER,
+--   playlist_items_limit INTEGER,
+--   export_limit INTEGER,
+--   updated_at TIMESTAMPTZ DEFAULT NOW()
+-- );
+

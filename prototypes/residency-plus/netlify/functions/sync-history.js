@@ -5,6 +5,7 @@
  */
 import { allowOrigin, json } from "./lib/sc-auth-lib.js";
 import { getJwtUser, supabaseRestCall } from "./sc-supabase-lib.js";
+import { getEntitlementsForPlan } from "./lib/entitlements-lib.js";
 
 const AUTH_ENABLED = process.env.AUTH_ENABLED === "true";
 
@@ -22,6 +23,16 @@ export default async function handler(req) {
     try {
         const user = getJwtUser(req);
         if (!user) return json(401, { error: "Missing or invalid token" }, origin);
+
+        let plan = "free";
+        try {
+            const profile = await supabaseRestCall(`users?id=eq.${user.uid}&select=plan`, "GET", null, user.token);
+            if (profile && profile.length > 0 && profile[0].plan) {
+                plan = profile[0].plan;
+            }
+        } catch {
+        }
+        const entitlements = getEntitlementsForPlan(plan);
 
         if (req.method === "GET") {
             const data = await supabaseRestCall(`history?select=soundcloud_url,title,artist,bucket,played_at&order=played_at.desc&limit=50`, "GET", null, user.token);
@@ -42,10 +53,9 @@ export default async function handler(req) {
         const tracks = body.tracks || [];
         if (!Array.isArray(tracks)) return json(400, { error: "Invalid payload format" }, origin);
 
-        // Limit payload size to prevent abuse
-        const SLICE_2_LIMIT = 50;
+        const limit = entitlements.historyLimit;
 
-        const payload = tracks.slice(0, SLICE_2_LIMIT).map(t => ({
+        const payload = tracks.slice(0, limit).map(t => ({
             user_id: user.uid,
             soundcloud_url: t.url,
             title: t.title,

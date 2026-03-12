@@ -6,6 +6,7 @@
  */
 import { allowOrigin, json } from "./lib/sc-auth-lib.js";
 import { getJwtUser, supabaseRestCall } from "./sc-supabase-lib.js";
+import { getEntitlementsForPlan } from "./lib/entitlements-lib.js";
 
 const AUTH_ENABLED = process.env.AUTH_ENABLED === "true";
 
@@ -23,6 +24,18 @@ export default async function handler(req) {
     try {
         const user = getJwtUser(req);
         if (!user) return json(401, { error: "Missing or invalid token" }, origin);
+
+        // Determine plan for entitlement limits (falls back to free)
+        let plan = "free";
+        try {
+            const profile = await supabaseRestCall(`users?id=eq.${user.uid}&select=plan`, "GET", null, user.token);
+            if (profile && profile.length > 0 && profile[0].plan) {
+                plan = profile[0].plan;
+            }
+        } catch {
+            // If plan lookup fails, default entitlements still apply (free)
+        }
+        const entitlements = getEntitlementsForPlan(plan);
 
         if (req.method === "GET") {
             const data = await supabaseRestCall(`crate?select=soundcloud_url,title,artist,bucket,kind,duration_ms,saved_at&order=saved_at.desc`, "GET", null, user.token);
@@ -46,11 +59,9 @@ export default async function handler(req) {
         const tracks = body.tracks || [];
         if (!Array.isArray(tracks)) return json(400, { error: "Invalid payload format" }, origin);
 
-        // For slice 2, we just enforce a hard limit of 50 for all users for safety.
-        // Slice 5 will dynamically gate this based on plan.
-        const SLICE_2_LIMIT = 50;
+        const limit = entitlements.crateLimit;
 
-        const payload = tracks.slice(0, SLICE_2_LIMIT).map(t => ({
+        const payload = tracks.slice(0, limit).map(t => ({
             user_id: user.uid,
             soundcloud_url: t.url,
             title: t.title,
