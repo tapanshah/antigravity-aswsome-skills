@@ -166,6 +166,42 @@ const event = completion.choices[0].message.parsed;
 
 ## Never Do This
 
+1. **Never use `response_format: { type: "json_object" }` without a schema.** This is OpenAI's legacy JSON mode — it guarantees valid JSON syntax but not schema conformance. The model can return `{"result": "hello"}` when you expected `{"name": str, "age": int}`. Always use `json_schema` with a full schema definition instead.
+
+2. **Never parse Anthropic's text blocks for structured data.** When using `tool_choice` to force structured output, the data is in the `tool_use` content block, not in any `text` block. Parsing `response.content[0].text` will either return empty string or a conversational preamble — never the data you need.
+
+3. **Never define schema fields without descriptions.** A field named `status` with no description can mean HTTP status, order status, or review status. Models use field descriptions as extraction instructions. Omitting them is equivalent to omitting half your prompt.
+
+4. **Never use `additionalProperties: true` in strict mode schemas.** OpenAI's strict mode requires `additionalProperties: false` on every object in the schema. If you set it to true or omit it, the API rejects the request with a 400 error, not at response time — you will never get a response at all.
+
+5. **Never put extraction instructions only in the user message and not the system prompt.** The system prompt has higher attention weight for behavioral instructions. Putting "extract the following fields" only in the user message alongside the source text forces the model to split attention between the instruction and the data. System prompt defines behavior; user message provides input data.
+
+6. **Never assume structured output means correct output.** Constrained decoding guarantees the response matches the schema's types and structure. It does not guarantee the values are correct. A model can return `{"sentiment": "positive"}` for a negative review if the source text is ambiguous. Always validate semantics in application code after schema validation.
+
+7. **Never use recursive or deeply nested schemas without testing.** Recursive types (`$ref` pointing to the same definition) and schemas deeper than 3 levels increase decoding latency significantly and raise the probability of the model hitting max_tokens before completing the JSON structure. Flatten nested schemas where possible.
+
 ## Edge Cases
 
+1. **Long source text exceeding context window.** When the input text is too long, the model may truncate its reading and return incomplete extractions. Split long documents into chunks, extract from each chunk independently, then merge results in application code. Do not rely on the model to handle 50-page documents in a single call.
+
+2. **The model returns a `refusal` instead of structured data.** OpenAI's structured output can return a `refusal` field when the model considers the request unsafe. Check `response.choices[0].message.refusal` before accessing `.parsed`. If `refusal` is not None, the parsed data will be None and accessing it throws an error.
+
+3. **Array fields returning empty when data exists.** Models sometimes return `[]` for array fields when the source text contains the data but the field description is too vague. Fix by making the description prescriptive: `"List of all product names mentioned in the text. Return at least one if any product is referenced."`.
+
+4. **Enum values not matching due to casing.** If you define an enum as `["Active", "Inactive"]` but the model returns `"active"`, validation fails. Either lowercase all enum values in the schema or add a normalization step before validation. OpenAI's strict mode respects exact casing; Anthropic may not.
+
+5. **Streaming with structured output.** OpenAI supports streaming structured output where partial JSON arrives chunk by chunk. You cannot parse intermediate chunks as valid JSON. Use the `openai` SDK's built-in partial parsing or buffer chunks until the stream completes. Anthropic's tool_use blocks arrive complete in a single `content_block_stop` event — no partial assembly needed.
+
 ## Best Practices
+
+1. **Start with the simplest schema that solves the problem.** Flat objects with 3-5 fields produce higher accuracy than nested schemas with 20+ fields. If you need complex data, extract in two passes: first extract top-level entities, then make a second call to extract details for each entity.
+
+2. **Use enums instead of free-form strings for categorical data.** A field `mood: str` can return anything. A field `mood: Literal["happy", "sad", "neutral", "angry"]` constrains the model to exactly those values. This reduces downstream parsing logic to zero.
+
+3. **Pin the model version in production.** `gpt-4o` is an alias that changes when OpenAI releases new versions. Structured output behavior can change between versions. Use `gpt-4o-2024-08-06` explicitly so that your schema+prompt combination remains stable until you deliberately upgrade.
+
+4. **Test schema changes against 20+ real inputs before deploying.** Schema changes (adding a field, changing a type, modifying a description) can break extraction on inputs that previously worked. Build a test suite of real inputs with expected outputs and run it on every schema change. This is the structured output equivalent of unit testing.
+
+5. **Use `default` values in Pydantic models for optional fields.** When a field might not have relevant data in the source text, define it as `Optional[str] = None` in Pydantic or `.optional()` in Zod. Without defaults, the model is forced to hallucinate a value for fields where the source text has no answer.
+
+6. **Separate extraction schemas from application schemas.** Your LLM extraction schema should match what the model can reliably produce. Your application database schema may have additional computed fields, foreign keys, or constraints. Map between them in application code — do not force the LLM to understand your database schema.
