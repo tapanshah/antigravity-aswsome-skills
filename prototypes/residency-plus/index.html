@@ -1683,7 +1683,7 @@
     }
 
     // ===== Scoring / selection =====
-    function computeDigScore(it) {
+    function computeDigScore(it, bucket) {
       const plays = Number(it?.playback_count ?? it?.play_count ?? it?.plays ?? 0) || 0;
       const likes = Number(it?.favoritings_count ?? it?.likes_count ?? it?.likes ?? 0) || 0;
       const comms = Number(it?.comment_count ?? it?.comments ?? 0) || 0;
@@ -1698,7 +1698,15 @@
         const days = Math.max(0, (Date.now() - created) / (1000 * 60 * 60 * 24));
         recency = Math.max(0, 1 - days / 365) * 0.18;
       }
-      const score = (engagement * 100) + (recency * 100) - (sizePenalty * 12);
+
+      let literalPenalty = 0;
+      if (bucket && it?.title) {
+        const t = it.title.toLowerCase().trim();
+        const b = bucket.toLowerCase().trim();
+        if (t === b) literalPenalty = 40;
+      }
+
+      const score = (engagement * 100) + (recency * 100) - (sizePenalty * 12) - literalPenalty;
       return Math.round(Math.max(0, Math.min(100, score)));
     }
 
@@ -1762,7 +1770,9 @@
         plays: it?.playback_count ?? null,
         likes: it?.favoritings_count ?? null,
         comments: it?.comment_count ?? null,
-        _score: computeDigScore(it)
+        _discovery_pool: forcedBucket || "other",
+        _penalty_applied: (it?.title?.toLowerCase()?.trim() === (forcedBucket || "").toLowerCase().trim()),
+        _score: computeDigScore(it, forcedBucket)
       };
       return pushUnique(item);
     }
@@ -1837,47 +1847,47 @@
 
     // ===== Auto-dig (automatic per filter) =====
     const DIG_TOKENS = ["dub", "version", "edit", "refix", "bootleg", "flip", "vip", "white label", "test press", "promo", "unreleased", "demo", "instrumental", "acapella", "rough", "tape", "archive", "b-side", "tool", "live take"];
-    const GENRE_PACKS = {
-      leftfield: ["deconstructed club", "outsider electronic", "broken beat", "abstract club", "leftfield"],
-      dancehall: ["dancehall", "bashment", "jamaican riddim", "dubplate", "soundclash"],
-      hiphop: ["underground rap", "alt rap", "rap loosie", "indie rap"],
-      rnb: ["alt rnb", "neo soul", "future rnb", "rnb demo"],
-      afrobeats: ["afrobeats", "amapiano", "afro fusion", "afro rhythms"],
-      house: ["deep house", "minimal house", "house dub", "club tool"],
-      techno: ["hypnotic techno", "warehouse techno", "techno tool", "techno dub"],
-      dnb: ["drum and bass", "jungle", "liquid dnb", "rollers"],
-      dubstep: ["dubstep", "140", "deep dubstep", "uk dubstep"],
-      futuregarage: ["future garage", "2-step", "ambient garage", "uk bass"],
-      ukg: ["uk garage", "2-step", "speed garage", "ukg"],
-      breakbeat: ["breakbeat", "breaks", "acid breaks", "nu breaks"],
-      bass: ["halftime", "bass music", "leftfield bass", "experimental bass"],
-      trance: ["trance", "progressive trance", "hard trance", "uplifting trance"],
-      electro: ["electro", "electro breaks", "electro tool"],
-      idm: ["idm", "braindance", "glitch", "experimental electronic"],
-      experimental: ["experimental", "outsider", "abstract electronic", "weird electronic"],
-      reggae: ["roots reggae", "dub reggae", "reggae", "dub"],
-      soca: ["soca", "carnival", "road march"],
-      afrohouse: ["afro house", "tribal house", "afro deep"],
-      brazil: ["baile funk", "funk br", "mandelao"],
-      latin: ["reggaeton", "latin club", "perreo"],
-      world: ["global beats", "world", "folk"],
-      ambient: ["ambient", "drone", "soundscape", "field recording"],
-      downtempo: ["downtempo", "trip hop", "leftfield chill"],
-      lofi: ["tape", "lofi", "cassette", "beat tape"],
-      soul: ["soul", "rare groove", "samples", "crate dig"],
-      jazz: ["jazz", "spiritual jazz", "jazz fusion"],
-      classical: ["modern classical", "neo classical", "minimal piano"],
-      industrial: ["industrial", "ebm", "dark electro"],
-      noise: ["noise", "harsh noise", "power electronics"],
-      drone: ["drone", "dark drone", "ambient drone"],
-      punk: ["punk", "post punk", "hardcore punk"],
-      metal: ["metal", "black metal", "doom metal"],
-      other: ["underground", "rare", "archive", "demo"]
+    const DISCOVERY_SEEDS = {
+      leftfield: { anchors: ["leftfield", "broken beat"], adjacent: ["deconstructed club", "outsider electronic", "abstract club"] },
+      dancehall: { anchors: ["dancehall", "bashment"], adjacent: ["jamaican riddim", "dubplate", "soundclash"] },
+      hiphop: { anchors: ["underground rap", "alt rap"], adjacent: ["rap loosie", "indie rap", "boom bap"] },
+      rnb: { anchors: ["alt rnb", "neo soul"], adjacent: ["future rnb", "rnb demo"] },
+      afrobeats: { anchors: ["afrobeats", "amapiano"], adjacent: ["afro fusion", "afro rhythms", "log drum"] },
+      house: { anchors: ["deep house", "minimal house"], adjacent: ["house dub", "club tool", "lofi house"] },
+      techno: { anchors: ["hypnotic techno", "warehouse techno"], adjacent: ["techno tool", "techno dub", "dub techno"] },
+      dnb: { anchors: ["drum and bass", "jungle"], adjacent: ["liquid dnb", "rollers", "jump up"] },
+      dubstep: { anchors: ["dubstep", "140"], adjacent: ["deep dubstep", "uk dubstep", "dungeon"] },
+      futuregarage: { anchors: ["future garage", "2-step"], adjacent: ["ambient garage", "uk bass"] },
+      ukg: { anchors: ["uk garage", "2-step"], adjacent: ["speed garage", "ukg"] },
+      breakbeat: { anchors: ["breakbeat", "breaks"], adjacent: ["acid breaks", "nu breaks", "jungle breaks"] },
+      bass: { anchors: ["halftime", "bass music"], adjacent: ["leftfield bass", "experimental bass"] },
+      trance: { anchors: ["trance", "progressive trance"], adjacent: ["hard trance", "uplifting trance"] },
+      electro: { anchors: ["electro", "electro breaks"], adjacent: ["electro tool", "detroit electro"] },
+      idm: { anchors: ["idm", "braindance"], adjacent: ["glitch", "experimental electronic"] },
+      experimental: { anchors: ["experimental", "outsider"], adjacent: ["abstract electronic", "weird electronic"] },
+      reggae: { anchors: ["roots reggae", "dub reggae"], adjacent: ["reggae", "dub"] },
+      soca: { anchors: ["soca", "carnival"], adjacent: ["road march"] },
+      afrohouse: { anchors: ["afro house", "tribal house"], adjacent: ["afro deep"] },
+      brazil: { anchors: ["baile funk", "funk br"], adjacent: ["mandelao"] },
+      latin: { anchors: ["reggaeton", "latin club"], adjacent: ["perreo"] },
+      world: { anchors: ["global beats", "world"], adjacent: ["folk"] },
+      ambient: { anchors: ["ambient", "drone"], adjacent: ["soundscape", "field recording"] },
+      downtempo: { anchors: ["downtempo", "trip hop"], adjacent: ["leftfield chill"] },
+      lofi: { anchors: ["lofi", "tape"], adjacent: ["cassette", "beat tape"] },
+      soul: { anchors: ["soul", "rare groove"], adjacent: ["samples", "crate dig"] },
+      jazz: { anchors: ["jazz", "spiritual jazz"], adjacent: ["jazz fusion"] },
+      classical: { anchors: ["modern classical", "neo classical"], adjacent: ["minimal piano"] },
+      industrial: { anchors: ["industrial", "ebm"], adjacent: ["dark electro"] },
+      noise: { anchors: ["noise", "harsh noise"], adjacent: ["power electronics"] },
+      drone: { anchors: ["drone", "dark drone"], adjacent: ["ambient drone"] },
+      punk: { anchors: ["punk", "post punk"], adjacent: ["hardcore punk"] },
+      metal: { anchors: ["metal", "black metal"], adjacent: ["doom metal"] },
+      other: { anchors: ["underground", "rare"], adjacent: ["archive", "demo"] }
     };
 
     function packKeyFor(bucket) {
       const x = (bucket || "").toLowerCase();
-      return GENRE_PACKS[x] ? x : "other";
+      return DISCOVERY_SEEDS[x] ? x : "other";
     }
 
     async function runPool(tasks, concurrency = 3) {
@@ -1898,14 +1908,18 @@
       const mode = sourceSelect.value;
       const bucket = (bucketValue === "all") ? "other" : bucketValue;
       const packKey = packKeyFor(bucket);
-      const baseTerms = GENRE_PACKS[packKey] || GENRE_PACKS.other;
+      const pack = DISCOVERY_SEEDS[packKey] || DISCOVERY_SEEDS.other;
+      const anchors = pack.anchors;
+      const adjacent = pack.adjacent;
 
-      const tA = DIG_TOKENS[Math.floor(Math.random() * DIG_TOKENS.length)];
-      const tB = DIG_TOKENS[Math.floor(Math.random() * DIG_TOKENS.length)];
+      const randomAnchor = () => anchors[Math.floor(Math.random() * anchors.length)];
+      const randomAdjacent = () => adjacent[Math.floor(Math.random() * adjacent.length)];
+      const randomToken = () => DIG_TOKENS[Math.floor(Math.random() * DIG_TOKENS.length)];
+
       const queries = [
-        `${baseTerms[0]} ${tA}`,
-        `${baseTerms[1] || baseTerms[0]} ${tB}`,
-        `${baseTerms[2] || baseTerms[0]}`
+        `${randomAnchor()} ${randomToken()}`,
+        `${randomAdjacent()} ${randomToken()}`,
+        `${randomAnchor()} ${randomAdjacent()}`
       ];
 
       const wantTracks = (mode !== "set");
@@ -1937,7 +1951,7 @@
       for (const r of results) {
         const collection = Array.isArray(r?.data?.collection) ? r.data.collection : [];
         // prefer better-scoring
-        collection.sort((a, b) => computeDigScore(b) - computeDigScore(a));
+        collection.sort((a, b) => computeDigScore(b, r.bucket) - computeDigScore(a, r.bucket));
         for (const it of collection.slice(0, 55)) {
           const ok = addLibraryItemFromSearchResult(it, r.bucket);
           if (ok) added++;
