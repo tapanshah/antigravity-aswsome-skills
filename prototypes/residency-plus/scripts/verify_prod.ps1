@@ -16,7 +16,13 @@ function Write-Log {
 
 Write-Log "Starting Production Verification..."
 
-$baseUrl = "https://residencysolutions.netlify.app"
+if ($env:VERIFY_PROD_BASE_URL -and $env:VERIFY_PROD_BASE_URL.Trim() -ne "") {
+    $baseUrl = $env:VERIFY_PROD_BASE_URL.Trim()
+    Write-Log "Using VERIFY_PROD_BASE_URL override: $baseUrl"
+} else {
+    $baseUrl = "https://residencysolutions.net"
+    Write-Log "Using default production base URL: $baseUrl"
+}
 
 $endpoints = @(
     @{ Name = "sc-health"; Url = "$baseUrl/.netlify/functions/sc-health" },
