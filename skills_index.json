@@ -80,6 +80,16 @@
     "date_added": "2026-02-27"
   },
   {
+    "id": "acceptance-orchestrator",
+    "path": "skills/acceptance-orchestrator",
+    "category": "uncategorized",
+    "name": "acceptance-orchestrator",
+    "description": "Use when a coding task should be driven end-to-end from issue intake through implementation, review, deployment, and acceptance verification with minimal human re-intervention.",
+    "risk": "safe",
+    "source": "community",
+    "date_added": "2026-03-12"
+  },
+  {
     "id": "accessibility-compliance-accessibility-audit",
     "path": "skills/accessibility-compliance-accessibility-audit",
     "category": "uncategorized",
@@ -3220,6 +3230,16 @@
     "date_added": "2026-02-27"
   },
   {
+    "id": "closed-loop-delivery",
+    "path": "skills/closed-loop-delivery",
+    "category": "uncategorized",
+    "name": "closed-loop-delivery",
+    "description": "Use when a coding task must be completed against explicit acceptance criteria with minimal user re-intervention across implementation, review feedback, deployment, and runtime verification.",
+    "risk": "safe",
+    "source": "community",
+    "date_added": "2026-03-12"
+  },
+  {
     "id": "cloud-architect",
     "path": "skills/cloud-architect",
     "category": "uncategorized",
@@ -3858,6 +3878,16 @@
     "risk": "unknown",
     "source": "unknown",
     "date_added": null
+  },
+  {
+    "id": "create-issue-gate",
+    "path": "skills/create-issue-gate",
+    "category": "uncategorized",
+    "name": "create-issue-gate",
+    "description": "Use when starting a new implementation task and an issue must be created with strict acceptance criteria gating before execution.",
+    "risk": "safe",
+    "source": "community",
+    "date_added": "2026-03-12"
   },
   {
     "id": "create-pr",

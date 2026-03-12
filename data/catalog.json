@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-02-08T00:00:00.000Z",
-  "total": 1246,
+  "total": 1249,
   "skills": [
     {
       "id": "00-andruia-consultant",
@@ -161,6 +161,31 @@
         "execution"
       ],
       "path": "skills/ab-test-setup/SKILL.md"
+    },
+    {
+      "id": "acceptance-orchestrator",
+      "name": "acceptance-orchestrator",
+      "description": "Use when a coding task should be driven end-to-end from issue intake through implementation, review, deployment, and acceptance verification with minimal human re-intervention.",
+      "category": "infrastructure",
+      "tags": [
+        "acceptance",
+        "orchestrator"
+      ],
+      "triggers": [
+        "acceptance",
+        "orchestrator",
+        "coding",
+        "task",
+        "should",
+        "driven",
+        "issue",
+        "intake",
+        "through",
+        "review",
+        "deployment",
+        "verification"
+      ],
+      "path": "skills/acceptance-orchestrator/SKILL.md"
     },
     {
       "id": "accessibility-compliance-accessibility-audit",
@@ -7984,6 +8009,32 @@
       "path": "skills/close-automation/SKILL.md"
     },
     {
+      "id": "closed-loop-delivery",
+      "name": "closed-loop-delivery",
+      "description": "Use when a coding task must be completed against explicit acceptance criteria with minimal user re-intervention across implementation, review feedback, deployment, and runtime verification.",
+      "category": "infrastructure",
+      "tags": [
+        "closed",
+        "loop",
+        "delivery"
+      ],
+      "triggers": [
+        "closed",
+        "loop",
+        "delivery",
+        "coding",
+        "task",
+        "must",
+        "completed",
+        "against",
+        "explicit",
+        "acceptance",
+        "criteria",
+        "minimal"
+      ],
+      "path": "skills/closed-loop-delivery/SKILL.md"
+    },
+    {
       "id": "cloud-architect",
       "name": "cloud-architect",
       "description": "Expert cloud architect specializing in AWS/Azure/GCP multi-cloud infrastructure design, advanced IaC (Terraform/OpenTofu/CDK), FinOps cost optimization, and modern architectural patterns.",
@@ -9519,6 +9570,32 @@
         "starting"
       ],
       "path": "skills/create-branch/SKILL.md"
+    },
+    {
+      "id": "create-issue-gate",
+      "name": "create-issue-gate",
+      "description": "Use when starting a new implementation task and an issue must be created with strict acceptance criteria gating before execution.",
+      "category": "general",
+      "tags": [
+        "create",
+        "issue",
+        "gate"
+      ],
+      "triggers": [
+        "create",
+        "issue",
+        "gate",
+        "starting",
+        "new",
+        "task",
+        "must",
+        "created",
+        "strict",
+        "acceptance",
+        "criteria",
+        "gating"
+      ],
+      "path": "skills/create-issue-gate/SKILL.md"
     },
     {
       "id": "create-pr",

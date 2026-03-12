@@ -626,6 +626,7 @@
       "description": "Operations, observability, and delivery pipelines.",
       "skills": [
         "007",
+        "acceptance-orchestrator",
         "agent-evaluation",
         "airflow-dag-patterns",
         "api-testing-observability-api-mock",
@@ -642,6 +643,7 @@
         "backend-development-feature-development",
         "cicd-automation-workflow-automate",
         "claude-monitor",
+        "closed-loop-delivery",
         "cloud-devops",
         "code-review-ai-ai-review",
         "convex",
