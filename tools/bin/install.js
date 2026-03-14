@@ -244,11 +244,7 @@ function main() {
 
   try {
     console.log("Cloning repository…");
-    if (process.platform === "win32") {
-      run("git", ["-c", "core.symlinks=true", "clone", REPO, tempDir]);
-    } else {
-      run("git", ["clone", REPO, tempDir]);
-    }
+    run("git", ["clone", REPO, tempDir]);
 
     const ref =
       tagArg ||

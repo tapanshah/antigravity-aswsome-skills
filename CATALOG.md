@@ -2,12 +2,13 @@
 
 Generated at: 2026-02-08T00:00:00.000Z
 
-Total skills: 1254
+Total skills: 1259
 
-## architecture (81)
+## architecture (82)
 
 | Skill | Description | Tags | Triggers |
 | --- | --- | --- | --- |
+| `analyze-project` | Forensic root cause analyzer for Antigravity sessions. Classifies scope deltas, rework patterns, root causes, hotspots, and auto-improves prompts/health. | analysis, diagnostics, meta, root-cause, project-health, session-review | analysis, diagnostics, meta, root-cause, project-health, session-review, analyze, forensic, root, cause, analyzer, antigravity |
 | `angular` | Modern Angular (v20+) expert with deep knowledge of Signals, Standalone Components, Zoneless applications, SSR/Hydration, and reactive patterns. | angular | angular, v20, deep, knowledge, signals, standalone, components, zoneless, applications, ssr, hydration, reactive |
 | `angular-state-management` | Master modern Angular state management with Signals, NgRx, and RxJS. Use when setting up global state, managing component stores, choosing between state solu... | angular, state | angular, state, signals, ngrx, rxjs, setting, up, global, managing, component, stores, choosing |
 | `apify-audience-analysis` | Understand audience demographics, preferences, behavior patterns, and engagement quality across Facebook, Instagram, YouTube, and TikTok. | apify, audience | apify, audience, analysis, understand, demographics, preferences, behavior, engagement, quality, facebook, instagram, youtube |
@@ -169,7 +170,7 @@ calculations | startup, business, analyst, market, opportunity | startup, busine
 | `warren-buffett` | Agente que simula Warren Buffett — o maior investidor do seculo XX e XXI, CEO da Berkshire Hathaway, discipulo de Benjamin Graham e socio intelectual de Char... | persona, investing, value-investing, business | persona, investing, value-investing, business, warren, buffett, agente, que, simula, maior, investidor, do |
 | `whatsapp-automation` | Automate WhatsApp Business tasks via Rube MCP (Composio): send messages, manage templates, upload media, and handle contacts. Always search tools first for c... | whatsapp | whatsapp, automation, automate, business, tasks, via, rube, mcp, composio, send, messages, upload |
 
-## data-ai (230)
+## data-ai (231)
 
 | Skill | Description | Tags | Triggers |
 | --- | --- | --- | --- |
@@ -365,6 +366,7 @@ applications. | php | php, pro, write, idiomatic, code, generators, iterators, s
 | `rag-engineer` | Expert in building Retrieval-Augmented Generation systems. Masters embedding models, vector databases, chunking strategies, and retrieval optimization for LL... | rag | rag, engineer, building, retrieval, augmented, generation, masters, embedding, models, vector, databases, chunking |
 | `rag-implementation` | RAG (Retrieval-Augmented Generation) implementation workflow covering embedding selection, vector database setup, chunking strategies, and retrieval optimiza... | rag | rag, retrieval, augmented, generation, covering, embedding, selection, vector, database, setup, chunking, optimization |
 | `react-ui-patterns` | Modern React UI patterns for loading states, error handling, and data fetching. Use when building UI components, handling async data, or managing UI states. | react, ui | react, ui, loading, states, error, handling, data, fetching, building, components, async, managing |
+| `recallmax` | FREE — God-tier long-context memory for AI agents. Injects 500K-1M clean tokens, auto-summarizes with tone/intent preservation, compresses 14-turn history in... | memory, context, rag, summarization, compression, long-context, agent-infrastructure | memory, context, rag, summarization, compression, long-context, agent-infrastructure, recallmax, free, god, tier, long |
 | `robius-state-management` | CRITICAL: Use for Robius state management patterns. Triggers on:
 AppState, persistence, theme switch, 状态管理,
 Scope::with_data, save state, load state, serde,
@@ -602,7 +604,7 @@ no matching field, parse error, widget... | makepad, reference | makepad, refere
 | `zod-validation-expert` | Expert in Zod — TypeScript-first schema validation. Covers parsing, custom errors, refinements, type inference, and integration with React Hook Form, Next.js... | zod, validation | zod, validation, typescript, first, schema, covers, parsing, custom, errors, refinements, type, inference |
 | `zustand-store-ts` | Create Zustand stores with TypeScript, subscribeWithSelector middleware, and proper state/action separation. Use when building React state management, creati... | zustand, store, ts | zustand, store, ts, stores, typescript, subscribewithselector, middleware, proper, state, action, separation, building |
 
-## general (298)
+## general (300)
 
 | Skill | Description | Tags | Triggers |
 | --- | --- | --- | --- |
@@ -762,6 +764,7 @@ a... | evolution | evolution, critical, makepad, skills, self, contribution, tri
 | `issues` | Interact with GitHub issues - create, list, and view issues. | issues | issues, interact, github, list, view |
 | `julia-pro` | Master Julia 1.10+ with modern features, performance optimization, multiple dispatch, and production-ready practices. | julia | julia, pro, 10, features, performance, optimization, multiple, dispatch |
 | `last30days` | Research a topic from the last 30 days on Reddit + X + Web, become an expert, and write copy-paste-ready prompts for the user's target tool. | last30days | last30days, research, topic, last, 30, days, reddit, web, become, write, copy, paste |
+| `latex-paper-conversion` | This skill should be used when the user asks to convert an academic paper in LaTeX from one format (e.g., Springer, IPOL) to another format (e.g., MDPI, IEEE... | latex, paper, conversion | latex, paper, conversion, skill, should, used, user, asks, convert, academic, one, format |
 | `legacy-modernizer` | Refactor legacy codebases, migrate outdated frameworks, and implement gradual modernization. Handles technical debt, dependency updates, and backward compati... | legacy, modernizer | legacy, modernizer, refactor, codebases, migrate, outdated, frameworks, gradual, modernization, technical, debt, dependency |
 | `leiloeiro-avaliacao` | Avaliacao pericial de imoveis em leilao. Valor de mercado, liquidacao forcada, ABNT NBR 14653, metodos comparativo/renda/custo, CUB e margem de seguranca. | real-estate, valuation, appraisal, brazilian | real-estate, valuation, appraisal, brazilian, leiloeiro, avaliacao, pericial, de, imoveis, em, leilao, valor |
 | `leiloeiro-ia` | Especialista em leiloes judiciais e extrajudiciais de imoveis. Analise juridica, pericial e de mercado integrada. Orquestra os 5 modulos especializados. | auction, ai-analysis, real-estate, brazilian | auction, ai-analysis, real-estate, brazilian, leiloeiro, ia, especialista, em, leiloes, judiciais, extrajudiciais, de |
@@ -896,6 +899,7 @@ matrix-sdk, matrix client, robrix, mat... | robius, matrix, integration | robius
 | `threejs-shaders` | Three.js shaders - GLSL, ShaderMaterial, uniforms, custom effects. Use when creating custom visual effects, modifying vertices, writing fragment shaders, or ... | threejs, shaders | threejs, shaders, three, js, glsl, shadermaterial, uniforms, custom, effects, creating, visual, modifying |
 | `threejs-skills` | Create 3D scenes, interactive experiences, and visual effects using Three.js. Use when user requests 3D graphics, WebGL experiences, 3D visualizations, anima... | threejs, skills | threejs, skills, 3d, scenes, interactive, experiences, visual, effects, three, js, user, requests |
 | `threejs-textures` | Three.js textures - texture types, UV mapping, environment maps, texture settings. Use when working with images, UV coordinates, cubemaps, HDR environments, ... | threejs, textures | threejs, textures, three, js, texture, types, uv, mapping, environment, maps, settings, working |
+| `tool-use-guardian` | FREE — Intelligent tool-call reliability wrapper. Monitors, retries, fixes, and learns from tool failures. Auto-recovers from truncated JSON, timeouts, rate ... | reliability, tool-use, error-handling, retries, recovery, agent-infrastructure | reliability, tool-use, error-handling, retries, recovery, agent-infrastructure, guardian, free, intelligent, call, wrapper, monitors |
 | `turborepo-caching` | Configure Turborepo for efficient monorepo builds with local and remote caching. Use when setting up Turborepo, optimizing build pipelines, or implementing d... | turborepo, caching | turborepo, caching, configure, efficient, monorepo, local, remote, setting, up, optimizing, pipelines, implementing |
 | `tutorial-engineer` | Creates step-by-step tutorials and educational content from code. Transforms complex concepts into progressive learning experiences with hands-on examples. | tutorial | tutorial, engineer, creates, step, tutorials, educational, content, code, transforms, complex, concepts, progressive |
 | `ui-skills` | Opinionated, evolving constraints to guide agents when building interfaces | ui, skills | ui, skills, opinionated, evolving, constraints, agents, building, interfaces |
@@ -923,7 +927,7 @@ matrix-sdk, matrix client, robrix, mat... | robius, matrix, integration | robius
 | `yann-lecun-tecnico` | Sub-skill técnica de Yann LeCun. Cobre CNNs, LeNet, backpropagation, JEPA (I-JEPA, V-JEPA, MC-JEPA), AMI (Advanced Machinery of Intelligence), Self-Supervise... | persona, cnn, jepa, self-supervised, pytorch | persona, cnn, jepa, self-supervised, pytorch, yann, lecun, tecnico, sub, skill, cnica, de |
 | `youtube-summarizer` | Extract transcripts from YouTube videos and generate comprehensive, detailed summaries using intelligent analysis frameworks | [video, summarization, transcription, youtube, content-analysis] | [video, summarization, transcription, youtube, content-analysis], summarizer, extract, transcripts, videos, generate, detailed, summaries |
 
-## infrastructure (134)
+## infrastructure (135)
 
 | Skill | Description | Tags | Triggers |
 | --- | --- | --- | --- |
@@ -1013,6 +1017,7 @@ scripts. | bash | bash, pro, defensive, scripting, automation, ci, cd, pipelines
 | `istio-traffic-management` | Configure Istio traffic management including routing, load balancing, circuit breakers, and canary deployments. Use when implementing service mesh traffic po... | istio, traffic | istio, traffic, configure, including, routing, load, balancing, circuit, breakers, canary, deployments, implementing |
 | `iterate-pr` | Iterate on a PR until CI passes. Use when you need to fix CI failures, address review feedback, or continuously push fixes until all checks are green. Automa... | iterate, pr | iterate, pr, until, ci, passes, fix, failures, address, review, feedback, continuously, push |
 | `java-pro` | Master Java 21+ with modern features like virtual threads, pattern matching, and Spring Boot 3.x. Expert in the latest Java ecosystem including GraalVM, Proj... | java | java, pro, 21, features, like, virtual, threads, matching, spring, boot, latest, ecosystem |
+| `k6-load-testing` | Comprehensive k6 load testing skill for API, browser, and scalability testing. Write realistic load scenarios, analyze results, and integrate with CI/CD. | k6, load-testing, performance, api-testing, ci-cd | k6, load-testing, performance, api-testing, ci-cd, load, testing, skill, api, browser, scalability, write |
 | `kpi-dashboard-design` | Design effective KPI dashboards with metrics selection, visualization best practices, and real-time monitoring patterns. Use when building business dashboard... | kpi, dashboard | kpi, dashboard, effective, dashboards, metrics, selection, visualization, real, time, monitoring, building, business |
 | `kubernetes-architect` | Expert Kubernetes architect specializing in cloud-native infrastructure, advanced GitOps workflows (ArgoCD/Flux), and enterprise container orchestration. | kubernetes | kubernetes, architect, specializing, cloud, native, infrastructure, gitops, argocd, flux, enterprise, container, orchestration |
 | `kubernetes-deployment` | Kubernetes deployment workflow for container orchestration, Helm charts, service mesh, and production-ready K8s configurations. | kubernetes, deployment | kubernetes, deployment, container, orchestration, helm, charts, mesh, k8s, configurations |
