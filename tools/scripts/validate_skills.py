@@ -4,6 +4,7 @@ import argparse
 import sys
 import io
 import yaml
+from collections.abc import Mapping
 from _project_paths import find_repo_root
 
 
@@ -50,6 +51,8 @@ def parse_frontmatter(content, rel_path=None):
     fm_errors = []
     try:
         metadata = yaml.safe_load(fm_text) or {}
+        if not isinstance(metadata, Mapping):
+            return None, ["Frontmatter must be a YAML mapping/object."]
         
         # Identification of the specific regression issue for better reporting
         if "description" in metadata:
@@ -59,7 +62,7 @@ def parse_frontmatter(content, rel_path=None):
             elif desc == "|":
                 fm_errors.append("description contains only the YAML block indicator '|', likely due to a parsing regression.")
         
-        return metadata, fm_errors
+        return dict(metadata), fm_errors
     except yaml.YAMLError as e:
         return None, [f"YAML Syntax Error: {e}"]
 
@@ -86,6 +89,9 @@ def validate_skills(skills_dir, strict_mode=False):
         if "SKILL.md" in files:
             skill_count += 1
             skill_path = os.path.join(root, "SKILL.md")
+            if os.path.islink(skill_path):
+                warnings.append(f"⚠️  {os.path.relpath(skill_path, skills_dir)}: Skipping symlinked SKILL.md")
+                continue
             rel_path = os.path.relpath(skill_path, skills_dir)
             
             try:
