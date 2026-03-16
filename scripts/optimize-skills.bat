@@ -8,14 +8,18 @@ set "SKILLS_DIR=%USERPROFILE%\.gemini\antigravity\skills"
 set "ARCHIVE_DIR=%USERPROFILE%\.gemini\antigravity\skills_archive"
 
 :: 1. Rename the bloated folder so the agent stops looking at it
+set "CURRENT_ARCHIVE_NAME="
 if exist "%SKILLS_DIR%" (
-    echo Archiving existing skills to %ARCHIVE_DIR%...
     if exist "%ARCHIVE_DIR%" (
         echo Archive folder already exists. Appending timestamp...
         set "timestamp=%date:~10,4%%date:~4,2%%date:~7,2%_%time:~0,2%%time:~3,2%%time:~6,2%"
         set "timestamp=!timestamp: =0!"
-        ren "%SKILLS_DIR%" "skills_archive_!timestamp!"
+        set "CURRENT_ARCHIVE_NAME=skills_archive_!timestamp!"
+        echo Archiving existing skills to !CURRENT_ARCHIVE_NAME!...
+        ren "%SKILLS_DIR%" "!CURRENT_ARCHIVE_NAME!"
     ) else (
+        set "CURRENT_ARCHIVE_NAME=skills_archive"
+        echo Archiving existing skills to skills_archive...
         ren "%SKILLS_DIR%" "skills_archive"
     )
 )
@@ -62,9 +66,12 @@ if "!QUERIES!"=="Essentials" (
 echo Skills to restore: !ESSENTIALS!
 echo.
 
-set "SRC=%ARCHIVE_DIR%"
-if not exist "%SRC%" (
-    :: Find the most recent archive if we used a timestamp
+:: If we just created an archive, use it. Otherwise, find the latest one.
+set "SRC="
+if not "!CURRENT_ARCHIVE_NAME!"=="" (
+    set "SRC=%USERPROFILE%\.gemini\antigravity\!CURRENT_ARCHIVE_NAME!"
+) else (
+    :: Find the most recent archive (ordered by name descending, so timestamped ones come first)
     for /f "delims=" %%i in ('dir /b /ad /o-n "%USERPROFILE%\.gemini\antigravity\skills_archive*"') do (
         set "SRC=%USERPROFILE%\.gemini\antigravity\%%i"
         goto :found_src
