@@ -1042,6 +1042,8 @@
             />
           </div>
           <button id="vibeBtn" class="btn" title="Vibe Search">Vibe</button>
+          <select id="vibePresetSelect" class="miniSelect" style="display:none; max-width:180px; font-size:11px;" title="Vibe presets"></select>
+          <button id="vibePresetManageBtn" class="btn" style="display:none; font-size:11px; padding:4px 6px;" title="Rename, pin, or delete selected vibe preset">✎</button>
           <button id="saveSessionBtn" class="btn" style="font-size:11px; padding:4px 6px;" title="Save this dig session for later">Save dig</button>
           <select id="sessionSelect" class="miniSelect" style="display:none; max-width:160px; font-size:11px;" title="Reopen a saved dig session"></select>
           <button id="openDrawerBtn" class="btn dots" title="More">⋯</button>
@@ -1152,12 +1154,6 @@
                   <button type="button" id="sourcesSavePresetBtn" class="miniBtn" title="Save current selection as preset">Save preset</button>
                   <button type="button" id="sourcesDeletePresetBtn" class="miniBtn" title="Delete a saved preset">Delete preset</button>
                 </div>
-              </div>
-
-              <div class="row" id="vibePresetsDrawerRow" style="flex-wrap:wrap; gap:8px; display:none;">
-                <span class="mini" style="font-weight:600; width:100%;">Vibe presets</span>
-                <select id="vibePresetSelect" class="miniSelect" style="max-width:180px; font-size:11px;" title="Vibe presets"></select>
-                <button id="vibePresetManageBtn" class="miniBtn" style="font-size:11px; padding:4px 6px;" title="Rename, pin, or delete selected vibe preset">✎</button>
               </div>
 
               <div class="row" id="iaBetaSection" style="display:none; flex-direction:column; gap:6px; margin-top:6px;">
@@ -1331,7 +1327,7 @@
     const STORAGE_KEY_SOURCE_PRESETS = "residencySourcePresets_v1";
 
     // Feature flags
-    const INTERNET_ARCHIVE_BETA_ENABLED = true;
+    const INTERNET_ARCHIVE_BETA_ENABLED = false;
 
     /** Discovery source ids; must match backend SOURCE_IDS. */
     const DISCOVERY_SOURCE_IDS = ["soundcloud", "youtube", "internet_archive", "bandcamp", "vimeo", "tiktok", "instagram", "uploads"];
