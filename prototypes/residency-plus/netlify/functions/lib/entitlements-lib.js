@@ -7,6 +7,8 @@
 
 export const PLAN_FREE = "free";
 export const PLAN_RESIDENCY_PLUS = "residency_plus";
+/** Core plan name for source entitlements (DB may still use residency_plus). */
+export const PLAN_RESIDENCY_PLUS_CORE = "residency_plus_core";
 
 /** All discovery source ids. Used for UI and adapter registry. */
 export const SOURCE_IDS = [
@@ -23,14 +25,26 @@ export const SOURCE_IDS = [
 /** Base unlocked sources per plan (no add-ons). */
 const PLAN_SOURCES = {
   [PLAN_FREE]: ["soundcloud"],
-  [PLAN_RESIDENCY_PLUS]: ["soundcloud", "youtube", "internet_archive", "uploads"]
+  [PLAN_RESIDENCY_PLUS]: ["soundcloud", "youtube", "internet_archive", "uploads"],
+  [PLAN_RESIDENCY_PLUS_CORE]: ["soundcloud", "youtube", "internet_archive", "uploads"]
 };
 
 /** Optional source packs: pack id → source ids. */
 export const SOURCE_PACKS = {
   social_pack: ["instagram", "tiktok"],
-  video_pack: ["vimeo"],
-  bandcamp_beta: ["bandcamp"]
+  archive_pack: ["bandcamp", "vimeo"]
+};
+
+/** Which plan or pack unlocks each source (for locked-source hints). */
+export const SOURCE_UNLOCKED_BY = {
+  soundcloud: "free",
+  youtube: "Residency+ Core",
+  internet_archive: "Residency+ Core",
+  uploads: "Residency+ Core",
+  instagram: "Social Pack",
+  tiktok: "Social Pack",
+  bandcamp: "Archive Pack",
+  vimeo: "Archive Pack"
 };
 
 /**
@@ -41,7 +55,7 @@ export const SOURCE_PACKS = {
  */
 export function getUnlockedSources(plan, addons = []) {
   const p = (plan || "").toLowerCase();
-  const base = PLAN_SOURCES[p] || PLAN_SOURCES[PLAN_FREE];
+  const base = PLAN_SOURCES[p] || PLAN_SOURCES[PLAN_RESIDENCY_PLUS_CORE] || PLAN_SOURCES[PLAN_FREE];
   const set = new Set(base);
   for (const packId of addons) {
     const sources = SOURCE_PACKS[packId];
@@ -63,7 +77,7 @@ export function getEntitlementsForPlan(plan, addons = []) {
   const p = (plan || "").toLowerCase();
   const unlockedSources = getUnlockedSources(p, addons);
 
-  if (p === PLAN_RESIDENCY_PLUS) {
+  if (p === PLAN_RESIDENCY_PLUS || p === PLAN_RESIDENCY_PLUS_CORE) {
     return {
       plan: PLAN_RESIDENCY_PLUS,
       crateLimit: 1000,

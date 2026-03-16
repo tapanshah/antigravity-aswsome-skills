@@ -7,8 +7,9 @@ Internal roadmap for Residency+ multi-source vibe search and shuffle.
 ## NOW (implemented in this pass)
 
 - **Entitlements model for sources**
-  - `entitlements-lib.js`: `unlockedSources` per plan; `SOURCE_PACKS` for add-ons (social_pack, video_pack, bandcamp_beta).
-  - Default: free → `["soundcloud"]`; residency_plus → `["soundcloud","youtube","internet_archive","uploads"]`; packs add instagram/tiktok, vimeo, bandcamp.
+  - `entitlements-lib.js`: `unlockedSources` per plan; `SOURCE_PACKS`: social_pack (instagram, tiktok), archive_pack (bandcamp, vimeo).
+  - Default: free → `["soundcloud"]`; residency_plus_core / residency_plus → `["soundcloud","youtube","internet_archive","uploads"]`; packs add social/archive.
+  - `SOURCE_UNLOCKED_BY` for locked-source hints.
   - `get-entitlements` returns `entitlements.unlockedSources`; no DB schema change (plan-only for now).
 
 - **Sources UI**
@@ -17,18 +18,19 @@ Internal roadmap for Residency+ multi-source vibe search and shuffle.
   - Select all / Clear all; saved source presets (save current, apply from dropdown).
   - Locked sources shown disabled with lock; only checked + entitled sources participate in search/shuffle.
 
-- **State and persistence**
-  - `enabledDiscoverySources` (UI selection) persisted to `residencyDiscoverySources_v1`; source presets to `residencySourcePresets_v1`.
-  - Entitlements from `currentEntitlements.unlockedSources`; selection clamped to unlocked on load and when plan changes.
+- **Source state model** (see docs/SOURCE_SYSTEM.md)
+  - selectedSources (persisted), entitledSources (from API), lockedSources (derived). Discovery uses selected ∩ entitled only.
+  - Source presets: save, load, delete; starter presets (SoundCloud only, Open web, Archive dig, Social, Personal library) seeded when empty.
+  - Locked source click: inline hint (which plan/pack unlocks) + Upgrade button to open account modal.
 
-- **Adapters and discovery**
-  - Placeholder adapters for all eight sources; **implemented** (wired, backend stubs): SoundCloud (existing), YouTube, Internet Archive, User Uploads.
-  - **Scaffold only** (return empty collection): Bandcamp, Vimeo, TikTok, Instagram.
-  - `multiSourceSearch(q, kind, limit)` runs enabled + entitled adapters in parallel; merges results; each item has `_source`.
+- **Adapters and discovery** (see docs/SOURCE_SYSTEM.md)
+  - Adapter interface: `(q, kind?, limit?) => Promise<{ collection, _source }>`; items have url, title, artist, durationMs, optional artworkUrl/id.
+  - Implemented (wired): SoundCloud, YouTube, Internet Archive, User Uploads (Netlify stubs until APIs wired). Scaffold only: Bandcamp, Vimeo, Instagram, TikTok.
+  - `multiSourceSearch` runs only active (selected ∩ entitled) adapters; merges results with _source and _sourceLabel.
 
 - **Search and shuffle**
-  - `quickFill` and vibe search (`fetchVibeCandidates`, `runVibeSearch`) use `multiSourceSearch`; only checked + entitled sources are queried.
-  - Library items carry `_source`; track meta shows source attribution (pill "Source: YouTube", etc.).
+  - `quickFill` and vibe search use `multiSourceSearch`; only selected AND entitled sources are queried (`getActiveDiscoverySources()`).
+  - Result attribution: each item has _source, _sourceLabel, _sourceId, artworkUrl; track meta shows source pill.
   - Non–SoundCloud items skip `scResolve` in `loadItem`; source pill still shown.
 
 - **Defensive**
@@ -46,11 +48,8 @@ Internal roadmap for Residency+ multi-source vibe search and shuffle.
 - **Playback for non-SoundCloud**
   - Today only SoundCloud URLs open in the in-app embed. Next: open YouTube/IA/Uploads in new tab or embed where allowed (policy/compliance first).
 
-- **Source presets UX**
-  - Optional: name presets when saving; delete/rename in drawer.
-
 - **Add-on packs in billing**
-  - Store pack flags (e.g. `social_pack`, `video_pack`, `bandcamp_beta`) in DB (e.g. `users` or `subscriptions`); pass to `getEntitlementsForPlan(plan, addons)` so `unlockedSources` includes pack sources.
+  - Store pack flags (e.g. `social_pack`, `archive_pack`) in DB; pass to `getEntitlementsForPlan(plan, addons)` so `unlockedSources` includes pack sources.
 
 ---
 

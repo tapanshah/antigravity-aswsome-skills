@@ -1144,6 +1144,7 @@
               <div class="row" style="flex-wrap:wrap; gap:8px;">
                 <span class="mini" style="font-weight:600; width:100%;">Discovery sources</span>
                 <div id="discoverySourcesWrap" style="display:flex; flex-wrap:wrap; gap:6px 10px; align-items:center;"></div>
+                <div id="sourceLockedHint" class="mini" style="display:none; margin-top:4px; width:100%; opacity:.9;"></div>
                 <div style="display:flex; gap:6px; flex-wrap:wrap;">
                   <button type="button" id="sourcesSelectAllBtn" class="miniBtn">Select all</button>
                   <button type="button" id="sourcesClearAllBtn" class="miniBtn">Clear all</button>
@@ -1151,6 +1152,7 @@
                     <option value="">Presets</option>
                   </select>
                   <button type="button" id="sourcesSavePresetBtn" class="miniBtn" title="Save current selection as preset">Save preset</button>
+                  <button type="button" id="sourcesDeletePresetBtn" class="miniBtn" title="Delete a saved preset">Delete preset</button>
                 </div>
               </div>
 
@@ -1315,6 +1317,16 @@
     /** Discovery source ids; must match backend SOURCE_IDS. */
     const DISCOVERY_SOURCE_IDS = ["soundcloud", "youtube", "internet_archive", "bandcamp", "vimeo", "tiktok", "instagram", "uploads"];
     const DISCOVERY_SOURCE_LABELS = { soundcloud: "SoundCloud", youtube: "YouTube", internet_archive: "Internet Archive", bandcamp: "Bandcamp", vimeo: "Vimeo", tiktok: "TikTok", instagram: "Instagram", uploads: "User Uploads" };
+    /** Which plan/pack unlocks each source (for locked-source hints). Match backend SOURCE_UNLOCKED_BY. */
+    const DISCOVERY_SOURCE_UNLOCKED_BY = { soundcloud: "Free", youtube: "Residency+ Core", internet_archive: "Residency+ Core", uploads: "Residency+ Core", instagram: "Social Pack", tiktok: "Social Pack", bandcamp: "Archive Pack", vimeo: "Archive Pack" };
+    /** Starter source presets (used when none saved yet). */
+    const DEFAULT_SOURCE_PRESETS = [
+      { id: "preset_soundcloud_only", name: "SoundCloud only", sources: ["soundcloud"] },
+      { id: "preset_open_web", name: "Open web", sources: ["soundcloud", "youtube", "internet_archive"] },
+      { id: "preset_archive_dig", name: "Archive dig", sources: ["soundcloud", "internet_archive", "bandcamp"] },
+      { id: "preset_social", name: "Social", sources: ["soundcloud", "instagram", "tiktok"] },
+      { id: "preset_personal_library", name: "Personal library", sources: ["soundcloud", "uploads"] }
+    ];
 
     // Supabase config (filled via deploy-time env replacement)
     const SUPA_URL = "%%SUPABASE_URL%%";
@@ -1440,6 +1452,7 @@
     const sourcesClearAllBtn = document.getElementById("sourcesClearAllBtn");
     const sourcePresetSelect = document.getElementById("sourcePresetSelect");
     const sourcesSavePresetBtn = document.getElementById("sourcesSavePresetBtn");
+    const sourcesDeletePresetBtn = document.getElementById("sourcesDeletePresetBtn");
 
     const themeBtn = document.getElementById("themeBtn");
     const vibeInput = document.getElementById("vibeInput");
@@ -1971,6 +1984,9 @@
     function searchScaffold(sourceId) {
       return async () => ({ collection: [], _source: sourceId });
     }
+    /** Adapter interface: each adapter (q, kind?, limit?, isPool?) => Promise<{ collection, _source }>.
+     * collection items: at least { url, title, artist?, durationMs|duration, _source }; optional: id, artworkUrl|image, created_at, tags.
+     * SoundCloud: existing scSearch; YouTube/IA/Uploads: Netlify functions (stub or live); Bandcamp/Vimeo/Instagram/TikTok: scaffold only. */
     const SOURCE_ADAPTERS = {
       soundcloud: (q, kind, limit, isPool) => searchSoundCloud(q, kind, limit, isPool),
       youtube: (q, kind, limit) => searchYouTube(q, kind, limit),
@@ -1981,11 +1997,11 @@
       tiktok: searchScaffold("tiktok"),
       instagram: searchScaffold("instagram")
     };
-    /** Run search across all enabled+entitled sources and return merged collection with _source on each item. */
+    /** Run search only on selected AND entitled sources. Returns merged collection with source attribution. */
     async function multiSourceSearch(q, kind, limit, isPool = true) {
       loadDiscoverySourcesState();
-      const sources = enabledDiscoverySources.length ? enabledDiscoverySources : ["soundcloud"];
-      const tasks = sources
+      const sources = getActiveDiscoverySources();
+      const tasks = (sources.length ? sources : ["soundcloud"])
         .filter(id => SOURCE_ADAPTERS[id])
         .map(id => () => SOURCE_ADAPTERS[id](q, kind, limit, isPool));
       if (!tasks.length) return { collection: [], bySource: {} };
@@ -1996,7 +2012,14 @@
         const src = res?._source;
         const col = Array.isArray(res?.collection) ? res.collection : [];
         if (src) bySource[src] = (bySource[src] || 0) + col.length;
-        for (const it of col) collection.push({ ...it, _source: it._source || src });
+        for (const it of col) {
+          const s = it._source || src;
+          collection.push({
+            ...it,
+            _source: s,
+            _sourceLabel: DISCOVERY_SOURCE_LABELS[s] || s
+          });
+        }
       }
       return { collection, bySource };
     }
@@ -2031,9 +2054,24 @@
     let playbackErrorCount = 0;
     let lastPlayEventAt = 0;
 
-    // ===== Discovery sources (multi-source search) =====
-    let enabledDiscoverySources = []; // ids that are checked and entitled; persisted to LS
+    // ===== Source state (entitlement-aware; do not mix with auth or vibe/session state) =====
+    let selectedSources = []; // user-selected source ids (persisted); only entitled ones are ever added
     let sourcePresets = []; // { id, name, sources: string[] }
+    function getEntitledSources() {
+      const list = currentEntitlements?.unlockedSources;
+      if (Array.isArray(list) && list.length) return list;
+      return ["soundcloud"];
+    }
+    function getLockedSources() {
+      const entitled = getEntitledSources();
+      return DISCOVERY_SOURCE_IDS.filter(id => !entitled.includes(id));
+    }
+    /** Sources that are both selected and entitled; use this for discovery. */
+    function getActiveDiscoverySources() {
+      const entitled = getEntitledSources();
+      const selected = selectedSources.length ? selectedSources : ["soundcloud"];
+      return selected.filter(id => entitled.includes(id));
+    }
 
     // ===== Vibe Search state =====
     let lastVibePalette = null;
@@ -2883,7 +2921,10 @@
         _discovery_pool: forcedBucket || "other",
         _penalty_applied: (it?.title?.toLowerCase()?.trim() === (forcedBucket || "").toLowerCase().trim()),
         _score: computeDigScore(it, forcedBucket),
-        _source: "soundcloud"
+        _source: "soundcloud",
+        _sourceLabel: "SoundCloud",
+        _sourceId: it?.id ?? permalink,
+        artworkUrl: it?.artwork_url || null
       };
       return pushUnique(item);
     }
@@ -2918,7 +2959,10 @@
         comments: gen?.comments ?? null,
         _discovery_pool: forcedBucket || "other",
         _score: gen?._score ?? 50,
-        _source: sourceId
+        _source: sourceId,
+        _sourceLabel: DISCOVERY_SOURCE_LABELS[sourceId] || sourceId,
+        _sourceId: gen?.id ?? gen?.url ?? url,
+        artworkUrl: gen?.artworkUrl ?? gen?.image ?? null
       };
       return pushUnique(item);
     }
@@ -3164,7 +3208,7 @@
       setPill(pillBpm, item.bpmGuess ? `BPM: ${item.bpmGuess}` : null);
       setPill(pillLen, `Len: ${fmtMs(item.durationMs)}`);
       setPill(pillRel, `Uploaded: ${fmtDate(item.uploadedAt)}`);
-      setPill(pillSource, item._source ? (DISCOVERY_SOURCE_LABELS[item._source] || item._source) : null);
+      setPill(pillSource, item._sourceLabel || (item._source ? (DISCOVERY_SOURCE_LABELS[item._source] || item._source) : null));
       applyStatsPills(item, statsToggle.checked);
 
       addToHistory(item);
@@ -3174,7 +3218,7 @@
       // Resolve in background (SoundCloud only): update duration + stats, and auto-skip if wrong bucket.
       try {
         if (item._source && item._source !== "soundcloud") {
-          setPill(pillSource, DISCOVERY_SOURCE_LABELS[item._source] || item._source);
+          setPill(pillSource, item._sourceLabel || (DISCOVERY_SOURCE_LABELS[item._source] || item._source));
           return;
         }
         const resolved = await scResolve(item.url);
@@ -3439,11 +3483,6 @@
     drawerHead.onclick = () => toggleDrawer();
     openDrawerBtn.onclick = () => toggleDrawer(true);
 
-    function getUnlockedSourceIds() {
-      const list = currentEntitlements?.unlockedSources;
-      if (Array.isArray(list) && list.length) return list;
-      return ["soundcloud"];
-    }
     function loadDiscoverySourcesState() {
       const raw = localStorage.getItem(STORAGE_KEY_DISCOVERY_SOURCES);
       let list = [];
@@ -3451,32 +3490,35 @@
         if (raw) list = JSON.parse(raw);
       } catch { }
       if (!Array.isArray(list)) list = [];
-      const unlocked = getUnlockedSourceIds();
-      enabledDiscoverySources = list.filter(id => unlocked.includes(id));
-      if (enabledDiscoverySources.length === 0) enabledDiscoverySources = ["soundcloud"];
-      sourcePresets = loadJsonLS(STORAGE_KEY_SOURCE_PRESETS, []) || [];
-      if (!Array.isArray(sourcePresets)) sourcePresets = [];
+      const unlocked = getEntitledSources();
+      selectedSources = list.filter(id => unlocked.includes(id));
+      if (selectedSources.length === 0) selectedSources = ["soundcloud"];
+      sourcePresets = loadJsonLS(STORAGE_KEY_SOURCE_PRESETS, null);
+      if (!Array.isArray(sourcePresets) || sourcePresets.length === 0) {
+        sourcePresets = DEFAULT_SOURCE_PRESETS.slice();
+        try { saveJsonLS(STORAGE_KEY_SOURCE_PRESETS, sourcePresets); } catch { }
+      }
     }
     function saveDiscoverySourcesState() {
       try {
-        localStorage.setItem(STORAGE_KEY_DISCOVERY_SOURCES, JSON.stringify(enabledDiscoverySources));
+        localStorage.setItem(STORAGE_KEY_DISCOVERY_SOURCES, JSON.stringify(selectedSources));
       } catch { }
     }
     function renderDiscoverySourcesPanel() {
       if (!discoverySourcesWrap) return;
       loadDiscoverySourcesState();
-      const unlocked = getUnlockedSourceIds();
+      const unlocked = getEntitledSources();
       const unlockedSet = new Set(unlocked);
       discoverySourcesWrap.textContent = "";
       for (const id of DISCOVERY_SOURCE_IDS) {
         const label = DISCOVERY_SOURCE_LABELS[id] || id;
         const isUnlocked = unlockedSet.has(id);
-        const checked = enabledDiscoverySources.includes(id);
+        const checked = selectedSources.includes(id);
         const wrap = document.createElement("label");
         wrap.style.display = "inline-flex";
         wrap.style.alignItems = "center";
         wrap.style.gap = "4px";
-        wrap.style.cursor = isUnlocked ? "pointer" : "not-allowed";
+        wrap.style.cursor = isUnlocked ? "pointer" : "pointer";
         wrap.style.opacity = isUnlocked ? "1" : "0.6";
         const cb = document.createElement("input");
         cb.type = "checkbox";
@@ -3487,15 +3529,40 @@
         cb.addEventListener("change", () => {
           if (!isUnlocked) return;
           if (cb.checked) {
-            if (!enabledDiscoverySources.includes(id)) enabledDiscoverySources.push(id);
+            if (!selectedSources.includes(id)) selectedSources.push(id);
           } else {
-            enabledDiscoverySources = enabledDiscoverySources.filter(x => x !== id);
+            selectedSources = selectedSources.filter(x => x !== id);
           }
-          if (enabledDiscoverySources.length === 0) enabledDiscoverySources = ["soundcloud"];
+          if (selectedSources.length === 0) selectedSources = ["soundcloud"];
           saveDiscoverySourcesState();
         });
         wrap.appendChild(cb);
         wrap.appendChild(document.createTextNode(label + (isUnlocked ? "" : " \u{1F512}")));
+        if (!isUnlocked) {
+          wrap.addEventListener("click", (e) => {
+            e.preventDefault();
+            const hintEl = document.getElementById("sourceLockedHint");
+            const unlock = DISCOVERY_SOURCE_UNLOCKED_BY[id] || "Residency+";
+            if (hintEl) {
+              hintEl.innerHTML = "";
+              hintEl.appendChild(document.createTextNode(label + " is included in " + unlock + ". "));
+              const accountBtn = document.getElementById("accountBtn");
+              if (accountBtn) {
+                const link = document.createElement("button");
+                link.type = "button";
+                link.className = "miniBtn";
+                link.textContent = "Upgrade";
+                link.style.marginLeft = "4px";
+                link.onclick = () => { hintEl.style.display = "none"; hintEl.innerHTML = ""; accountBtn.click(); };
+                hintEl.appendChild(link);
+                hintEl.appendChild(document.createTextNode(" to unlock."));
+              }
+              hintEl.style.display = "block";
+              clearTimeout(window._sourceLockedHintTimer);
+              window._sourceLockedHintTimer = setTimeout(() => { hintEl.style.display = "none"; hintEl.innerHTML = ""; }, 8000);
+            }
+          });
+        }
         discoverySourcesWrap.appendChild(wrap);
       }
       if (sourcePresetSelect) {
@@ -3509,14 +3576,14 @@
       }
     }
     function discoverySourcesSelectAll() {
-      const unlocked = getUnlockedSourceIds();
-      enabledDiscoverySources = [...unlocked];
+      const unlocked = getEntitledSources();
+      selectedSources = [...unlocked];
       saveDiscoverySourcesState();
       renderDiscoverySourcesPanel();
     }
     function discoverySourcesClearAll() {
-      const unlocked = getUnlockedSourceIds();
-      enabledDiscoverySources = unlocked.includes("soundcloud") ? ["soundcloud"] : (unlocked.length ? [unlocked[0]] : ["soundcloud"]);
+      const unlocked = getEntitledSources();
+      selectedSources = unlocked.includes("soundcloud") ? ["soundcloud"] : (unlocked.length ? [unlocked[0]] : ["soundcloud"]);
       saveDiscoverySourcesState();
       renderDiscoverySourcesPanel();
     }
@@ -3528,9 +3595,9 @@
         if (!val) return;
         const pre = sourcePresets.find(p => (p.id || p.name) === val);
         if (pre && Array.isArray(pre.sources)) {
-          const unlocked = getUnlockedSourceIds();
-          enabledDiscoverySources = pre.sources.filter(s => unlocked.includes(s));
-          if (enabledDiscoverySources.length === 0) enabledDiscoverySources = unlocked.includes("soundcloud") ? ["soundcloud"] : [unlocked[0]];
+          const unlocked = getEntitledSources();
+          selectedSources = pre.sources.filter(s => unlocked.includes(s));
+          if (selectedSources.length === 0) selectedSources = unlocked.includes("soundcloud") ? ["soundcloud"] : [unlocked[0]];
           saveDiscoverySourcesState();
           renderDiscoverySourcesPanel();
         }
@@ -3543,9 +3610,24 @@
         const name = window.prompt("Preset name", "My sources");
         if (!name || !name.trim()) return;
         const id = "preset_" + Date.now();
-        sourcePresets.push({ id, name: name.trim(), sources: [...enabledDiscoverySources] });
+        sourcePresets.push({ id, name: name.trim(), sources: [...selectedSources] });
         try { saveJsonLS(STORAGE_KEY_SOURCE_PRESETS, sourcePresets); } catch { }
         renderDiscoverySourcesPanel();
+      });
+    }
+    if (sourcesDeletePresetBtn) {
+      sourcesDeletePresetBtn.addEventListener("click", () => {
+        loadDiscoverySourcesState();
+        if (!sourcePresets.length) { showOk("No presets to delete."); return; }
+        const names = sourcePresets.map(p => p.name).join(", ");
+        const toDelete = window.prompt("Delete which preset? (exact name)\n" + names, "");
+        if (!toDelete || !toDelete.trim()) return;
+        const before = sourcePresets.length;
+        sourcePresets = sourcePresets.filter(p => (p.name || "").trim() !== toDelete.trim());
+        if (sourcePresets.length === before) { showOk("No preset named \"" + toDelete.trim() + "\"."); return; }
+        try { saveJsonLS(STORAGE_KEY_SOURCE_PRESETS, sourcePresets); } catch { }
+        renderDiscoverySourcesPanel();
+        showOk("Preset deleted.");
       });
     }
     const tutorialTitleEl = document.getElementById("tutorialTitle");
