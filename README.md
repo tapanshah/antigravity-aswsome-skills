@@ -346,11 +346,14 @@ That guide includes:
 
 ### Fixing Agent Overload (Activation Scripts)
 
-If your agent is struggling with context window limits due to too many loaded skills, use the activation scripts. These scripts use a "Library Mode" where all 1,200+ skills are kept in a separate `skills_library` folder, and only a curated set (or your chosen bundles) are "activated" into the main `skills` folder.
+If your agent is struggling with context window limits due to too many loaded skills, use the activation script. It keeps all 1,200+ skills in a separate library and only "activates" the ones you need. (Windows users can run this from the repository root).
 
-#### Windows
+```batch
+.\scripts\activate-skills.bat "Web Wizard" "Integration & APIs"
 
-Run from the repository root:# Activate default "Essentials"
+This is to clear all your skill and go back to the default Essentials Bundle
+.\scripts\activate-skills.bat --clear
+```
 
 ## Web App
 
