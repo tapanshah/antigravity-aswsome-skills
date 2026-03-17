@@ -1,6 +1,23 @@
+---
+name: vibers-code-review
+description: Human review workflow for AI-generated GitHub projects with spec-based feedback, security review, and follow-up PRs from the Vibers service.
+risk: critical
+source: https://github.com/marsiandeployer/vibers-action
+date_added: "2026-03-17"
+---
+
 # Vibers — Human Code Review for AI-Generated Projects
 
 You push code. We review it against your spec, fix issues, and send a PR.
+
+## When to Use
+
+Use this skill when:
+
+- You want human review for AI-generated code pushed to GitHub
+- You have a project spec and want reviewers to check implementation against it
+- You want review feedback delivered as a follow-up PR with suggested fixes
+- You are comfortable granting the Vibers service collaborator access to the repository
 
 ## Quick Start (3 steps)
 
@@ -75,6 +92,13 @@ Without "How to test" the reviewer has to guess what to verify, and the review t
 We check: spec compliance, security (OWASP top 10), AI hallucinations (fake APIs/imports), logic bugs, UI issues.
 
 We don't check: code style (use ESLint/Prettier), performance benchmarks, full QA (use Playwright/Cypress).
+
+## Limitations
+
+- Requires a GitHub repository and adding `marsiandeployer` as a collaborator
+- The referenced spec must be accessible to the review workflow
+- The service is not a replacement for full QA, benchmark testing, or local security review
+- Turnaround depends on the external Vibers review service
 
 ## Pricing
 
