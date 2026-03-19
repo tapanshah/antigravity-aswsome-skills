@@ -573,6 +573,13 @@ function truncate(value, limit) {
   return `${value.slice(0, limit - 3)}...`;
 }
 
+function escapeMarkdownTableCell(value) {
+  return String(value || "")
+    .replace(/\\/g, "\\\\")
+    .replace(/\|/g, "\\|")
+    .replace(/\r?\n/g, " ");
+}
+
 function renderCatalogMarkdown(catalog) {
   const lines = [];
   lines.push("# Skill Catalog");
@@ -595,12 +602,9 @@ function renderCatalogMarkdown(catalog) {
     lines.push("| --- | --- | --- | --- |");
 
     for (const skill of grouped) {
-      const description = truncate(skill.description, 160).replace(
-        /\|/g,
-        "\\|",
-      );
-      const tags = skill.tags.join(", ");
-      const triggers = skill.triggers.join(", ");
+      const description = escapeMarkdownTableCell(truncate(skill.description, 160));
+      const tags = escapeMarkdownTableCell(skill.tags.join(", "));
+      const triggers = escapeMarkdownTableCell(skill.triggers.join(", "));
       lines.push(
         `| \`${skill.id}\` | ${description} | ${tags} | ${triggers} |`,
       );

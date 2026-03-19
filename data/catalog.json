@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-02-08T00:00:00.000Z",
-  "total": 1259,
+  "total": 1272,
   "skills": [
     {
       "id": "00-andruia-consultant",
@@ -810,6 +810,35 @@
       "path": "skills/ai-engineer/SKILL.md"
     },
     {
+      "id": "ai-engineering-toolkit",
+      "name": "ai-engineering-toolkit",
+      "description": "6 production-ready AI engineering workflows: prompt evaluation (8-dimension scoring), context budget planning, RAG pipeline design, agent security audit (65-point checklist), eval harness building, and product sense coaching.",
+      "category": "security",
+      "tags": [
+        "prompt-engineering",
+        "rag",
+        "security",
+        "evaluation",
+        "ai-engineering",
+        "llm"
+      ],
+      "triggers": [
+        "prompt-engineering",
+        "rag",
+        "security",
+        "evaluation",
+        "ai-engineering",
+        "llm",
+        "ai",
+        "engineering",
+        "toolkit",
+        "prompt",
+        "dimension",
+        "scoring"
+      ],
+      "path": "skills/ai-engineering-toolkit/SKILL.md"
+    },
+    {
       "id": "ai-md",
       "name": "ai-md",
       "description": "Convert human-written CLAUDE.md into AI-native structured-label format. Battle-tested across 4 models. Same rules, fewer tokens, higher compliance.",
@@ -858,6 +887,32 @@
         "pipelines"
       ],
       "path": "skills/ai-ml/SKILL.md"
+    },
+    {
+      "id": "ai-native-cli",
+      "name": "ai-native-cli",
+      "description": "Design spec with 98 rules for building CLI tools that AI agents can safely use. Covers structured JSON output, error handling, input contracts, safety guardrails, exit codes, and agent self-description.",
+      "category": "data-ai",
+      "tags": [
+        "ai",
+        "native",
+        "cli"
+      ],
+      "triggers": [
+        "ai",
+        "native",
+        "cli",
+        "spec",
+        "98",
+        "rules",
+        "building",
+        "agents",
+        "safely",
+        "covers",
+        "structured",
+        "json"
+      ],
+      "path": "skills/ai-native-cli/SKILL.md"
     },
     {
       "id": "ai-product",
@@ -2361,6 +2416,37 @@
       "path": "skills/ask-questions-if-underspecified/SKILL.md"
     },
     {
+      "id": "astro",
+      "name": "astro",
+      "description": "Build content-focused websites with Astro — zero JS by default, islands architecture, multi-framework components, and Markdown/MDX support.",
+      "category": "security",
+      "tags": [
+        "astro",
+        "ssg",
+        "ssr",
+        "islands",
+        "content",
+        "markdown",
+        "mdx",
+        "performance"
+      ],
+      "triggers": [
+        "astro",
+        "ssg",
+        "ssr",
+        "islands",
+        "content",
+        "markdown",
+        "mdx",
+        "performance",
+        "websites",
+        "zero",
+        "js",
+        "default"
+      ],
+      "path": "skills/astro/SKILL.md"
+    },
+    {
       "id": "astropy",
       "name": "astropy",
       "description": "Comprehensive Python library for astronomy and astrophysics. This skill should be used when working with astronomical data including celestial coordinates, physical units, FITS files, cosmological calculations, time systems, tables, world coordinate systems (WCS), and...",
@@ -2827,6 +2913,31 @@
         "architecture"
       ],
       "path": "skills/aws-skills/SKILL.md"
+    },
+    {
+      "id": "awt-e2e-testing",
+      "name": "awt-e2e-testing",
+      "description": "AI-powered E2E web testing — eyes and hands for AI coding tools. Declarative YAML scenarios, Playwright execution, visual matching (OpenCV + OCR), platform auto-detection (Flutter/React/Vue), learning DB. Install: npx skills add ksgisang/awt-skill --skill awt -g",
+      "category": "data-ai",
+      "tags": [
+        "awt",
+        "e2e"
+      ],
+      "triggers": [
+        "awt",
+        "e2e",
+        "testing",
+        "ai",
+        "powered",
+        "web",
+        "eyes",
+        "hands",
+        "coding",
+        "declarative",
+        "yaml",
+        "scenarios"
+      ],
+      "path": "skills/awt-e2e-testing/SKILL.md"
     },
     {
       "id": "azd-deployment",
@@ -8732,8 +8843,8 @@
     {
       "id": "comprehensive-review-pr-enhance",
       "name": "comprehensive-review-pr-enhance",
-      "description": "You are a PR optimization expert specializing in creating high-quality pull requests that facilitate efficient code reviews. Generate comprehensive PR descriptions, automate review processes, and e...",
-      "category": "general",
+      "description": "Generate structured PR descriptions from diffs, add review checklists, risk assessments, and test coverage summaries. Use when the user says \"write a PR description\", \"improve this PR\", \"summarize my changes\", \"PR review\", \"pull request\", or asks to document a diff for reviewers.",
+      "category": "security",
       "tags": [
         "comprehensive",
         "pr",
@@ -8744,14 +8855,14 @@
         "pr",
         "enhance",
         "review",
-        "optimization",
-        "specializing",
-        "creating",
-        "high",
-        "quality",
-        "pull",
-        "requests",
-        "facilitate"
+        "generate",
+        "structured",
+        "descriptions",
+        "diffs",
+        "add",
+        "checklists",
+        "risk",
+        "assessments"
       ],
       "path": "skills/comprehensive-review-pr-enhance/SKILL.md"
     },
@@ -14970,6 +15081,36 @@
       "path": "skills/golang-pro/SKILL.md"
     },
     {
+      "id": "goldrush-api",
+      "name": "goldrush-api",
+      "description": "Query blockchain data across 100+ chains: wallet balances, token prices, transactions, DEX pairs, and real-time OHLCV streams via the GoldRush API by Covalent.",
+      "category": "data-ai",
+      "tags": [
+        "blockchain",
+        "crypto",
+        "web3",
+        "api",
+        "defi",
+        "wallet",
+        "multi-chain"
+      ],
+      "triggers": [
+        "blockchain",
+        "crypto",
+        "web3",
+        "api",
+        "defi",
+        "wallet",
+        "multi-chain",
+        "goldrush",
+        "query",
+        "data",
+        "100",
+        "chains"
+      ],
+      "path": "skills/goldrush-api/SKILL.md"
+    },
+    {
       "id": "google-analytics-automation",
       "name": "google-analytics-automation",
       "description": "Automate Google Analytics tasks via Rube MCP (Composio): run reports, list accounts/properties, funnels, pivots, key events. Always search tools first for current schemas.",
@@ -15711,6 +15852,37 @@
         "machine"
       ],
       "path": "skills/hig-technologies/SKILL.md"
+    },
+    {
+      "id": "hono",
+      "name": "hono",
+      "description": "Build ultra-fast web APIs and full-stack apps with Hono — runs on Cloudflare Workers, Deno, Bun, Node.js, and any WinterCG-compatible runtime.",
+      "category": "development",
+      "tags": [
+        "hono",
+        "edge",
+        "cloudflare-workers",
+        "bun",
+        "deno",
+        "api",
+        "typescript",
+        "web-standards"
+      ],
+      "triggers": [
+        "hono",
+        "edge",
+        "cloudflare-workers",
+        "bun",
+        "deno",
+        "api",
+        "typescript",
+        "web-standards",
+        "ultra",
+        "fast",
+        "web",
+        "apis"
+      ],
+      "path": "skills/hono/SKILL.md"
     },
     {
       "id": "hosted-agents",
@@ -17170,6 +17342,36 @@
         "configurations"
       ],
       "path": "skills/kubernetes-deployment/SKILL.md"
+    },
+    {
+      "id": "landing-page-generator",
+      "name": "landing-page-generator",
+      "description": "Generates high-converting Next.js/React landing pages with Tailwind CSS. Uses PAS, AIDA, and BAB frameworks for optimized copy/components (Heroes, Features, Pricing). Focuses on Core Web Vitals/SEO.",
+      "category": "development",
+      "tags": [
+        "nextjs",
+        "react",
+        "tailwind",
+        "landing-page",
+        "marketing",
+        "seo",
+        "cro"
+      ],
+      "triggers": [
+        "nextjs",
+        "react",
+        "tailwind",
+        "landing-page",
+        "marketing",
+        "seo",
+        "cro",
+        "landing",
+        "page",
+        "generator",
+        "generates",
+        "high"
+      ],
+      "path": "skills/landing-page-generator/SKILL.md"
     },
     {
       "id": "langchain-architecture",
@@ -21424,6 +21626,39 @@
       "path": "skills/openapi-spec-generation/SKILL.md"
     },
     {
+      "id": "openclaw-github-repo-commander",
+      "name": "openclaw-github-repo-commander",
+      "description": "7-stage super workflow for GitHub repo audit, cleanup, PR review, and competitor analysis",
+      "category": "security",
+      "tags": [
+        "github",
+        "git",
+        "repository",
+        "audit",
+        "cleanup",
+        "workflow",
+        "devtools",
+        "automation",
+        "code-review",
+        "security"
+      ],
+      "triggers": [
+        "github",
+        "git",
+        "repository",
+        "audit",
+        "cleanup",
+        "workflow",
+        "devtools",
+        "automation",
+        "code-review",
+        "security",
+        "openclaw",
+        "repo"
+      ],
+      "path": "skills/openclaw-github-repo-commander/SKILL.md"
+    },
+    {
       "id": "oral-health-analyzer",
       "name": "oral-health-analyzer",
       "description": "分析口腔健康数据、识别口腔问题模式、评估口腔健康状况、提供个性化口腔健康建议。支持与营养、慢性病、用药等其他健康数据的关联分析。",
@@ -22843,6 +23078,35 @@
       "path": "skills/progressive-estimation/SKILL.md"
     },
     {
+      "id": "progressive-web-app",
+      "name": "progressive-web-app",
+      "description": "Build Progressive Web Apps (PWAs) with offline support, installability, and caching strategies. Trigger whenever the user mentions PWA, service workers, web app manifests, Workbox, 'add to home screen', or wants their web app to work offline, feel native, or be installable.",
+      "category": "infrastructure",
+      "tags": [
+        "pwa",
+        "web-dev",
+        "service-worker",
+        "frontend",
+        "offline",
+        "caching"
+      ],
+      "triggers": [
+        "pwa",
+        "web-dev",
+        "service-worker",
+        "frontend",
+        "offline",
+        "caching",
+        "progressive",
+        "web",
+        "app",
+        "apps",
+        "pwas",
+        "installability"
+      ],
+      "path": "skills/progressive-web-app/SKILL.md"
+    },
+    {
       "id": "project-development",
       "name": "project-development",
       "description": "This skill should be used when the user asks to \"start an LLM project\", \"design batch pipeline\", \"evaluate task-model fit\", \"structure agent project\", or mentions pipeline architecture, agent-assisted development, cost estimation, or choosing...",
@@ -23090,6 +23354,38 @@
         "processing"
       ],
       "path": "skills/pubmed-database/SKILL.md"
+    },
+    {
+      "id": "pydantic-ai",
+      "name": "pydantic-ai",
+      "description": "Build production-ready AI agents with PydanticAI — type-safe tool use, structured outputs, dependency injection, and multi-model support.",
+      "category": "data-ai",
+      "tags": [
+        "pydantic-ai",
+        "ai-agents",
+        "llm",
+        "openai",
+        "anthropic",
+        "gemini",
+        "tool-use",
+        "structured-output",
+        "python"
+      ],
+      "triggers": [
+        "pydantic-ai",
+        "ai-agents",
+        "llm",
+        "openai",
+        "anthropic",
+        "gemini",
+        "tool-use",
+        "structured-output",
+        "python",
+        "pydantic",
+        "ai",
+        "agents"
+      ],
+      "path": "skills/pydantic-ai/SKILL.md"
     },
     {
       "id": "pydantic-models-py",
@@ -27326,6 +27622,35 @@
       "path": "skills/supply-chain-risk-auditor/SKILL.md"
     },
     {
+      "id": "sveltekit",
+      "name": "sveltekit",
+      "description": "Build full-stack web applications with SvelteKit — file-based routing, SSR, SSG, API routes, and form actions in one framework.",
+      "category": "development",
+      "tags": [
+        "svelte",
+        "sveltekit",
+        "fullstack",
+        "ssr",
+        "ssg",
+        "typescript"
+      ],
+      "triggers": [
+        "svelte",
+        "sveltekit",
+        "fullstack",
+        "ssr",
+        "ssg",
+        "typescript",
+        "full",
+        "stack",
+        "web",
+        "applications",
+        "file",
+        "routing"
+      ],
+      "path": "skills/sveltekit/SKILL.md"
+    },
+    {
       "id": "swiftui-expert-skill",
       "name": "swiftui-expert-skill",
       "description": "Write, review, or improve SwiftUI code following best practices for state management, view composition, performance, and iOS 26+ Liquid Glass adoption. Use when building new SwiftUI features, refactoring existing views, reviewing code quality, or adopting modern SwiftUI patterns.",
@@ -28728,6 +29053,36 @@
       "path": "skills/trigger-dev/SKILL.md"
     },
     {
+      "id": "trpc-fullstack",
+      "name": "trpc-fullstack",
+      "description": "Build end-to-end type-safe APIs with tRPC — routers, procedures, middleware, subscriptions, and Next.js/React integration patterns.",
+      "category": "development",
+      "tags": [
+        "typescript",
+        "trpc",
+        "api",
+        "fullstack",
+        "nextjs",
+        "react",
+        "type-safety"
+      ],
+      "triggers": [
+        "typescript",
+        "trpc",
+        "api",
+        "fullstack",
+        "nextjs",
+        "react",
+        "type-safety",
+        "type",
+        "safe",
+        "apis",
+        "routers",
+        "procedures"
+      ],
+      "path": "skills/trpc-fullstack/SKILL.md"
+    },
+    {
       "id": "turborepo-caching",
       "name": "turborepo-caching",
       "description": "Configure Turborepo for efficient monorepo builds with local and remote caching. Use when setting up Turborepo, optimizing build pipelines, or implementing distributed caching.",
@@ -29606,6 +29961,31 @@
         "risks"
       ],
       "path": "skills/vibe-code-auditor/SKILL.md"
+    },
+    {
+      "id": "vibers-code-review",
+      "name": "vibers-code-review",
+      "description": "Human review workflow for AI-generated GitHub projects with spec-based feedback, security review, and follow-up PRs from the Vibers service.",
+      "category": "security",
+      "tags": [
+        "vibers",
+        "code"
+      ],
+      "triggers": [
+        "vibers",
+        "code",
+        "review",
+        "human",
+        "ai",
+        "generated",
+        "github",
+        "spec",
+        "feedback",
+        "security",
+        "follow",
+        "up"
+      ],
+      "path": "skills/vibers-code-review/SKILL.md"
     },
     {
       "id": "videodb",

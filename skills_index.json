@@ -340,6 +340,16 @@
     "date_added": "2026-02-27"
   },
   {
+    "id": "ai-engineering-toolkit",
+    "path": "skills/ai-engineering-toolkit",
+    "category": "data-ai",
+    "name": "ai-engineering-toolkit",
+    "description": "6 production-ready AI engineering workflows: prompt evaluation (8-dimension scoring), context budget planning, RAG pipeline design, agent security audit (65-point checklist), eval harness building, and product sense coaching.",
+    "risk": "offensive",
+    "source": "community",
+    "date_added": "2026-03-15"
+  },
+  {
     "id": "ai-md",
     "path": "skills/ai-md",
     "category": "uncategorized",
@@ -358,6 +368,16 @@
     "risk": "safe",
     "source": "personal",
     "date_added": "2026-02-27"
+  },
+  {
+    "id": "ai-native-cli",
+    "path": "skills/ai-native-cli",
+    "category": "uncategorized",
+    "name": "ai-native-cli",
+    "description": "Design spec with 98 rules for building CLI tools that AI agents can safely use. Covers structured JSON output, error handling, input contracts, safety guardrails, exit codes, and agent self-description.",
+    "risk": "safe",
+    "source": "https://github.com/ChaosRealmsAI/agent-cli-spec",
+    "date_added": "2026-03-15"
   },
   {
     "id": "ai-product",
@@ -950,6 +970,16 @@
     "date_added": null
   },
   {
+    "id": "astro",
+    "path": "skills/astro",
+    "category": "frontend",
+    "name": "astro",
+    "description": "Build content-focused websites with Astro \u2014 zero JS by default, islands architecture, multi-framework components, and Markdown/MDX support.",
+    "risk": "safe",
+    "source": "community",
+    "date_added": "2026-03-18"
+  },
+  {
     "id": "astropy",
     "path": "skills/astropy",
     "category": "uncategorized",
@@ -1178,6 +1208,16 @@
     "risk": "safe",
     "source": "https://github.com/zxkane/aws-skills",
     "date_added": "2026-02-27"
+  },
+  {
+    "id": "awt-e2e-testing",
+    "path": "skills/awt-e2e-testing",
+    "category": "uncategorized",
+    "name": "awt-e2e-testing",
+    "description": "AI-powered E2E web testing \u2014 eyes and hands for AI coding tools. Declarative YAML scenarios, Playwright execution, visual matching (OpenCV + OCR), platform auto-detection (Flutter/React/Vue), learning DB. Install: npx skills add ksgisang/awt-skill --skill awt -g",
+    "risk": "unknown",
+    "source": "unknown",
+    "date_added": null
   },
   {
     "id": "azd-deployment",
@@ -3524,10 +3564,10 @@
     "path": "skills/comprehensive-review-pr-enhance",
     "category": "uncategorized",
     "name": "comprehensive-review-pr-enhance",
-    "description": "You are a PR optimization expert specializing in creating high-quality pull requests that facilitate efficient code reviews. Generate comprehensive PR descriptions, automate review processes, and e...",
+    "description": "Generate structured PR descriptions from diffs, add review checklists, risk assessments, and test coverage summaries. Use when the user says \"write a PR description\", \"improve this PR\", \"summarize my changes\", \"PR review\", \"pull request\", or asks to document a diff for reviewers.",
     "risk": "unknown",
-    "source": "community",
-    "date_added": "2026-02-27"
+    "source": "unknown",
+    "date_added": null
   },
   {
     "id": "computer-use-agents",
@@ -4395,9 +4435,9 @@
     "category": "uncategorized",
     "name": "devcontainer-setup",
     "description": "Creates devcontainers with Claude Code, language-specific tooling (Python/Node/Rust/Go), and persistent volumes. Use when adding devcontainer support to a project, setting up isolated development environments, or configuring sandboxed Claude Code workspaces.",
-    "risk": "unknown",
-    "source": "unknown",
-    "date_added": null
+    "risk": "safe",
+    "source": "vibeship-spawner-skills (Apache 2.0)",
+    "date_added": "2026-03-06"
   },
   {
     "id": "development",
@@ -5364,7 +5404,7 @@
     "path": "skills/fixing-metadata",
     "category": "uncategorized",
     "name": "fixing-metadata",
-    "description": "Audit and fix HTML metadata including page titles, meta descriptions, canonical URLs, Open Graph tags, Twitter cards, favicons, JSON-LD structured data, and robots directives. Use when adding SEO metadata, fixing social share previews, reviewing Open Graph tags,...",
+    "description": "Audit and fix HTML metadata including page titles, meta descriptions, canonical URLs, Open Graph tags, Twitter cards, favicons, JSON-LD structured data, and robots directives. Use when adding SEO metadata, fixing social share previews, reviewing Open Graph tags,...\n",
     "risk": "unknown",
     "source": "unknown",
     "date_added": null
@@ -5964,7 +6004,7 @@
     "path": "skills/gmail-automation",
     "category": "uncategorized",
     "name": "gmail-automation",
-    "description": "Interact with Gmail - search emails, read messages, send emails, create drafts, and manage labels.\nUse when user asks to: search email, read email, send email, create email draft, mark as read,\narchive email, star email, or manage Gmail labels. Lightweight alternative...",
+    "description": "Interact with Gmail - search emails, read messages, send emails, create drafts, and manage labels.\nUse when user asks to: search email, read email, send email, create email draft, mark as read,\narchive email, star email, or manage Gmail labels. Lightweight alternative...\n",
     "risk": "unknown",
     "source": "unknown",
     "date_added": null
@@ -6040,6 +6080,16 @@
     "date_added": "2026-02-27"
   },
   {
+    "id": "goldrush-api",
+    "path": "skills/goldrush-api",
+    "category": "blockchain",
+    "name": "goldrush-api",
+    "description": "Query blockchain data across 100+ chains: wallet balances, token prices, transactions, DEX pairs, and real-time OHLCV streams via the GoldRush API by Covalent.",
+    "risk": "safe",
+    "source": "community",
+    "date_added": "2026-03-17"
+  },
+  {
     "id": "google-analytics-automation",
     "path": "skills/google-analytics-automation",
     "category": "uncategorized",
@@ -6054,7 +6104,7 @@
     "path": "skills/google-calendar-automation",
     "category": "uncategorized",
     "name": "google-calendar-automation",
-    "description": "Interact with Google Calendar - list calendars, view events, create/update/delete events, and find free time.\nUse when user asks to: check calendar, schedule a meeting, create an event, find available time, list upcoming events,\ndelete or update a calendar event, or...",
+    "description": "Interact with Google Calendar - list calendars, view events, create/update/delete events, and find free time.\nUse when user asks to: check calendar, schedule a meeting, create an event, find available time, list upcoming events,\ndelete or update a calendar event, or...\n",
     "risk": "unknown",
     "source": "unknown",
     "date_added": null
@@ -6064,7 +6114,7 @@
     "path": "skills/google-docs-automation",
     "category": "uncategorized",
     "name": "google-docs-automation",
-    "description": "Interact with Google Docs - create documents, search by title, read content, and edit text.\nUse when user asks to: create a Google Doc, find a document, read doc content, add text to a doc,\nor replace text in a document. Lightweight alternative to full Google...",
+    "description": "Interact with Google Docs - create documents, search by title, read content, and edit text.\nUse when user asks to: create a Google Doc, find a document, read doc content, add text to a doc,\nor replace text in a document. Lightweight alternative to full Google...\n",
     "risk": "unknown",
     "source": "unknown",
     "date_added": null
@@ -6074,7 +6124,7 @@
     "path": "skills/google-drive-automation",
     "category": "uncategorized",
     "name": "google-drive-automation",
-    "description": "Interact with Google Drive - search files, find folders, list contents, download files, upload files,\ncreate folders, move, copy, rename, and trash files. Use when user asks to: search Google Drive,\nfind a file/folder, list Drive contents, download or upload files,...",
+    "description": "Interact with Google Drive - search files, find folders, list contents, download files, upload files,\ncreate folders, move, copy, rename, and trash files. Use when user asks to: search Google Drive,\nfind a file/folder, list Drive contents, download or upload files,...\n",
     "risk": "unknown",
     "source": "unknown",
     "date_added": null
@@ -6094,7 +6144,7 @@
     "path": "skills/google-slides-automation",
     "category": "uncategorized",
     "name": "google-slides-automation",
-    "description": "Read and write Google Slides presentations - get text, find presentations, create presentations, add slides,\nreplace text, and manage slide content. Use when user asks to: read a presentation, create slides, find slides,\nadd a slide, replace text in a presentation, or...",
+    "description": "Read and write Google Slides presentations - get text, find presentations, create presentations, add slides,\nreplace text, and manage slide content. Use when user asks to: read a presentation, create slides, find slides,\nadd a slide, replace text in a presentation, or...\n",
     "risk": "unknown",
     "source": "unknown",
     "date_added": null
@@ -6348,6 +6398,16 @@
     "risk": "unknown",
     "source": "community",
     "date_added": "2026-02-27"
+  },
+  {
+    "id": "hono",
+    "path": "skills/hono",
+    "category": "backend",
+    "name": "hono",
+    "description": "Build ultra-fast web APIs and full-stack apps with Hono \u2014 runs on Cloudflare Workers, Deno, Bun, Node.js, and any WinterCG-compatible runtime.",
+    "risk": "safe",
+    "source": "community",
+    "date_added": "2026-03-18"
   },
   {
     "id": "hosted-agents",
@@ -6948,6 +7008,16 @@
     "risk": "safe",
     "source": "personal",
     "date_added": "2026-02-27"
+  },
+  {
+    "id": "landing-page-generator",
+    "path": "skills/landing-page-generator",
+    "category": "front-end",
+    "name": "landing-page-generator",
+    "description": "Generates high-converting Next.js/React landing pages with Tailwind CSS. Uses PAS, AIDA, and BAB frameworks for optimized copy/components (Heroes, Features, Pricing). Focuses on Core Web Vitals/SEO.",
+    "risk": "safe",
+    "source": "community",
+    "date_added": "2026-03-18"
   },
   {
     "id": "langchain-architecture",
@@ -8630,6 +8700,16 @@
     "date_added": "2026-02-27"
   },
   {
+    "id": "openclaw-github-repo-commander",
+    "path": "skills/openclaw-github-repo-commander",
+    "category": "development-and-testing",
+    "name": "openclaw-github-repo-commander",
+    "description": "7-stage super workflow for GitHub repo audit, cleanup, PR review, and competitor analysis",
+    "risk": "safe",
+    "source": "community",
+    "date_added": "2026-03-18"
+  },
+  {
     "id": "oral-health-analyzer",
     "path": "skills/oral-health-analyzer",
     "category": "uncategorized",
@@ -9220,6 +9300,16 @@
     "date_added": "2026-03-10"
   },
   {
+    "id": "progressive-web-app",
+    "path": "skills/progressive-web-app",
+    "category": "uncategorized",
+    "name": "progressive-web-app",
+    "description": "Build Progressive Web Apps (PWAs) with offline support, installability, and caching strategies. Trigger whenever the user mentions PWA, service workers, web app manifests, Workbox, 'add to home screen', or wants their web app to work offline, feel native, or be installable.",
+    "risk": "safe",
+    "source": "community",
+    "date_added": "2026-03-17"
+  },
+  {
     "id": "project-development",
     "path": "skills/project-development",
     "category": "uncategorized",
@@ -9318,6 +9408,16 @@
     "risk": "unknown",
     "source": "unknown",
     "date_added": null
+  },
+  {
+    "id": "pydantic-ai",
+    "path": "skills/pydantic-ai",
+    "category": "ai-agents",
+    "name": "pydantic-ai",
+    "description": "Build production-ready AI agents with PydanticAI \u2014 type-safe tool use, structured outputs, dependency injection, and multi-model support.",
+    "risk": "safe",
+    "source": "community",
+    "date_added": "2026-03-18"
   },
   {
     "id": "pydantic-models-py",
@@ -11000,6 +11100,16 @@
     "date_added": null
   },
   {
+    "id": "sveltekit",
+    "path": "skills/sveltekit",
+    "category": "frontend",
+    "name": "sveltekit",
+    "description": "Build full-stack web applications with SvelteKit \u2014 file-based routing, SSR, SSG, API routes, and form actions in one framework.",
+    "risk": "safe",
+    "source": "community",
+    "date_added": "2026-03-18"
+  },
+  {
     "id": "swiftui-expert-skill",
     "path": "skills/swiftui-expert-skill",
     "category": "uncategorized",
@@ -11600,6 +11710,16 @@
     "date_added": "2026-02-27"
   },
   {
+    "id": "trpc-fullstack",
+    "path": "skills/trpc-fullstack",
+    "category": "framework",
+    "name": "trpc-fullstack",
+    "description": "Build end-to-end type-safe APIs with tRPC \u2014 routers, procedures, middleware, subscriptions, and Next.js/React integration patterns.",
+    "risk": "none",
+    "source": "community",
+    "date_added": "2026-03-17"
+  },
+  {
     "id": "turborepo-caching",
     "path": "skills/turborepo-caching",
     "category": "uncategorized",
@@ -11958,6 +12078,16 @@
     "risk": "safe",
     "source": "original",
     "date_added": "2026-02-28"
+  },
+  {
+    "id": "vibers-code-review",
+    "path": "skills/vibers-code-review",
+    "category": "uncategorized",
+    "name": "vibers-code-review",
+    "description": "Human review workflow for AI-generated GitHub projects with spec-based feedback, security review, and follow-up PRs from the Vibers service.",
+    "risk": "critical",
+    "source": "https://github.com/marsiandeployer/vibers-action",
+    "date_added": "2026-03-17"
   },
   {
     "id": "videodb",
