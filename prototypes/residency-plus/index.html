@@ -5117,62 +5117,72 @@
         const PROD_UPLOAD_ALLOWED_EXT = /\.(mp3|wav|ogg|webm|m4a|aac|mp4|flac)$/i;
         const PROD_UPLOAD_ALLOWED_MIME = /^audio\//i;
         const setProdStatus = (t) => { if (productionUploadStatus) productionUploadStatus.textContent = t || ""; };
-        const setProdUploadBusy = (busy) => {
-          if (productionUploadBtn) productionUploadBtn.disabled = busy;
-          if (productionUploadInput) productionUploadInput.disabled = busy;
-        };
-        productionUploadBtn.onclick = () => { if (!productionUploadBtn.disabled) productionUploadInput.click(); };
+
+        function setProductionUploadBusy(isBusy) {
+          if (productionUploadBtn) productionUploadBtn.disabled = !!isBusy;
+          if (productionUploadInput) productionUploadInput.disabled = !!isBusy;
+        }
+
+        // Ensure we don't start in a disabled/stuck state.
+        setProductionUploadBusy(false);
+
+        productionUploadBtn.onclick = () => { productionUploadInput.click(); };
         productionUploadInput.onchange = async () => {
           const file = productionUploadInput.files && productionUploadInput.files[0];
           productionUploadInput.value = "";
-          if (!file) return;
-          const sb = getRplusSupabaseClient();
-          if (!AUTH_ENABLED || !sb) {
-            setProdStatus("Sign in to upload.");
-            return;
-          }
-          if (!sb?.auth?.getSession) {
-            console.error("[Uploads] missing Supabase client");
-            setProdStatus("Upload unavailable right now.");
-            return;
-          }
-          const token = await getUploadsAccessToken();
-          if (!token) {
-            setProdStatus("Sign in to upload.");
-            return;
-          }
-          if (file.size > PROD_UPLOAD_MAX_BYTES) {
-            setProdStatus("File too large (max 50 MB).");
-            return;
-          }
-          const extOk = PROD_UPLOAD_ALLOWED_EXT.test(file.name);
-          const mimeOk = !file.type || PROD_UPLOAD_ALLOWED_MIME.test(file.type);
-          if (!extOk || !mimeOk) {
-            setProdStatus("Use audio (MP3, WAV, OGG, M4A, etc.).");
-            return;
-          }
-          setProdUploadBusy(true);
           let prep = null;
           try {
+            if (!file) {
+              setProductionUploadBusy(false);
+              return;
+            }
+
+            // Now that we have a real file, mark controls as busy.
+            setProductionUploadBusy(true);
+            const sb = getRplusSupabaseClient();
+            if (!AUTH_ENABLED || !sb) {
+              setProdStatus("Sign in to upload.");
+              return;
+            }
+            if (!sb?.auth?.getSession) {
+              console.error("[Uploads] missing Supabase client");
+              setProdStatus("Upload unavailable right now.");
+              return;
+            }
+            const token = await getUploadsAccessToken();
+            if (!token) {
+              setProdStatus("Sign in to upload.");
+              return;
+            }
+            if (file.size > PROD_UPLOAD_MAX_BYTES) {
+              setProdStatus("File too large (max 50 MB).");
+              return;
+            }
+            const extOk = PROD_UPLOAD_ALLOWED_EXT.test(file.name);
+            const mimeOk = !file.type || PROD_UPLOAD_ALLOWED_MIME.test(file.type);
+            if (!extOk || !mimeOk) {
+              setProdStatus("Use audio (MP3, WAV, OGG, M4A, etc.).");
+              return;
+            }
+
             setProdStatus("Preparing…");
             prep = await callAuthedFunction("uploads-prepare", "POST", { filename: file.name, mime_type: file.type || null, file_size: file.size }, token);
             if (!prep || !prep.path) {
               setProdStatus(prep && prep.message ? prep.message : "Prepare failed.");
-              setProdUploadBusy(false);
               return;
             }
             if (prep.error === "file_too_large" || prep.error === "invalid_file_type") {
               setProdStatus(prep.message || "Invalid file.");
-              setProdUploadBusy(false);
               return;
             }
+
             setProdStatus("Uploading…");
             const { error: upErr } = await rplusSupabase.storage.from("uploads").upload(prep.path, file, { contentType: file.type || "audio/mpeg", upsert: true });
             if (upErr) {
               setProdStatus("Upload failed.");
-              setProdUploadBusy(false);
               return;
             }
+
             const publicUrl = rplusSupabase.storage.from("uploads").getPublicUrl(prep.path).data.publicUrl;
             let durationMs = null;
             try {
@@ -5185,6 +5195,7 @@
               if (isFinite(audio.duration) && audio.duration > 0) durationMs = Math.round(audio.duration * 1000);
               URL.revokeObjectURL(audio.src);
             } catch (_) {}
+
             setProdStatus("Registering…");
             const rawTitle = (file.name && file.name.replace(/\.[^.]*$/, "").trim()) || "";
             const title = rawTitle || "Untitled";
@@ -5199,9 +5210,9 @@
             if (!reg || !reg.ok) {
               setProdStatus("Register failed.");
               try { await rplusSupabase.storage.from("uploads").remove([prep.path]); } catch (_) {}
-              setProdUploadBusy(false);
               return;
             }
+
             const bucket = genreSelect && genreSelect.value && genreSelect.value !== "all" ? genreSelect.value : "other";
             const gen = {
               id: reg.id || reg.uuid,
@@ -5223,8 +5234,9 @@
             if (prep && prep.path) {
               try { await rplusSupabase.storage.from("uploads").remove([prep.path]); } catch (_) {}
             }
+          } finally {
+            setProductionUploadBusy(false);
           }
-          setProdUploadBusy(false);
         };
       }
     });
