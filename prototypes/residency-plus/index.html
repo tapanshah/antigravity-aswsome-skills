@@ -1164,6 +1164,7 @@
                 <input type="file" id="productionUploadInput" accept="audio/mpeg,audio/mp3,audio/wav,audio/ogg,audio/webm,audio/mp4,audio/x-m4a,audio/aac,.mp3,.wav,.ogg,.m4a" style="display:none;" />
                 <button type="button" id="productionUploadBtn" class="miniBtn">Upload file</button>
                 <span class="mini" id="productionUploadStatus" style="opacity:.75;"></span>
+                <span class="mini" id="productionUploadsUsage" style="opacity:.85; width:100%;"></span>
               </div>
 
               <div class="row" id="labsDiscoverySection" style="display:none; flex-direction:column; gap:6px; margin-top:6px;">
@@ -1497,6 +1498,7 @@
     const productionUploadBtn = document.getElementById("productionUploadBtn");
     const productionUploadInput = document.getElementById("productionUploadInput");
     const productionUploadStatus = document.getElementById("productionUploadStatus");
+    const productionUploadsUsage = document.getElementById("productionUploadsUsage");
 
     const trackTitleEl = document.getElementById("trackTitle");
     const modeLabel = document.getElementById("modeLabel");
@@ -2214,6 +2216,33 @@
     let uploadsSearchCacheValue = null;
     let uploadsSearchInFlightKey = null;
     let uploadsSearchInFlightPromise = null;
+    let uploadsUsagePanelItems = [];
+
+    function refreshUploadsUsagePanelUI() {
+      if (!productionUploadsUsage) return;
+      const items = Array.isArray(uploadsUsagePanelItems) ? uploadsUsagePanelItems : [];
+      const count = items.length;
+
+      let totalBytes = 0;
+      let hasBytes = false;
+      for (const it of items) {
+        const v = it?.file_size ?? it?.fileSize ?? it?.size ?? it?.bytes ?? it?.byte_size ?? null;
+        const n = typeof v === "string" ? Number(v) : v;
+        if (Number.isFinite(n) && n > 0) {
+          totalBytes += n;
+          hasBytes = true;
+        }
+      }
+
+      const usedMb = hasBytes ? (totalBytes / (1024 * 1024)) : null;
+      const usedMbText = hasBytes ? usedMb.toFixed(1) : "—";
+      const suffix = hasBytes ? "" : " (size unknown)";
+
+      productionUploadsUsage.textContent = `Uploads: ${count} files · ${usedMbText} MB used${suffix}`;
+    }
+
+    // Initial render to avoid a blank panel.
+    refreshUploadsUsagePanelUI();
 
     async function searchUploads(q, limit) {
       const safeLimit = Math.min(50, limit);
@@ -2222,6 +2251,8 @@
 
       if (uploadsSearchCacheKey === cacheKey && (now - uploadsSearchCacheTs) < UPLOADS_SEARCH_CACHE_TTL_MS && uploadsSearchCacheValue) {
         if (PRODUCTION_UPLOADS_ENABLED && typeof console !== "undefined" && console.log) console.log("[Uploads][Discovery] cache hit", { cacheKey });
+        uploadsUsagePanelItems = Array.isArray(uploadsSearchCacheValue?.collection) ? uploadsSearchCacheValue.collection : [];
+        refreshUploadsUsagePanelUI();
         return uploadsSearchCacheValue;
       }
 
@@ -2248,6 +2279,8 @@
             uploadsSearchCacheKey = cacheKey;
             uploadsSearchCacheTs = Date.now();
             uploadsSearchCacheValue = res;
+            uploadsUsagePanelItems = [];
+            refreshUploadsUsagePanelUI();
             return res;
           }
 
@@ -2258,12 +2291,16 @@
           uploadsSearchCacheKey = cacheKey;
           uploadsSearchCacheTs = Date.now();
           uploadsSearchCacheValue = res;
+          uploadsUsagePanelItems = Array.isArray(res?.collection) ? res.collection : [];
+          refreshUploadsUsagePanelUI();
           return res;
         } catch {
           const res = { collection: [], _source: "uploads" };
           uploadsSearchCacheKey = cacheKey;
           uploadsSearchCacheTs = Date.now();
           uploadsSearchCacheValue = res;
+          uploadsUsagePanelItems = [];
+          refreshUploadsUsagePanelUI();
           return res;
         } finally {
           uploadsSearchInFlightKey = null;
@@ -3143,6 +3180,16 @@
               if (typeof idbSet === "function") await idbSet(STORAGE_KEY_LIBRARY, library);
               if (typeof debouncedCrateSync === "function") debouncedCrateSync();
               if (typeof debouncedHistorySync === "function") debouncedHistorySync();
+              try {
+                if (Array.isArray(uploadsUsagePanelItems) && item?._sourceId) {
+                  const delId = String(item._sourceId);
+                  uploadsUsagePanelItems = uploadsUsagePanelItems.filter(it => {
+                    const itId = it?.id ?? it?.uuid ?? null;
+                    return !(itId && String(itId) === delId);
+                  });
+                  refreshUploadsUsagePanelUI();
+                }
+              } catch { }
               renderList(crateList, crate, "crate");
               renderList(historyList, history, "history");
             }
@@ -5354,6 +5401,21 @@
             const added = typeof addLibraryItemFromNormalized === "function" && addLibraryItemFromNormalized(gen, bucket, "uploads");
             if (added && typeof idbSet === "function") await idbSet(STORAGE_KEY_LIBRARY, library);
             setProdStatus(added ? "Upload complete." : "Upload complete.");
+            try {
+              if (!Array.isArray(uploadsUsagePanelItems)) uploadsUsagePanelItems = [];
+              const newId = gen?.id ?? gen?.uuid ?? null;
+              const newUrl = gen?.url ?? gen?.playableUrl ?? null;
+              uploadsUsagePanelItems = uploadsUsagePanelItems.filter(it => {
+                const itId = it?.id ?? it?.uuid ?? null;
+                const itUrl = it?.url ?? null;
+                if (newId && itId && String(itId) === String(newId)) return false;
+                if (newUrl && itUrl && String(itUrl) === String(newUrl)) return false;
+                return true;
+              });
+              uploadsUsagePanelItems.unshift({ id: newId, url: newUrl, title: gen?.title, artist: gen?.artist, file_size: null, _source: "uploads" });
+              uploadsUsagePanelItems = uploadsUsagePanelItems.slice(0, 50);
+              refreshUploadsUsagePanelUI();
+            } catch { }
             setTimeout(() => setProdStatus(""), 3000);
           } catch (e) {
             console.error("[Production][Upload] fatal error", e);
