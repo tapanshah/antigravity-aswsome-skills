@@ -2982,7 +2982,8 @@
       }
       try {
         const now = Date.now();
-        const cacheKey = palette.raw;
+        const activeSrcKey = getActiveDiscoverySources().slice().sort().join(",");
+        const cacheKey = palette.raw + "|" + activeSrcKey;
         const cached = cacheKey && vibeCache.get(cacheKey);
         let candidates;
         if (cached && now - cached.ts < VIBE_CACHE_TTL_MS) {
@@ -3030,7 +3031,7 @@
         renderList(crateList, crate, "crate");
         renderList(historyList, history, "history");
         resetContext();
-        pickAndPlay(library);
+        pickAndPlay(getFilteredLibrary());
         setStatus("PLAYING");
 
         currentVibeSession = {
@@ -3095,7 +3096,8 @@
       const g = genreSelect.value;
       const s = sourceSelect.value;
       const st = stationId || "__all__";
-      return `g:${g}|s:${s}|st:${st}`;
+      const ds = getActiveDiscoverySources().slice().sort().join(",");
+      return `g:${g}|s:${s}|st:${st}|ds:${ds}`;
     }
     function loadPlayedForContext() {
       const key = contextKey();
