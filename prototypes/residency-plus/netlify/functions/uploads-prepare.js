@@ -1,6 +1,21 @@
 const crypto = require("crypto");
 const { allowOrigin, json } = require("./lib/sc-auth-lib.js");
-const { getJwtUser } = require("./lib/sc-supabase-cjs.js");
+
+function getBearerUserIdFromEvent(event) {
+  const headers = event.headers || {};
+  const authHeader = headers.authorization || headers.Authorization || "";
+  if (!authHeader.startsWith("Bearer ")) return null;
+  const token = authHeader.slice("Bearer ".length).trim();
+  if (!token) return null;
+  const parts = token.split(".");
+  if (parts.length !== 3) return null;
+  try {
+    const payload = JSON.parse(Buffer.from(parts[1].replace(/-/g, "+").replace(/_/g, "/"), "base64").toString("utf8"));
+    return payload?.sub || null;
+  } catch {
+    return null;
+  }
+}
 
 function sanitizeFilename(name) {
   return String(name || "")
@@ -35,8 +50,8 @@ exports.handler = async function (event) {
   }
 
   try {
-    const user = await getJwtUser(event);
-    if (!user || !user.id) {
+    const userId = getBearerUserIdFromEvent(event);
+    if (!userId) {
       return json(
         401,
         { error: "unauthorized", message: "Sign in required." },
@@ -55,14 +70,14 @@ exports.handler = async function (event) {
     }
 
     const uploadId = crypto.randomUUID();
-    const path = `${user.id}/${uploadId}/${filename}`;
+    const path = `${userId}/${uploadId}/${filename}`;
 
     console.log("[uploads-prepare] ok", {
-      uid: user.id,
+      uid: userId,
       filename,
       path
     });
-    console.log("[uploads-prepare] version uploads-prepare-v2");
+    console.log("[uploads-prepare] version uploads-prepare-v2", { uid: userId, filename, path });
 
     return json(
       200,
