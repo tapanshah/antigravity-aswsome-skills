@@ -5376,6 +5376,7 @@
               storage_url: publicUrl,
               original_filename: file.name,
               mime_type: file.type || null,
+              file_size: file.size,
               duration_ms: durationMs,
               artist: ""
             }, token);
@@ -5412,7 +5413,7 @@
                 if (newUrl && itUrl && String(itUrl) === String(newUrl)) return false;
                 return true;
               });
-              uploadsUsagePanelItems.unshift({ id: newId, url: newUrl, title: gen?.title, artist: gen?.artist, file_size: null, _source: "uploads" });
+              uploadsUsagePanelItems.unshift({ id: newId, url: newUrl, title: gen?.title, artist: gen?.artist, file_size: file.size, _source: "uploads" });
               uploadsUsagePanelItems = uploadsUsagePanelItems.slice(0, 50);
               refreshUploadsUsagePanelUI();
             } catch { }

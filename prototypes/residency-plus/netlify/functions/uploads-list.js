@@ -39,7 +39,7 @@ export default async function handler(req) {
   }
 
   const limit = Math.min(100, Math.max(1, parseInt(new URL(req.url || "").searchParams.get("limit") || "50", 10) || 50));
-  const path = `user_uploads?user_id=eq.${user.uid}&select=id,user_id,title,artist,original_filename,mime_type,duration_ms,artwork_url,storage_url,created_at,updated_at&order=created_at.desc&limit=${limit}`;
+  const path = `user_uploads?user_id=eq.${user.uid}&select=id,user_id,title,artist,original_filename,mime_type,duration_ms,file_size,artwork_url,storage_url,created_at,updated_at&order=created_at.desc&limit=${limit}`;
 
   try {
     const data = await supabaseRestCall(path, "GET", null, user.token);

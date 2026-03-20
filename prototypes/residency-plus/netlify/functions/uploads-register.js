@@ -83,6 +83,11 @@ exports.handler = async function (event) {
   const original_filename = typeof body.original_filename === "string" ? body.original_filename.trim() : null;
   const mime_type = typeof body.mime_type === "string" ? body.mime_type.trim() : null;
   const duration_ms = Number.isFinite(body.duration_ms) ? body.duration_ms : null;
+  let file_size = null;
+  if (body.file_size != null) {
+    const n = typeof body.file_size === "string" ? Number(body.file_size) : body.file_size;
+    if (Number.isFinite(n) && n > 0 && Number.isInteger(n)) file_size = n;
+  }
   const artwork_url = typeof body.artwork_url === "string" ? body.artwork_url.trim() : null;
 
   if (!title || !storage_url) {
@@ -102,6 +107,7 @@ exports.handler = async function (event) {
     original_filename: original_filename || null,
     mime_type: mime_type || null,
     duration_ms: Number.isFinite(duration_ms) ? duration_ms : null,
+    file_size: file_size,
     artwork_url: artwork_url || null,
     storage_url
   };

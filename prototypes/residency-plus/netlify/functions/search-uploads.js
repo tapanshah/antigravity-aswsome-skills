@@ -25,6 +25,13 @@ function normalizeUploadRow(row) {
   const artist = row.artist || row.creator || row.uploader || "";
   const audioUrl = row.storage_url || row.audio_url || row.url || null;
   if (!id || !audioUrl) return null;
+  const fileSizeVal = row.file_size ?? row.fileSize ?? null;
+  const file_size = (fileSizeVal == null)
+    ? null
+    : (() => {
+      const n = typeof fileSizeVal === "string" ? Number(fileSizeVal) : fileSizeVal;
+      return (Number.isFinite(n) && n > 0 && Number.isInteger(n)) ? n : null;
+    })();
   return {
     id: String(id),
     title: String(title),
@@ -32,6 +39,7 @@ function normalizeUploadRow(row) {
     url: audioUrl,
     openUrl: audioUrl,
     artworkUrl: row.artwork_url || null,
+    file_size,
     sourceId: "uploads",
     sourceLabel: "User Uploads",
     playbackType: "html5_audio",
@@ -83,7 +91,7 @@ exports.handler = async function (event) {
   }
 
   const limit = Math.min(50, Math.max(1, parseInt(event.queryStringParameters?.limit || "20", 10) || 20));
-  const path = `user_uploads?select=id,title,artist,duration_ms,storage_url,artwork_url&user_id=eq.${user.uid}&order=created_at.desc&limit=${limit}`;
+  const path = `user_uploads?select=id,title,artist,file_size,duration_ms,storage_url,artwork_url&user_id=eq.${user.uid}&order=created_at.desc&limit=${limit}`;
 
   try {
     const data = await supabaseRestCall(path, "GET", null, user.token);
