@@ -9,8 +9,12 @@ import { getJwtUser, supabaseRestCall } from "./sc-supabase-lib.js";
 const AUTH_ENABLED = process.env.AUTH_ENABLED === "true";
 
 export default async function handler(req) {
+  const headerOrigin = typeof req.headers?.get === "function"
+    ? req.headers.get("origin")
+    : (req.headers?.origin || req.headers?.Origin || "");
+
   if (req.method === "OPTIONS") {
-    const origin = allowOrigin(req.headers.get("origin"));
+    const origin = allowOrigin(headerOrigin);
     return new Response("", {
       status: 204,
       headers: {
@@ -21,8 +25,8 @@ export default async function handler(req) {
     });
   }
 
-  const origin = allowOrigin(req.headers.get("origin"));
-  if (!origin && req.headers.get("origin")) return json(403, { error: "Origin not permitted." }, origin);
+  const origin = allowOrigin(headerOrigin);
+  if (!origin && headerOrigin) return json(403, { error: "Origin not permitted." }, origin);
   if (req.method !== "POST") return json(405, { error: "Method not allowed" }, origin);
 
   if (!AUTH_ENABLED) {
