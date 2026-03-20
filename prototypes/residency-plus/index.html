@@ -3045,6 +3045,7 @@
           prompt,
           bucket: genreSelect.value || "all",
           source: sourceSelect.value || "both",
+          activeSrcKey,
           results: mapped.slice(0, 50)
         };
 
@@ -4630,9 +4631,25 @@
       }
     }, 300);
 
-    shuffleBtn.onclick = () => {
+    shuffleBtn.onclick = async () => {
       if (window.SC_OK === false) { showBanner("Missing SOUNDCLOUD_CLIENT_ID environment variable."); return; }
       try { sendClientEvent("shuffle_used", {}); } catch { }
+
+      const _query = vibeInput ? sanitizeVibePrompt(vibeInput.value) : "";
+      if (_query) {
+        const _srcKey = getActiveDiscoverySources().slice().sort().join(",");
+        const _sessionMatches = currentVibeSession &&
+          currentVibeSession.prompt === _query &&
+          currentVibeSession.bucket === (genreSelect.value || "all") &&
+          currentVibeSession.source === (sourceSelect.value || "both") &&
+          currentVibeSession.activeSrcKey === _srcKey;
+
+        if (!_sessionMatches) {
+          await runVibeSearch();
+          return;
+        }
+      }
+
       debouncedSearch();
     };
     nextArrow.onclick = () => {
