@@ -4,6 +4,8 @@ description: "Biopython is a comprehensive set of freely available Python tools 
 license: Unknown
 metadata:
     skill-author: K-Dense Inc.
+risk: unknown
+source: "https://github.com/biopython/biopython"
 ---
 
 # Biopython: Computational Molecular Biology in Python

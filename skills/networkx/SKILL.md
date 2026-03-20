@@ -4,6 +4,8 @@ description: "NetworkX is a Python package for creating, manipulating, and analy
 license: 3-clause BSD license
 metadata:
     skill-author: K-Dense Inc.
+risk: unknown
+source: "https://github.com/networkx/networkx"
 ---
 
 # NetworkX

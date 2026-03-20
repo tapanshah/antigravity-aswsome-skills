@@ -1,6 +1,8 @@
 ---
 name: n8n-workflow-patterns
 description: "Proven architectural patterns for building n8n workflows."
+risk: unknown
+source: community
 ---
 
 # n8n Workflow Patterns

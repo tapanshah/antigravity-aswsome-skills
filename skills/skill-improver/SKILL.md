@@ -1,6 +1,8 @@
 ---
 name: skill-improver
 description: "Iteratively improve a Claude Code skill using the skill-reviewer agent until it meets quality standards."
+risk: unknown
+source: community
 ---
 
 # Skill Improvement Methodology

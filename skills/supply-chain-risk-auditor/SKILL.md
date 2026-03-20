@@ -7,6 +7,8 @@ allowed-tools:
   - Bash
   - Glob
   - Grep
+risk: unknown
+source: community
 ---
 
 # Supply Chain Risk Auditor

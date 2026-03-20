@@ -4,6 +4,8 @@ description: "Astropy is the core Python package for astronomy, providing essent
 license: BSD-3-Clause license
 metadata:
     skill-author: K-Dense Inc.
+risk: unknown
+source: "https://github.com/astropy/astropy"
 ---
 
 # Astropy

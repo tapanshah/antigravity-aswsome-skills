@@ -4,6 +4,8 @@ description: "This is the core skill for the deep research and writing tool—co
 license: MIT license
 metadata:
     skill-author: K-Dense Inc.
+risk: unknown
+source: community
 ---
 
 # Scientific Writing

@@ -1,6 +1,8 @@
 ---
 name: sred-project-organizer
 description: Take a list of projects and their related documentation, and organize them into the SRED format for submission.
+risk: unknown
+source: community
 ---
 
 # SRED Project Organization

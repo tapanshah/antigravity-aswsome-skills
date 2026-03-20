@@ -1,6 +1,8 @@
 ---
 name: ask-questions-if-underspecified
 description: Clarify requirements before implementing. Use when serious doubts arise.
+risk: unknown
+source: community
 ---
 
 # Ask Questions If Underspecified

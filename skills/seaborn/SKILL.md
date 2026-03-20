@@ -4,6 +4,8 @@ description: "Seaborn is a Python visualization library for creating publication
 license: BSD-3-Clause license
 metadata:
     skill-author: K-Dense Inc.
+risk: unknown
+source: community
 ---
 
 # Seaborn Statistical Visualization

@@ -1,6 +1,8 @@
 ---
 name: debug-buttercup
 description: "All pods run in namespace crs. Key services:"
+risk: unknown
+source: community
 ---
 
 # Debug Buttercup

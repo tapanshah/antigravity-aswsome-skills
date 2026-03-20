@@ -1,6 +1,8 @@
 ---
 name: evolution
 description: "This skill enables makepad-skills to self-improve continuously during development."
+risk: unknown
+source: community
 ---
 
 <!-- security-allowlist: curl-pipe-bash -->

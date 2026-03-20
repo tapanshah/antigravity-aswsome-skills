@@ -4,6 +4,8 @@ description: "Qiskit is the world's most popular open-source quantum computing f
 license: Apache-2.0 license
 metadata:
     skill-author: K-Dense Inc.
+risk: unknown
+source: community
 ---
 
 # Qiskit
