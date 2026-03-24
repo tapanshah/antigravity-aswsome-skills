@@ -1,22 +1,15 @@
 ---
 name: context-optimization
-description: "Apply compaction, masking, and caching strategies"
-risk: safe
-source: "https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering/tree/main/skills/context-optimization"
-date_added: "2026-02-27"
+description: "Context optimization extends the effective capacity of limited context windows through strategic compression, masking, caching, and partitioning. The goal is not to magically increase context windows but to make better use of available capacity."
+risk: unknown
+source: community
 ---
 
-## When to Use This Skill
-
-Apply compaction, masking, and caching strategies
-
-Use this skill when working with apply compaction, masking, and caching strategies.
 # Context Optimization Techniques
 
 Context optimization extends the effective capacity of limited context windows through strategic compression, masking, caching, and partitioning. The goal is not to magically increase context windows but to make better use of available capacity. Effective optimization can double or triple effective context capacity without requiring larger models or longer contexts.
 
-## When to Activate
-
+## When to Use
 Activate this skill when:
 - Context limits constrain task complexity
 - Optimizing for cost reduction (fewer tokens = lower costs)
