@@ -31405,7 +31405,7 @@
     {
       "id": "wordpress",
       "name": "wordpress",
-      "description": "Complete WordPress development workflow covering theme development, plugin creation, WooCommerce integration, performance optimization, and security hardening.",
+      "description": "Complete WordPress development workflow covering theme development, plugin creation, WooCommerce integration, performance optimization, and security hardening. Includes WordPress 7.0 features: Real-Time Collaboration, AI Connectors, Abilities API, DataViews, and PHP-only blocks.",
       "category": "security",
       "tags": [
         "wordpress"
@@ -31429,7 +31429,7 @@
     {
       "id": "wordpress-penetration-testing",
       "name": "wordpress-penetration-testing",
-      "description": "Conduct comprehensive security assessments of WordPress installations including enumeration of users, themes, and plugins, vulnerability scanning, credential attacks, and exploitation techniques. WordPress powers approximately 35% of websites, making it a critical target for security testing.",
+      "description": "Assess WordPress installations for common vulnerabilities and WordPress 7.0 attack surfaces.",
       "category": "security",
       "tags": [
         "wordpress",
@@ -31439,22 +31439,19 @@
         "wordpress",
         "penetration",
         "testing",
-        "conduct",
-        "security",
-        "assessments",
+        "assess",
         "installations",
-        "including",
-        "enumeration",
-        "users",
-        "themes",
-        "plugins"
+        "common",
+        "vulnerabilities",
+        "attack",
+        "surfaces"
       ],
       "path": "skills/wordpress-penetration-testing/SKILL.md"
     },
     {
       "id": "wordpress-plugin-development",
       "name": "wordpress-plugin-development",
-      "description": "WordPress plugin development workflow covering plugin architecture, hooks, admin interfaces, REST API, and security best practices.",
+      "description": "WordPress plugin development workflow covering plugin architecture, hooks, admin interfaces, REST API, security best practices, and WordPress 7.0 features: Real-Time Collaboration, AI Connectors, Abilities API, DataViews, and PHP-only blocks.",
       "category": "security",
       "tags": [
         "wordpress",
@@ -31471,14 +31468,15 @@
         "interfaces",
         "rest",
         "api",
-        "security"
+        "security",
+        "features"
       ],
       "path": "skills/wordpress-plugin-development/SKILL.md"
     },
     {
       "id": "wordpress-theme-development",
       "name": "wordpress-theme-development",
-      "description": "WordPress theme development workflow covering theme architecture, template hierarchy, custom post types, block editor support, and responsive design.",
+      "description": "WordPress theme development workflow covering theme architecture, template hierarchy, custom post types, block editor support, responsive design, and WordPress 7.0 features: DataViews, Pattern Editing, Navigation Overlays, and admin refresh.",
       "category": "architecture",
       "tags": [
         "wordpress",
@@ -31503,8 +31501,8 @@
     {
       "id": "wordpress-woocommerce-development",
       "name": "wordpress-woocommerce-development",
-      "description": "WooCommerce store development workflow covering store setup, payment integration, shipping configuration, and customization.",
-      "category": "workflow",
+      "description": "WooCommerce store development workflow covering store setup, payment integration, shipping configuration, customization, and WordPress 7.0 features: AI connectors, DataViews, and collaboration tools.",
+      "category": "data-ai",
       "tags": [
         "wordpress",
         "woocommerce"
@@ -31520,7 +31518,8 @@
         "integration",
         "shipping",
         "configuration",
-        "customization"
+        "customization",
+        "features"
       ],
       "path": "skills/wordpress-woocommerce-development/SKILL.md"
     },

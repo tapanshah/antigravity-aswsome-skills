@@ -294,6 +294,7 @@
         "web-artifacts-builder",
         "webapp-testing",
         "whatsapp-cloud-api",
+        "wordpress",
         "wordpress-plugin-development",
         "xvary-stock-research",
         "zeroize-audit",
@@ -436,7 +437,6 @@
         "web-security-testing",
         "wireshark-analysis",
         "wordpress",
-        "wordpress-penetration-testing",
         "wordpress-plugin-development",
         "xss-html-injection",
         "zeroize-audit"
