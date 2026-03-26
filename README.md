@@ -243,6 +243,7 @@ These skills are continuously reviewed and hardened, but the collection is not "
 - [DevOps Agent](https://github.com/fullstackcrew-alpha/skill-devops-agent) - One-click deploy, monitoring setup, scheduled backups, fault diagnosis with safety-first design.
 - [CN Content Matrix](https://github.com/fullstackcrew-alpha/skill-cn-content-matrix) - Chinese multi-platform content generator for Xiaohongshu, WeChat, Douyin, Bilibili with true style transfer.
 - [Smart PR Review](https://github.com/fullstackcrew-alpha/skill-smart-pr-review) - Opinionated AI code reviewer with 6-layer deep review, Devil's Advocate mode, MUST FIX/SHOULD FIX/SUGGESTION output.
+- [Tutor Skills](https://github.com/RoundTable02/tutor-skills) - Transform PDFs, docs, and codebases into Obsidian study vaults with interactive quiz-based learning and proficiency tracking.
 
 ## Three Real Examples
 
